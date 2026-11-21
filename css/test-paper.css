@@ -50,7 +50,7 @@ body.sheet-open .topnav { visibility: hidden; }
   padding: 0 0 10px;
   border-bottom: 2px solid var(--print);
 }
-.test-paper .sheet-logo { width: 100%; height: auto; margin: 0; filter: brightness(0); }
+.test-paper .sheet-logo { width: 100%; height: auto; margin: 0; }
 .test-paper .paper-masthead { text-align: center; }
 .test-paper .paper-school {
   margin: 0 0 4px;
