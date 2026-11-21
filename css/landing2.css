@@ -102,6 +102,7 @@ html.reduced .ico, html.reduced .motif .meridians, html.reduced .motif .orbits {
 .scroll-cue i { width: 1px; height: 34px; background: linear-gradient(#fff, rgba(255, 255, 255, 0)); animation: cue 1.8s ease-in-out infinite; transform-origin: top; }
 @keyframes cue { 0% { transform: scaleY(0); } 60% { transform: scaleY(1); opacity: 1; } 100% { transform: scaleY(1); opacity: 0; } }
 html.reduced .scroll-cue i { animation: none; }
+@keyframes nudge { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(3px); } }
 
 /* classroom stage: tagline on the board + CTA on the desk paper */
 .board-tag { position: absolute; left: 0; top: 0; z-index: 5; margin: 0; opacity: var(--btO, 0); text-align: center; white-space: nowrap; font-size: 40px; line-height: .95; pointer-events: none; }
@@ -122,10 +123,23 @@ html.reduced .scroll-cue i { animation: none; }
   .mbar .btn { width: min(440px, 100%); pointer-events: auto; box-shadow: 0 10px 30px rgba(242, 109, 15, .5); }
   body.flashing .mbar, body.sheet-open .mbar, body.leaving .mbar { transform: translateY(120%); opacity: 0; }
   .hero-btn { display: none; }
-  .hero-text { top: 96px; transform: translate(-50%, var(--txtY, 0px)); width: 94vw; }
+  /* bottom edge of the text block sits a little above the sun's centre */
+  .hero-text { top: 46.5%; transform: translate(-50%, calc(-100% + var(--txtY, 0px))); width: 94vw; }
+  .hero-micro { display: none; }
+  /* until the classroom, the bar is a small scroll hint instead of the CTA */
+  .mbar .scroll-btn { display: none; }
+  .mbar.cue { background: none; padding-bottom: calc(18px + env(safe-area-inset-bottom)); }
+  .mbar.cue .btn-cta { display: none; }
+  .mbar.cue .scroll-btn { display: inline-flex; }
+  .scroll-btn { pointer-events: auto; flex-direction: column; align-items: center; gap: 2px; min-width: 44px; min-height: 44px; padding: 6px 12px 4px; border: 0; border-radius: 999px;
+    background: rgba(20, 16, 64, .22); -webkit-backdrop-filter: blur(6px); backdrop-filter: blur(6px); color: rgba(255, 255, 255, .88); cursor: pointer;
+    font: 600 10px/1 var(--font-ui); letter-spacing: .22em; text-transform: uppercase; text-indent: .22em; text-shadow: 0 1px 8px rgba(25, 12, 80, .6); -webkit-tap-highlight-color: transparent; }
+  .scroll-btn svg { width: 16px; height: 16px; fill: none; stroke: currentColor; stroke-width: 1.6; stroke-linecap: round; stroke-linejoin: round; animation: nudge 1.8s ease-in-out infinite; }
+  .scroll-btn:focus-visible { outline: 2px solid #fff; outline-offset: 2px; }
+  .scroll-btn:active { background: rgba(20, 16, 64, .36); }
+  html.reduced .scroll-btn svg { animation: none; }
   .h1 { font-size: clamp(46px, 15.2vw, 80px); }
   .h1-l2 { font-size: 18px; }
-  .hero-micro { font-size: 14px; margin-top: 10px; }
   .tag-small { top: 96px; }
   .motif-ipa { width: 170%; } .motif-ips { width: 145%; }
   .scroll-cue { display: none; }
@@ -184,6 +198,7 @@ html.reduced .btn-cta { animation: none; } html.reduced .btn-cta::before { displ
 .hero-text { width: min(920px, 96vw); }
 .h1 { --h1fs: clamp(60px, 9vw, 134px); font-size: var(--h1fs); text-shadow: none; }
 .h1-l1 { display: flex; justify-content: center; align-items: center; white-space: nowrap; }
+.sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
 .w { position: relative; display: inline-block; }
 .wt { position: relative; z-index: 1; display: inline-block; font-weight: 800; letter-spacing: -.05em; color: transparent; -webkit-text-fill-color: transparent; -webkit-background-clip: text; background-clip: text;
   filter: drop-shadow(0 2px 18px rgba(25, 12, 80, .5)); padding-right: .04em; }
@@ -200,11 +215,7 @@ html.reduced .btn-cta { animation: none; } html.reduced .btn-cta::before { displ
 @keyframes twk { from { opacity: .2; } to { opacity: .85; } }
 @keyframes contour { from { background-position: 0 0, 0 0, 0 0; } to { background-position: 0 6px, 8px 0, -6px 0; } }
 
-.const { position: absolute; z-index: 2; left: 50%; top: 52%; width: 200%; height: auto; transform: translate(-50%, -50%); overflow: visible; pointer-events: none; }
-.const-ipa { --cl: #9cf0f5; } .const-ips { --cl: #ffd6a0; }
-.const .ln polygon, .const .ln polyline { stroke: var(--cl); stroke-width: 1; vector-effect: non-scaling-stroke; stroke-linejoin: round; opacity: .85; stroke-dasharray: 1; stroke-dashoffset: 0; animation: draw 2.6s cubic-bezier(.3, .6, .2, 1) both; animation-delay: calc(.2s + var(--d)); }
 @keyframes draw { from { stroke-dashoffset: 1; opacity: 0; } 12% { opacity: .85; } to { stroke-dashoffset: 0; } }
-.const .sts { filter: drop-shadow(0 0 3px var(--cl)); }
 .st { fill: #fff; transform-box: fill-box; transform-origin: center; animation: tw 3.2s ease-in-out infinite alternate; animation-delay: var(--d); }
 @keyframes tw { from { opacity: .4; transform: scale(.75); } to { opacity: 1; transform: scale(1.25); } }
 .atau-wrap { position: relative; display: inline-block; padding: 0 .5em; }
@@ -214,10 +225,29 @@ html.reduced .btn-cta { animation: none; } html.reduced .btn-cta::before { displ
 @keyframes fadeIn { from { opacity: 0; } }
 .thread .spark { fill: #fff; filter: drop-shadow(0 0 4px #ffd9a0); }
 .thread .st { fill: #fff3d6; }
+/* constellation ornaments around the words (built by title-ornaments.js) */
+.w-ipa { --cl: #a8f5f8; --cl2: #46d3dc; } .w-ips { --cl: #ffd9a6; --cl2: #ffa77e; }
+.h1 { --ow: 1.9; }   /* ornament line width in CSS px */
+.orn { position: absolute; left: 50%; top: 50%; width: 3.6em; height: 2.2em; transform: translate(-50%, -50%); overflow: visible; pointer-events: none;
+  filter: drop-shadow(0 1px 1.5px rgba(30, 16, 90, .55)) drop-shadow(0 0 4px var(--cl2)); }
+.orn-back { z-index: 0; } .orn-front { z-index: 2; }
+.orn .ln { fill: none; stroke: var(--cl); stroke-width: calc(var(--ow) * var(--upx, 1) / var(--sc, 1)); stroke-linecap: round; stroke-linejoin: round;
+  stroke-dasharray: 1; animation: draw 2.2s cubic-bezier(.3, .6, .2, 1) both; animation-delay: calc(.25s + var(--d)); }
+.orn .arc { stroke-width: calc(var(--ow) * .8 * var(--upx, 1)); opacity: .9; }
+.orn .dots { fill: none; stroke: #fff; stroke-width: calc(var(--ow) * 1.3 * var(--upx, 1)); stroke-linecap: round; stroke-dasharray: 0 calc(9 * var(--upx, 1)); opacity: .55; animation: fadeIn 1.6s ease both 1.2s; }
+.orn .st { fill: #fff; }
+.orn .sts { filter: drop-shadow(0 0 2.5px #fff); }
+.orn .sp { fill: #fff; transform-box: fill-box; transform-origin: center; animation: tw 2.6s ease-in-out infinite alternate; animation-delay: var(--d); filter: drop-shadow(0 0 3px var(--cl)); }
+.orn .still .ln { stroke-dasharray: none; animation: none; }
+.orn .ringb { opacity: .55; }
+.orn .ringf { stroke-width: calc(var(--ow) * 1.15 * var(--upx, 1)); }
+.orn-back .dots { opacity: .35; }
+
 .h1-l2 { margin-top: calc(var(--h1fs) * .26); }
-html.reduced .wt::before, html.reduced .wt::after, html.reduced .st, html.reduced .const .ln polygon, html.reduced .const .ln polyline, html.reduced .thread .tl { animation: none; }
+html.reduced .wt::before, html.reduced .wt::after, html.reduced .st, html.reduced .thread .tl, html.reduced .orn * { animation: none !important; }
 @media (max-width: 600px), (orientation: portrait) {
   .h1 { --h1fs: clamp(46px, 15.2vw, 80px); }
   .h1-l2 { margin-top: calc(var(--h1fs) * .3); }
   .atau-wrap { padding: 0 .38em; }
+  .h1 { --ow: 1.5; }
 }

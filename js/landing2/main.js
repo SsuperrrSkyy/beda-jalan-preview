@@ -1,6 +1,6 @@
 // Landing v2 glue: dusk sky -> back-to-back characters -> flash -> 3D classroom -> desk paper quiz flow.
 import { MOBILE_MQ, heroPose, posterPose, deskPose, projectAll, boardCorners, paperCorners, reprojectMatrix } from '../scene/camera-math.js';
-import { createPaper } from '../proto/paper.js';
+import { createDeskPaper } from './desk-paper.js';
 import { createTimeline, seg, smooth, easeSine } from '../landing/timeline.js';
 import { initSections } from '../landing/sections.js';
 import { createSkySea } from './sky-sea.js';
@@ -13,7 +13,7 @@ const $ = (id) => document.getElementById(id);
 const html = document.documentElement;
 const hero = $('hero'), stage = $('stage'), poster = $('poster'), canvasGL = $('gl'), posterDesk = $('posterDesk');
 const story = $('story'), nav = $('nav'), heroText = $('heroText'), boardTag = $('boardTag'), deskCta = $('deskCta');
-const layer = $('sheetLayer'), sheet = $('sheet');
+const layer = $('sheetLayer'), sheet = $('sheet'), mbar = $('mbar');
 const wait = (ms) => new Promise((r) => setTimeout(r, ms));
 const raf = () => new Promise((r) => requestAnimationFrame(r));
 
@@ -26,7 +26,7 @@ const S = { layers: null, scene: null, c3d: null, hs: null, sky: null, state: 's
 if (reducedMotion) html.classList.add('reduced');
 if (wantedState !== 'hero') hero.classList.add('instant');
 
-const paper = createPaper({ layer, sheet, page1: $('page1'), page2: $('page2'), title: $('sheetTitle'), qTitle: $('qTitle'), reduced: reducedMotion });
+const paper = createDeskPaper({ hero, poster: posterDesk, layer, sheet, page1: $('page1'), page2: $('page2'), title: $('sheetTitle'), qTitle: $('qTitle') });
 const tl = createTimeline(story);
 
 // ---- copy that may still change lives in config.js
@@ -57,7 +57,6 @@ function layoutPoster() {
 }
 const boardPx = () => (S.c3d && S.canvasOn ? S.c3d.projectBoard() : projectAll(heroPose(S.scene, S.W, S.H, isMobileView()), S.W, S.H, boardCorners(S.scene)));
 const paperPx = () => (S.c3d && S.canvasOn ? S.c3d.projectPaperCorners() : projectAll(deskPose(S.scene, S.W, S.H), S.W, S.H, paperCorners(S.scene)));
-const paperQuad = () => (S.c3d && S.canvasOn ? S.c3d.projectPaperCorners() : projectAll(deskPose(S.scene, S.W, S.H), S.W, S.H, paperCorners(S.scene)));
 
 let tagMetrics = null, lastTagFont = 0;
 function placeBoardTag() {
@@ -108,7 +107,18 @@ function navTheme(p) {
   const past = html.dataset.mode === 'poster' ? scrollY > innerHeight * 0.7 : r.bottom < 90;
   const th = past ? 'light' : (html.dataset.mode !== 'poster' && p >= 0.9 ? 'room' : 'sky');
   if (nav.dataset.theme !== th) nav.dataset.theme = th;
+  // mobile bar: a small scroll hint during the sky story, the CTA once the classroom is reached
+  const cue = html.dataset.mode === 'poster' ? scrollY < innerHeight * 0.5 : p < 0.9 && !past;
+  if (mbar.classList.contains('cue') !== cue) mbar.classList.toggle('cue', cue);
 }
+// each tap moves the story to its next stop: backs touching, then the classroom
+const STOPS = [0.46, 1];
+$('scrollBtn').addEventListener('click', () => {
+  const behavior = reducedMotion ? 'instant' : 'smooth';
+  if (html.dataset.mode === 'poster') { scrollTo({ top: scrollY + story.getBoundingClientRect().bottom, behavior }); return; }
+  const next = STOPS.find((s) => s > S.p + 0.02) ?? 1;
+  scrollTo({ top: tl.scrollYFor(next), behavior });
+});
 function tick(now) {
   const dt = Math.min(0.1, (now - S.last) / 1000); S.last = now;
   const t = (now - S.t0) / 1000;
@@ -195,17 +205,15 @@ async function openPaper({ instant = false } = {}) {
   if (S.c3d && S.canvasOn) await S.c3d.goToDesk(instant ? 1 : DOLLY_MS);
   loadDeskPoster(); try { await posterDesk.decode(); } catch { /* ignore */ }
   hero.classList.add('desk-poster');
-  await wait(instant ? 0 : reducedMotion ? 220 : 650);
-  size();
-  hero.classList.add('dim'); document.body.classList.add('sheet-open');
-  await paper.lift(paperQuad(), S.W, S.H, { instant });
-  S.state = 'paper'; $('sheetTitle').focus({ preventScroll: true }); S.busy = false;
+  document.body.classList.add('sheet-open');
+  paper.open(S.scene);
+  S.state = 'paper'; S.busy = false;
 }
 async function closePaper() {
   if (S.busy || (S.state !== 'paper' && S.state !== 'page2')) return;
   S.busy = true;
-  hero.classList.remove('dim'); document.body.classList.remove('sheet-open');
-  size(); await paper.lower(paperQuad());
+  document.body.classList.remove('sheet-open');
+  paper.close();
   S.state = 'flying';
   hero.classList.remove('desk-poster');
   if (S.c3d && S.canvasOn) await S.c3d.goToHero(DOLLY_MS); else await wait(reducedMotion ? 220 : 650);
@@ -219,8 +227,8 @@ async function closePaper() {
 }
 for (const b of document.querySelectorAll('[data-start]')) b.addEventListener('click', () => openPaper());
 for (const b of document.querySelectorAll('[data-close]')) b.addEventListener('click', closePaper);
-$('kopForm').addEventListener('submit', async (e) => { e.preventDefault(); await paper.flip(true); S.state = 'page2'; });
-$('backToKop').addEventListener('click', async () => { await paper.flip(false); S.state = 'paper'; });
+$('kopForm').addEventListener('submit', (e) => { e.preventDefault(); if (S.state === 'paper') { paper.showQuestion(true); S.state = 'page2'; } });
+$('backToKop').addEventListener('click', () => { if (S.state === 'page2') { paper.showQuestion(false); S.state = 'paper'; } });
 $('qForm').addEventListener('submit', (e) => e.preventDefault());
 document.addEventListener('keydown', (e) => {
   if (S.state !== 'paper' && S.state !== 'page2') return;
@@ -257,7 +265,7 @@ async function applyDebug() {
     if (S.c3d) S.c3d.jumpTo('desk');
     if (html.dataset.mode !== 'poster') { scrollTo({ top: tl.scrollYFor(1), behavior: 'instant' }); tl.snap(); S.p = 1; beats(1, 1); }
     if (wantedState === 'desk') { hero.classList.add('away'); document.body.classList.add('leaving'); S.state = 'desk'; if (html.dataset.mode === 'poster') { hero.style.setProperty('--roomO', 1); hero.classList.add('room-on'); } loadDeskPoster(); try { await posterDesk.decode(); } catch {} hero.classList.add('desk-poster'); }
-    else { await openPaper({ instant: true }); if (wantedState === 'page2') { await paper.flip(true, { instant: true }); S.state = 'page2'; } }
+    else { await openPaper({ instant: true }); if (wantedState === 'page2') { paper.showQuestion(true); S.state = 'page2'; } }
     await wait(300); hero.classList.remove('instant');
   }
   window.__story = { jump(p) { scrollTo({ top: tl.scrollYFor(p), behavior: 'instant' }); tl.snap(); S.p = tl.value; beats(S.p, (performance.now() - S.t0) / 1000); return S.p; }, tl, S };
