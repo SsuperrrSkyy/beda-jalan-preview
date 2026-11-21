@@ -1,11 +1,10 @@
-// Painted sky: a stack of image layers (back sky, mid clouds, front clouds) that share one horizon/sun alignment.
+// Static sky fallback: still frames of the shader sky (back sky + clouds, front clouds) that share one horizon/sun alignment.
 // Each layer drifts sideways, ping-ponging with easing, and rises slightly on scroll (front faster). Transform-only.
 // Layers are optional: give a layer `url: null` and it is skipped, so any layer can be swapped or added via this config.
 export const SKY = {
-  geom: { w: 1536, h: 1024, horizonY: 594, sunX: 768, sunY: 592, zoom: 1.2, bottomMargin: 70 },
+  geom: { w: 1536, h: 1024, horizonY: 594, sunX: 768, sunY: 582, zoom: 1.2, bottomMargin: 70 },   // stills rendered from sky-sea.js
   layers: [
     { id: 'back',  el: 'layerBack',  drift: 0.003, rise: 0 },
-    { id: 'mid',   el: 'layerMid',   drift: 0.008, rise: 22 },
     { id: 'front', el: 'layerFront', drift: 0.016, rise: 60 },
   ],
 };

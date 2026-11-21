@@ -3,7 +3,7 @@ import { MOBILE_MQ, heroPose, posterPose, deskPose, projectAll, boardCorners, pa
 import { createPaper } from '../proto/paper.js';
 import { createTimeline, seg, smooth, easeSine } from '../landing/timeline.js';
 import { initSections } from '../landing/sections.js';
-import { createSky } from './sky.js';
+import { createSkySea } from './sky-sea.js';
 import { createSkyLayers } from './sky-layers.js';
 import { CTA_LABEL, CTA_MICRO } from './config.js';
 
@@ -114,8 +114,8 @@ function tick(now) {
     S.p = S.state === 'story' ? tl.step(dt) : tl.value;
     if (S.layers && S.p < 0.84) {
       const sun = S.layers.update(t, S.p);
-      if (S.sky) S.sky.setSun(sun.x / S.layers.state.W, 1 - sun.y / S.layers.state.H, 1 - sun.hz / S.layers.state.H, sun.scale * 1024 / S.layers.state.H);
     }
+    if (S.sky) S.sky.setScroll(Math.min(S.p, 0.84));
     beats(S.p, t);
   }
   navTheme(S.p);
@@ -130,10 +130,10 @@ function afterLoadIdle(cb, timeout = 2500) {
 const isMob = () => innerWidth <= 600 || innerWidth < innerHeight;
 function startSky() {
   try {
-    S.sky = createSky($('sky'), { scale: isMob() ? 0.5 : 0.6 });
+    S.sky = createSkySea({ back: $('sky'), front: $('skyFront') }, { scale: isMob() ? 0.6 : 0.75, cloudScale: isMob() ? 0.36 : 0.42 });
     if (!S.sky) throw new Error('no webgl');
     S.sky.drawOnce(); S.sky.start(); hero.classList.add('sky-on');
-    addEventListener('resize', () => S.sky.setScale(isMob() ? 0.5 : 0.6));
+    addEventListener('resize', () => S.sky.setScale(isMob() ? 0.6 : 0.75));
   } catch (e) { console.warn('sky unavailable', e); S.sky = null; }
 }
 async function startCharacters() {
@@ -238,7 +238,7 @@ async function boot() {
   layoutPoster(); size();
   S.layers = createSkyLayers(stage, { animate: !reason });
   S.layers.layout(); S.layers.update(0, 0);
-  setTimeout(() => S.layers.load(['mid', 'front']), 0);   // LCP sky-back first, clouds right after
+  setTimeout(() => S.layers.load(['front']), 0);   // LCP sky-back first, front clouds right after
   hero.classList.add('ready');
   new ResizeObserver(() => { layoutPoster(); tl.read(); S.layers.layout(); if (html.dataset.mode === 'poster') S.layers.update(0, 0); }).observe(stage);
   afterLoadIdle(loadDeskPoster, 4000);
