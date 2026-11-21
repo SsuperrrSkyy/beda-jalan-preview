@@ -147,12 +147,12 @@ html.reduced .scroll-cue i { animation: none; }
 #layerMid.on, #layerFront.on { opacity: 1; }
 .hero.sky-gone .sky-img, .hero.sky-gone #sky, .hero.sky-gone #skyFront, .hero.sky-gone #ribbonBack, .hero.sky-gone #ribbonFront { visibility: hidden; }
 .static-chars { z-index: auto; }
-.sc { position: absolute; height: 72vh; width: auto; top: auto; max-width: none; transform: none; filter: none; }   /* half-body silhouettes */
-.sc-boy { left: 4vw; right: auto; bottom: 0; }
-.sc-girl { right: 4vw; left: auto; bottom: 0; height: 69vh; }
-@media (max-width: 600px), (orientation: portrait) {
-  .sc { height: 46vh; }
-  .sc-boy { left: -10vw; bottom: 9vh; } .sc-girl { right: -10vw; bottom: 9vh; height: 44vh; }
+.sc { position: absolute; height: 66vh; width: auto; top: auto; max-width: none; transform: none; filter: none; }   /* anime figure stills (3d/build_figures.py + hero-scene.js) */
+.sc-boy { left: 3.2vw; right: auto; bottom: 0; }
+.sc-girl { right: 3.7vw; left: auto; bottom: 0; height: 56vh; }
+@media (max-width: 600px), (max-aspect-ratio: 4/5) {
+  .sc { height: 40vh; }
+  .sc-boy { left: -3vw; bottom: 3vh; } .sc-girl { right: -3vw; bottom: 3vh; height: 34vh; }
 }
 
 /* ---------- pearl-light CTA ---------- */
