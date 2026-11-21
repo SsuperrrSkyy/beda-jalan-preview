@@ -162,6 +162,7 @@ async function start3D() {
   } catch (err) {
     console.warn('3D unavailable, static hero:', err);
     S.hs?.dispose(); S.hs = null; S.c3d = null; S.canvasOn = false; html.dataset.mode = 'poster'; hero.classList.remove('sky-on', 'chars-on');
+    S.layers?.load(['front']);
   }
 }
 
@@ -238,7 +239,7 @@ async function boot() {
   layoutPoster(); size();
   S.layers = createSkyLayers(stage, { animate: !reason });
   S.layers.layout(); S.layers.update(0, 0);
-  setTimeout(() => S.layers.load(['front']), 0);   // LCP sky-back first, front clouds right after
+  if (reason) setTimeout(() => S.layers.load(['front']), 0);   // the still front clouds are only needed without the shader
   hero.classList.add('ready');
   new ResizeObserver(() => { layoutPoster(); tl.read(); S.layers.layout(); if (html.dataset.mode === 'poster') S.layers.update(0, 0); }).observe(stage);
   afterLoadIdle(loadDeskPoster, 4000);
