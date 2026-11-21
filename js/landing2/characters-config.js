@@ -13,7 +13,7 @@ export const FIGURES = {
   boy:  { id: 'boy',  side: -1, yaw: -70 * deg, height: 1.75, waist: 0.99, chest: 1.31, ph: 0.0,
           pitch: -15 * deg, bang: 0.112, iris: ['#24160f', '#9a6238'], line: '#7a3f3a' },
   girl: { id: 'girl', side: +1, yaw: 70 * deg,  height: 1.64, waist: 0.93, chest: 1.23, ph: 2.1,
-          pitch: 17 * deg, bang: 0.11, iris: ['#2a1418', '#b0704a'], line: '#7a3f3a' },
+          pitch: 17 * deg, bang: 0.116, iris: ['#2a1418', '#b0704a'], line: '#7a3f3a' },
 };
 
 // topFrac: head top of the taller figure, as a fraction of the stage height from the top;

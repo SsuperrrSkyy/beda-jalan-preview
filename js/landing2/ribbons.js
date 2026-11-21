@@ -1,6 +1,6 @@
-// Two ribbons (teal = IPA, gold = IPS) that fly in from the sides as the students move together and then wrap
-// around them in a figure of eight. Drawn with Canvas 2D on two canvases: segments that pass behind the
-// students go to `back` (under the characters canvas), segments in front go to `front` (over it).
+// Two ribbons (teal = IPA, gold = IPS) that fly in from the sides as the students move together: each wraps its
+// own student, then the two braid together where their backs meet and rise into the light.
+// Drawn with Canvas 2D on two canvases: segments that pass behind the students go to `back` (under the characters canvas), segments in front go to `front` (over it).
 const RIBBONS = [
   { from: -1, base: [46, 181, 192], light: [190, 250, 246], dark: [16, 104, 118], ry: 1.0, dy: -0.04, twist: 0.021, speed: 1.15 },
   { from: +1, base: [243, 181, 74], light: [255, 243, 200], dark: [168, 102, 30], ry: 0.82, dy: 0.07, twist: 0.018, speed: -0.95 },
@@ -35,23 +35,27 @@ export function createRibbons({ back, front }) {
     st.W = r.width; st.H = r.height; st.dpr = dpr;
   }
 
-  // control points for one ribbon around the two bodies (B = boy chest, G = girl chest, X = crossing between them)
+  // control points for one ribbon (each point is [x, y, depth]). The story it tells:
+  // teal (IPA) flies in from the left and wraps the boy, gold (IPS) from the right wraps the girl ("beda jalan");
+  // both then run to the point where their backs meet and braid together, rising into the light ("satu tujuan").
   function path(rb, bodies) {
     const { boy, girl } = bodies;
+    const s = rb.from, own = s < 0 ? boy : girl;
     const X = { x: (boy.back + girl.back) / 2, y: (boy.chest.y + girl.chest.y) / 2 };
-    const rx = Math.max(boy.halfW, girl.halfW) * 1.25;
     const R = Math.max(boy.height, girl.height);
-    const ry = R * 0.09 * rb.ry, dy = R * rb.dy;
-    const B = { x: Math.min(boy.chest.x, X.x - rx * 0.9), y: X.y + dy }, G = { x: Math.max(girl.chest.x, X.x + rx * 0.9), y: X.y + dy };
-    const rxB = Math.max(rx, X.x - B.x), rxG = Math.max(rx, G.x - X.x);
-    const W = st.W;
-    let pts = [
-      [-0.12 * W, X.y + R * 0.3, 1], [B.x - rxB * 1.7, X.y + R * 0.17, 1],
-      [B.x - rxB, B.y + ry * 0.25, 0.8], [B.x, B.y + ry, 1], [X.x, X.y + dy * 0.4, 0.5],
-      [G.x, G.y - ry, 0], [G.x + rxG, G.y, 0.45], [G.x, G.y + ry, 1], [X.x, X.y + dy * 0.6, 0.5],
-      [B.x, B.y - ry, 0], [B.x - rxB * 0.92, B.y - ry * 0.4, 0.35], [B.x - rxB * 1.15, B.y - ry * 1.5, 0.3],
+    const c = own.chest, r = own.halfW * 1.3, ry = R * 0.06 * rb.ry;
+    const out = c.x + s * r, inn = c.x - s * r;
+    const W = st.W, b = R * 0.032, f = s < 0 ? 1 : 0;      // braid width; which ribbon is in front at each crossing
+    const pts = [
+      [s < 0 ? -0.12 * W : 1.12 * W, c.y + R * 0.28, 1], [out + s * r * 1.3, c.y + R * 0.13, 1],
+      // one loop around its own student, rising: front, inner side, behind, outer side, front
+      [out, c.y + ry, 0.8], [c.x, c.y + ry * 1.3, 1], [inn, c.y + ry * 0.4, 0.55], [c.x, c.y - ry * 0.3, 0],
+      [out, c.y - ry * 0.7, 0.4], [c.x, c.y - ry * 1.2, 1],
+      // to where their backs meet, then braid upward together
+      [X.x + s * b * 1.2, X.y - R * 0.05, 0.8],
+      [X.x - s * b, X.y - R * 0.11, f], [X.x + s * b, X.y - R * 0.17, 1 - f], [X.x - s * b * 0.8, X.y - R * 0.23, f],
+      [X.x + s * b * 0.55, X.y - R * 0.29, 1 - f], [X.x - s * b * 0.25, X.y - R * 0.34, f], [X.x, X.y - R * 0.38, 0.5],
     ];
-    if (rb.from > 0) pts = pts.map(([x, y, d]) => [2 * X.x - x, y, d]);     // gold ribbon mirrors it from the right
     return spline(pts, 18);
   }
 

@@ -82,7 +82,7 @@ void main(){
 }`;
 const FIG_F = /* glsl */`
 uniform vec3 uAlbedo, uShade, uShadeSkin, uKey, uKeyDir, uSun, uSunDir, uSky, uLine, uIrisA, uIrisB, uBC, uBT, uBB;
-uniform float uRim, uLight, uAlpha, uFade0, uFade1, uPitch, uHS, uAOk, uBang, uGirl, uSoft;
+uniform float uBack, uRim, uLight, uAlpha, uFade0, uFade1, uPitch, uHS, uAOk, uBang, uGirl, uSoft;
 uniform vec2 uBS;
 varying vec3 vWN, vWP, vOP, vON, vSN; varying float vAO;
 float fill(float d, float aa){ return clamp(.5 - d / aa, 0., 1.); }   // d < 0 inside
@@ -99,37 +99,41 @@ vec4 face(vec3 h, float facing, float facing2, float nd2y, out float blush){
   blush = front * smoothstep(1., .15, length((q - vec2(.044, .05)) / vec2(.016, .0085)));
   // eye: white, iris (dark top, warm bottom, darker rim), pupil, two highlights, heavy upper lash with a flick
   vec2 e = q - vec2(.031, .071);
-  vec2 er = mix(vec2(.0158, .0162), vec2(.0166, .0176), uGirl);                     // her eyes: bigger and rounder
-  float topY = mix(.0124, .0136, uGirl) - .0026 * (e.x / .016) * (e.x / .016) + mix(.0008, -.0009, uGirl) * e.x / .016;   // her outer corners droop: softer
+  vec2 er = mix(vec2(.0138, .0136), vec2(.0142, .0146), uGirl);                     // soft, natural eyes (not huge)
+  float topY = mix(.0106, .0116, uGirl) - .0022 * (e.x / .014) * (e.x / .014) + mix(.0004, -.0008, uGirl) * e.x / .014;   // her outer corners droop: softer
   float white = max(ell(e, er), e.y - topY);
   f = over(f, vec3(.99, .97, .95), fill(white, aa));
   f = over(f, vec3(.84, .8, .9), fill(max(white, -(e.y - topY + .0022)), aa) * .6);    // lash shadow on the white
   vec2 ic = e - vec2(-.0012, -.0006);
-  vec2 irr = mix(vec2(.0098, .0136), vec2(.0106, .0148), uGirl);
+  vec2 irr = mix(vec2(.0094, .0124), vec2(.0098, .013), uGirl);
   float iris = max(ell(ic, irr), white);
   vec3 ir = mix(uIrisB, uIrisA, smoothstep(-.011, .007, ic.y));
   ir = mix(ir, uIrisA * .55, smoothstep(-.0025, 0., ell(ic, irr)) * .8);
   f = over(f, ir, fill(iris, aa));
   f = over(f, uIrisA * .45, fill(max(ell(ic - vec2(0., .001), vec2(.0036, .0058)), white), aa));
   f = over(f, mix(uIrisB, vec3(1.), .35), .7 * fill(max(ell(ic - vec2(.001, -.0075), vec2(.006, .0028)), iris), aa));   // glow in the lower iris
-  f = over(f, vec3(1.), fill(ell(e - vec2(-.0045, .0048), vec2(.0032, .0034)), aa));
-  f = over(f, vec3(1.), .85 * fill(ell(e - vec2(.0035, -.0068), vec2(.0016, .0016)), aa));
-  float lash = max(abs(e.y - topY) - mix(.0022, .0018, uGirl), abs(e.x) - er.x - .002);
+  f = over(f, vec3(1.), fill(ell(e - vec2(-.0042, .0044), vec2(.0042, .0044)), aa));
+  f = over(f, vec3(1.), .6 * fill(ell(e - vec2(.0035, -.0062), vec2(.0012, .0012)), aa));
+  float lash = max(abs(e.y - topY) - .0017, abs(e.x) - er.x - .0015);
   float flick = max(abs(e.y - (topY - .0015 + (e.x - .016) * -.6)) - .0013 * (1. - (e.x - .015) / .008), max(.015 - e.x, e.x - .023));
   vec3 ink = vec3(.11, .065, .085);
   f = over(f, ink, fill(min(lash, flick), aa));
   f = over(f, ink * 1.6, .65 * fill(max(abs(e.y + .0135 - .0005 * e.x / .016) - .0006, abs(e.x - .006) - .008), aa));   // lower lash, outer half
   // brow: thin, tapering
   float bx = (q.x - .031) / .017;
-  float brow = max(abs(q.y - (mix(.098, .1025, uGirl) + mix(.0032, .0052, uGirl) * (1. - bx * bx) - mix(.0, .0012, uGirl) * bx)) - mix(.0014, .0008, uGirl) * (1. - .7 * abs(bx)), abs(bx) - 1.);
-  f = over(f, ink * 1.5, mix(.9, .6, uGirl) * fill(brow, aa));
+  float brow = max(abs(q.y - (mix(.094, .096, uGirl) + mix(.0026, .0036, uGirl) * (1. - bx * bx) - mix(.0, .0008, uGirl) * bx)) - mix(.0019, .0014, uGirl) * (1. - .55 * abs(bx)), abs(bx) - 1.);
+  f = over(f, ink * 1.3, .9 * fill(brow, aa));
   // nose: a small shadow tick on the side away from the light
   f = over(f, vec3(.62, .38, .36), .6 * fill(ell(vec2(h.x + .0035, h.z - .061), vec2(.0011, .0042)), aa));
   // mouth: a small soft smile, thicker in the middle; the girl gets a hint of a lower lip
-  float mw = mix(.0042, .0048, uGirl), mx = h.x / mw;
-  float mouth = max(abs(h.z - (.0275 + .0012 * mx * mx)) - (.0003 + .0008 * sqrt(max(1. - mx * mx, 0.))), abs(mx) - 1.);
-  f = over(f, vec3(.36, .12, .13), .9 * fill(mouth, aa));
-  f = over(f, vec3(.86, .46, .46), uGirl * .45 * fill(ell(vec2(h.x, h.z - .0252), vec2(.0024, .0008)), aa));
+  float mw = mix(.0064, .0062, uGirl), mx = h.x / mw, mx2 = mx * mx;
+  float smile = max(abs(h.z - (.027 + .0026 * mx2)) - (.0003 + .0005 * sqrt(max(1. - mx2, 0.))), abs(mx) - 1.);
+  float open = max(max(h.z - (.0284 + .0024 * mx2), (.0244 + .0064 * mx2) - h.z), abs(mx) - .95);   // a small open smile
+  f = over(f, vec3(.36, .12, .13), uGirl * .9 * fill(smile, aa));
+  f = over(f, vec3(.86, .46, .46), uGirl * .4 * fill(ell(vec2(h.x, h.z - .0248), vec2(.0026, .0008)), aa));
+  f = over(f, vec3(.42, .12, .12), (1. - uGirl) * fill(open, aa));
+  f = over(f, vec3(.96, .93, .9), (1. - uGirl) * fill(max(open, (.0282 + .0022 * mx2 - .0011) - h.z), aa));   // teeth
+  f = over(f, vec3(.85, .42, .42), (1. - uGirl) * .8 * fill(max(open, h.z - (.0244 + .0064 * mx2 + .0012)), aa));   // tongue
   f.a *= front;
   // ear: concha shadow and the curve inside the rim (seen from the side)
   vec2 eq = vec2(h.y - .016, h.z - .07);
@@ -193,20 +197,23 @@ void main(){
   vec3 col = mix(alb * uShadeSkin, alb * uKey, lit);
   col *= mix(.86, 1., smoothstep(.12, .2, t + (.9 - uAOk)));                       // deep shadow band in creases
   col += alb * uSky * .12 * clamp(n.y, 0., 1.);
+  // the low sun behind them: a warm lit side on the back/sun-facing half, then a crisp rim on the silhouette
+  float sunL = smoothstep(-.05, .3, dot(ns, uSunDir));
+  col = mix(col, col * .5 + alb * uSun * .75 + uSun * .06, sunL * uBack);
   float fres = 1. - clamp(dot(n, v), 0., 1.);
-  float rim = smoothstep(.8, .84, fres) * smoothstep(-.05, .25, dot(n, uSunDir));
-  col = mix(col, uSun * .9 + alb * .3, rim * uRim * .85);
+  float rim = smoothstep(.64, .7, fres) * smoothstep(-.15, .25, dot(n, uSunDir));
+  col = mix(col, uSun * 1.12 + alb * .15, rim * uRim * .9);
 #ifdef HAIR
   col *= mix(1., 1.18, smoothstep(.2, -.6, n.y));                                    // bounce light under the locks
-  float crease = smoothstep(.3, .55, length(fwidth(n)));                           // ink where locks meet
+  float crease = smoothstep(.2, .42, length(fwidth(n)));                           // ink where locks meet
   col = mix(col, uLine * 1.3, crease * .75);
 #endif
 #ifdef HEADHAIR
   float ang = atan(h.x, -(h.y - .012));
   float zc = .17 - .01 * abs(ang) / 3.1416 + .003 * sin(ang * 9.);                // a soft ring with a few gentle waves
-  float hw = .0035 * (.55 + .45 * cos(ang * 4.5));
+  float hw = .0048 * (.55 + .45 * cos(ang * 4.5));
   float band = smoothstep(.001, .0, abs(h.z - zc) - hw) * smoothstep(.25, .5, dot(n, v));
-  col = mix(col, alb * 2.6 + vec3(.1, .09, .16), band * (.28 + .3 * lit));
+  col = mix(col, alb * 2.8 + vec3(.13, .12, .22), band * (.42 + .3 * lit));
 #elif defined(HAIR)
   vec3 nv = normalize((viewMatrix * vec4(n, 0.)).xyz);
   float ring = smoothstep(.36, .4, nv.y) * smoothstep(.5, .46, nv.y) * smoothstep(.3, .5, dot(n, v));
@@ -225,9 +232,10 @@ void main(){
 
 // per-material look (names come from 3d/build_figures.py): rim strength and ink colour of the outline
 const LOOK = {
-  shirt: { rim: 1, line: '#4a4468' }, pocket: { rim: 1, line: '#4a4468' }, skin: { rim: 0.9, line: '#7a3f3a' },
-  hair: { rim: 0.8, line: '#120c1a' }, grey: { rim: 0.8, line: '#24243a' }, belt: { rim: 0.5, line: '#08080c' },
-  nametag: { rim: 0.4, line: '#08080c' }, badge: { rim: 0.6, line: '#4a2e0c' }, bow: { rim: 1, line: '#4a4468' },
+  shirt: { rim: 1, back: 0.6, line: '#2e2a4a' }, pocket: { rim: 1, back: 0.6, line: '#2e2a4a' }, skin: { rim: 0.9, back: 0.45, line: '#6a3430' },
+  hair: { rim: 0.9, back: 0.35, line: '#0c0812' }, grey: { rim: 0.8, back: 0.5, line: '#1c1c2e' }, belt: { rim: 0.5, line: '#08080c' },
+  nametag: { rim: 0.4, line: '#08080c' }, badge: { rim: 0.6, line: '#4a2e0c' }, bow: { rim: 1, line: '#6a6480' },
+  frame: { rim: 0.4, line: '#2a1210' },
 };
 
 async function loadGLB(url, draco) {
@@ -254,14 +262,14 @@ export async function createHeroScene({ canvas, container, isMobile, sunHex = '#
   const shared = {
     uTime: { value: 0 }, uLight: { value: 0 }, uAlpha: { value: 1 }, uFade0: { value: -1 }, uFade1: { value: -2 },
     uSun: { value: lin(sunHex, 1.25) }, uSunDir: { value: sunDir }, uKeyDir: { value: keyDir },
-    uKey: { value: lin('#fff3ea', 1.0) }, uShade: { value: lin('#b7a0d4') }, uSky: { value: lin('#8d89d8') },
+    uKey: { value: lin('#fff1e6', 0.94) }, uShade: { value: lin('#a690c8') }, uSky: { value: lin('#8d89d8') },
     uOutline: { value: 1.5 }, uRes: { value: new THREE.Vector2(1, 1) },
   };
   const mats = new Map();
   // opts: hair (sways), outline, face / headHair (figure def: head-space painting), badge (patch frame)
-  function figMat(src, { hair = false, face = null, headHair = null, badge = null, outline = false } = {}) {
-    const fig = face || headHair || (badge && badge.def);
-    const key = [src.name, hair ? 'sway' : '', face ? 'face' : '', headHair ? 'hh' : '', fig ? fig.id : '', outline ? 'line' : ''].join(':');
+  function figMat(src, { who, hair = false, face = null, headHair = null, badge = null, outline = false } = {}) {
+    const fig = face || headHair || (badge && badge.def) || who;
+    const key = [src.name, hair ? 'sway' : '', face ? 'face' : '', headHair ? 'hh' : '', badge ? 'badge' : '', fig ? fig.id : '', outline ? 'line' : ''].join(':');
     if (mats.has(key)) return mats.get(key);
     const look = LOOK[src.name] || LOOK.shirt;
     const defines = {};
@@ -277,9 +285,10 @@ export async function createHeroScene({ canvas, container, isMobile, sunHex = '#
     const headC = new THREE.Vector3(0, by * sn + bz * c, -(by * c - bz * sn));
     const m = new THREE.ShaderMaterial({
       vertexShader: FIG_V, fragmentShader: FIG_F, vertexColors: true, defines, side: outline ? THREE.BackSide : THREE.FrontSide,
-      uniforms: { ...shared, uAlbedo: { value: src.color.clone() }, uRim: { value: look.rim }, uAOk: { value: src.name === 'skin' ? (face ? 0.12 : 0.4) : (src.name === 'shirt' || src.name === 'pocket' ? 0.5 : 0.9) },
+      uniforms: { ...shared, uSunDir: { value: new THREE.Vector3(fig ? -fig.side * 0.8 : 0, 0.3, -0.55).normalize() },   // sun sits between them, behind
+        uBack: { value: look.back ?? 0.5 }, uAlbedo: { value: src.color.clone() }, uRim: { value: look.rim }, uAOk: { value: src.name === 'skin' ? (face ? 0.12 : 0.4) : (src.name === 'shirt' || src.name === 'pocket' ? 0.5 : 0.9) },
         uSoft: { value: src.name === 'shirt' || src.name === 'pocket' || src.name === 'grey' ? 0.05 : 0.02 },
-        uLine: { value: lin(look.line) }, uShadeSkin: { value: src.name === 'skin' ? lin('#eab3ad') : lin('#b7a0d4') }, uSway: { value: 1 }, uHairLen: { value: 0.46 }, uPitch: { value: pitch }, uHS: { value: hs },
+        uLine: { value: lin(look.line) }, uShadeSkin: { value: src.name === 'skin' ? lin('#e2a7a3') : lin('#a690c8') }, uSway: { value: 1 }, uHairLen: { value: 0.46 }, uPitch: { value: pitch }, uHS: { value: hs },
         uHeadC: { value: headC }, uBang: { value: fig ? fig.bang : 0.1 }, uGirl: { value: fig && fig.id === 'girl' ? 1 : 0 },
         uIrisA: { value: lin(fig ? fig.iris[0] : '#000') }, uIrisB: { value: lin(fig ? fig.iris[1] : '#000') },
         uBC: { value: badge ? badge.c : new THREE.Vector3() }, uBT: { value: badge ? badge.t : new THREE.Vector3(1, 0, 0) },
@@ -309,9 +318,9 @@ export async function createHeroScene({ canvas, container, isMobile, sunHex = '#
       while (p && p !== root) { if (p.name === 'girl_hairlong') hair = true; if (p.name.startsWith(`${def.id}_headmesh`)) head = true; p = p.parent; }
       const src = o.material;
       const badge = src.name === 'badge' ? { def, ...patchFrame(o.geometry) } : null;
-      o.material = figMat(src, { hair, badge, face: head && src.name === 'skin' ? def : null, headHair: head && src.name === 'hair' ? def : null });
+      o.material = figMat(src, { who: def, hair, badge, face: head && src.name === 'skin' ? def : null, headHair: head && src.name === 'hair' ? def : null });
       o.frustumCulled = false;
-      const line = new THREE.Mesh(o.geometry, figMat(src, { hair, outline: true }));   // ink outline: inflated back faces
+      const line = new THREE.Mesh(o.geometry, figMat(src, { who: def, hair, outline: true }));   // ink outline: inflated back faces
       line.frustumCulled = false; o.add(line);
     }
     const f = { def, root, body: node('body'), head: node('head'), tie: node('tie'), hairlong: node('hairlong'), bow: node('bow') };
@@ -358,7 +367,7 @@ export async function createHeroScene({ canvas, container, isMobile, sunHex = '#
     S.contactY = S.footY + (boy.chest + FIGURES.girl.chest) / 2 * S.k;
     shared.uFade0.value = yOf(L.fade[0]); shared.uFade1.value = yOf(L.fade[1]);
     const pxPerM = S.H / (2 * HD) * S.k;
-    shared.uOutline.value = Math.min(3, Math.max(1, 0.0026 * pxPerM)) * dpr;
+    shared.uOutline.value = Math.min(3.4, Math.max(1.2, 0.0032 * pxPerM)) * dpr;
     renderer.getDrawingBufferSize(shared.uRes.value);
   }
 
