@@ -4,6 +4,7 @@ import { createPaper } from '../proto/paper.js';
 import { createTimeline, seg, smooth, easeSine } from '../landing/timeline.js';
 import { initSections } from '../landing/sections.js';
 import { createSkySea } from './sky-sea.js';
+import { createRibbons } from './ribbons.js';
 import { createSkyLayers } from './sky-layers.js';
 import { CTA_LABEL, CTA_MICRO } from './config.js';
 
@@ -96,6 +97,7 @@ function beats(p, t) {
   if (S.hs && !gone) {
     S.hs.update(t, { close, light, alpha: 1 });
     S.hs.render();
+    if (S.rb) S.rb.draw(t, { progress: smooth(seg(p, 0.1, 0.44)), light, fade: smooth(seg(p, 0.62, 0.74)), bodies: S.hs.bodiesPx() });
     const c = S.hs.contactPx(); v('--fx', c.x.toFixed(1) + 'px'); v('--fy', c.y.toFixed(1) + 'px');
   }
   if (S.c3d) S.c3d.setPaused('story', S.state === 'story' && p < 0.78);
@@ -139,7 +141,9 @@ function startSky() {
 async function startCharacters() {
   const m = await import('./hero-scene.js');
   S.hs = await m.createHeroScene({ canvas: $('chars'), container: stage, isMobile: isMob(), rigDebug, sunHex: S.scene.sun.colorHex });
-  S.hs.update(0, { close: 0, light: 0 }); S.hs.render(); await raf();
+  S.hs.update(0, { close: 0, light: 0 }); S.hs.render();
+  S.rb = createRibbons({ back: $('ribbonBack'), front: $('ribbonFront') });
+  await raf();
   hero.classList.add('chars-on');
 }
 async function startClassroom() {

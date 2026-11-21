@@ -5,37 +5,35 @@
 const deg = Math.PI / 180;
 
 export const CHARACTERS = {
+  // half-body backlit silhouettes (tools/make_silhouettes.py). Coordinates are in the cropped images;
+  // `foot` is the virtual sole line below the crop, so both students keep their real height difference.
   boy: {
-    id: 'boy', url: 'assets/img/characters/siswa-cowok-berdiri.webp', size: [1024, 1536], center: [512, 768],
-    side: -1, facing: -1, flies: 0, top: 17, left: 349, right: 669, foot: [500, 1520], contact: [632, 470], tip: [632, 470],
-    bones: [   // children first (forearm before arm); calm, small angles
-      { id: 'forearm', pivot: [524, 650], A: [524, 650], B: [490, 930], C: [490, 930], r: 55, soft: 40, idle: 2.5, ph: 0.3 },
-      { id: 'arm',     pivot: [550, 310], A: [550, 310], B: [524, 650], C: [490, 930], r: 70, soft: 50, idle: 2, ph: 0.0 },
-      { id: 'head',    pivot: [505, 255], A: [505, 255], B: [530, 130], C: [530, 130], r: 115, soft: 50, idle: 1.6, ph: 0.8 },
-      { id: 'sway',    pivot: [500, 720], A: [500, 720], B: [520, 150], C: [520, 150], r: 330, soft: 260, idle: 0.7, ph: 0.0 },
-      { id: 'breath',  pivot: [500, 720], A: [500, 720], B: [520, 250], C: [520, 250], r: 260, soft: 160, idle: 0, breath: 0.006, ph: 0.0 },
+    id: 'boy', url: 'assets/img/characters/siluet-cowok.webp', size: [440, 860], center: [220, 430],
+    side: -1, facing: -1, flies: 0, top: 17, left: 49, right: 369, foot: [200, 1520], contact: [332, 470], tip: [332, 470],
+    bones: [   // children first; calm, small angles
+      { id: 'arm',    pivot: [250, 310], A: [250, 310], B: [224, 650], C: [190, 860], r: 70, soft: 50, idle: 1.4, ph: 0.0 },
+      { id: 'head',   pivot: [205, 255], A: [205, 255], B: [230, 130], C: [230, 130], r: 115, soft: 50, idle: 1.4, ph: 0.8 },
+      { id: 'sway',   pivot: [200, 760], A: [200, 760], B: [220, 150], C: [220, 150], r: 330, soft: 260, idle: 0.6, ph: 0.0 },
+      { id: 'breath', pivot: [200, 760], A: [200, 760], B: [220, 250], C: [220, 250], r: 260, soft: 160, idle: 0, breath: 0.006, ph: 0.0 },
     ],
     flutter: [
-      { id: 'tie',  A: [415, 330], B: [400, 640], r: 45, amp: 6, freq: 1.4, ph: 0.3, dir: [-1, 0] },
-      { id: 'hair', A: [520, 160], B: [610, 70], r: 140, amp: 5, freq: 1.8, ph: 1.1, dir: [1, 0.3] },
+      { id: 'tie',  A: [115, 330], B: [100, 640], r: 40, amp: 4, freq: 1.4, ph: 0.3, dir: [-1, 0] },
+      { id: 'hair', A: [220, 160], B: [310, 70], r: 130, amp: 4, freq: 1.8, ph: 1.1, dir: [1, 0.3] },
     ],
   },
   girl: {
-    id: 'girl', url: 'assets/img/characters/siswa-cewek-berdiri.webp', size: [1024, 1536], center: [512, 768],
-    side: +1, facing: +1, flies: 0, top: 93, left: 279, right: 690, foot: [500, 1505], contact: [300, 455], tip: [300, 455],
+    id: 'girl', url: 'assets/img/characters/siluet-cewek.webp', size: [490, 820], center: [245, 410],
+    side: +1, facing: +1, flies: 0, top: 18, left: 81, right: 445, foot: [260, 1425], contact: [122, 375], tip: [122, 375],
     bones: [
-      { id: 'forearm', pivot: [452, 650], A: [452, 650], B: [478, 910], C: [478, 910], r: 55, soft: 40, idle: 2.5, ph: 1.2 },
-      { id: 'arm',     pivot: [450, 400], A: [450, 400], B: [452, 650], C: [478, 910], r: 70, soft: 50, idle: 2, ph: 0.9 },
-      { id: 'head',    pivot: [500, 335], A: [500, 335], B: [520, 190], C: [520, 190], r: 115, soft: 50, idle: 1.6, ph: 2.0 },
-      { id: 'sway',    pivot: [500, 700], A: [500, 700], B: [510, 200], C: [510, 200], r: 330, soft: 260, idle: 0.7, ph: 1.5 },
-      { id: 'breath',  pivot: [500, 700], A: [500, 700], B: [500, 330], C: [500, 330], r: 260, soft: 160, idle: 0, breath: 0.006, ph: 1.0 },
+      { id: 'arm',    pivot: [210, 320], A: [210, 320], B: [212, 570], C: [238, 820], r: 70, soft: 50, idle: 1.4, ph: 0.9 },
+      { id: 'head',   pivot: [260, 255], A: [260, 255], B: [280, 110], C: [280, 110], r: 115, soft: 50, idle: 1.4, ph: 2.0 },
+      { id: 'sway',   pivot: [260, 700], A: [260, 700], B: [270, 120], C: [270, 120], r: 330, soft: 260, idle: 0.6, ph: 1.5 },
+      { id: 'breath', pivot: [260, 700], A: [260, 700], B: [260, 250], C: [260, 250], r: 260, soft: 160, idle: 0, breath: 0.006, ph: 1.0 },
     ],
     flutter: [
-      { id: 'hairTop', A: [470, 150], B: [330, 520], r: 160, amp: 9, freq: 1.5, ph: 0.0, dir: [0.35, 1] },
-      { id: 'hairLow', A: [440, 300], B: [310, 560], r: 120, amp: 7, freq: 1.9, ph: 1.4, dir: [0.35, 1] },
-      { id: 'bow',     A: [420, 200], B: [405, 175], r: 45, amp: 4, freq: 2.4, ph: 0.6, dir: [1, 0.3] },
-      { id: 'tie',     A: [570, 390], B: [600, 650], r: 40, amp: 5, freq: 1.6, ph: 0.9, dir: [1, 0] },
-      { id: 'skirt',   A: [520, 700], B: [500, 1210], r: 270, amp: 9, freq: 1.3, ph: 0.5, dir: [1, 0.1] },
+      { id: 'hair', A: [175, 130], B: [110, 450], r: 70, amp: 4, freq: 1.5, ph: 0.0, dir: [0.35, 1] },
+      { id: 'bow',  A: [180, 120], B: [165, 95], r: 40, amp: 3, freq: 2.4, ph: 0.6, dir: [1, 0.3] },
+      { id: 'tie',  A: [330, 310], B: [360, 570], r: 35, amp: 3, freq: 1.6, ph: 0.9, dir: [1, 0] },
     ],
   },
 };
@@ -45,6 +43,6 @@ export { deg };
 export const TOUCH_PX = 16;
 // heightFrac: figure height as a fraction of the stage height; footY: sole baseline in units of the visible half-height (Hd)
 export const LAYOUT = {
-  desktop: { heightFrac: 0.58, footY: -0.52, edge: 0.93 },
-  mobile:  { heightFrac: 0.56, footY: -0.86, edge: 0.95, minGap: 0.55 },
+  desktop: { heightFrac: 1.43, footY: -2.31, edge: 0.95 },
+  mobile:  { heightFrac: 0.95, footY: -1.83, edge: 0.98, minGap: 0.5 },
 };

@@ -108,8 +108,23 @@ export async function createHeroScene({ canvas, container, isMobile, rigDebug = 
   function render() { renderer.render(scene, camera); }
   // contact point on screen (px) for the flash overlay
   function contactPx() { const v = new THREE.Vector3(0, S.contactY, 0).project(camera); return { x: (v.x * 0.5 + 0.5) * S.W, y: (0.5 - v.y * 0.5) * S.H }; }
+  // screen positions (px) of each student: chest centre, the back edge where they meet, half width and full height
+  const tmp = new THREE.Vector3();
+  function px(ch, def, ix, iy) {
+    tmp.set((ix - def.center[0]) * S.s, -(iy - def.center[1]) * S.s, 0).applyQuaternion(ch.group.quaternion).add(ch.group.position).project(camera);
+    return { x: (tmp.x * 0.5 + 0.5) * S.W, y: (0.5 - tmp.y * 0.5) * S.H };
+  }
+  function bodiesPx() {
+    const out = {};
+    for (const { def, ch } of chars) {
+      const cy = def.contact[1], l = px(ch, def, def.left, cy), r = px(ch, def, def.right, cy);
+      const top = px(ch, def, (def.left + def.right) / 2, def.top), foot = px(ch, def, def.foot[0], def.foot[1]);
+      out[def.id] = { chest: { x: (l.x + r.x) / 2, y: l.y }, back: px(ch, def, def.contact[0], cy).x, halfW: Math.abs(r.x - l.x) / 2, height: Math.abs(foot.y - top.y) };
+    }
+    return out;
+  }
   resize();
   const ro = new ResizeObserver(resize); ro.observe(container);
-  return { update, render, resize, contactPx, get state() { return S; },
+  return { update, render, resize, contactPx, bodiesPx, get state() { return S; },
     dispose() { ro.disconnect(); chars.forEach((c) => c.ch.dispose()); renderer.dispose(); renderer.forceContextLoss(); } };
 }

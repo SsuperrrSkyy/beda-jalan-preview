@@ -8,10 +8,11 @@ html[data-mode="poster"] .story-pin { position: relative; }
 
 /* ---------- layers ---------- */
 .sky-css { position: absolute; inset: 0; background: linear-gradient(180deg, #0a1655 0%, #2c2175 22%, #6b3a95 38%, #d9588f 50%, #ffb877 58%, #ffd49a 59.5%, #a08be0 64%, #7a63c2 80%, #50429c 100%); }
-#sky, #chars, #skyFront { position: absolute; inset: 0; width: 100%; height: 100%; display: block; opacity: 0; transition: opacity .9s ease; }
-.hero.sky-on #sky, .hero.sky-on #skyFront, .hero.chars-on #chars { opacity: 1; }
+#sky, #chars, #skyFront, #ribbonBack, #ribbonFront { position: absolute; inset: 0; width: 100%; height: 100%; display: block; opacity: 0; transition: opacity .9s ease; }
+.hero.sky-on #sky, .hero.sky-on #skyFront, .hero.chars-on #chars, .hero.chars-on #ribbonBack, .hero.chars-on #ribbonFront { opacity: 1; }
+#ribbonBack, #ribbonFront { pointer-events: none; }
 .hero.sky-on .sky-img { visibility: hidden; }   /* the shader paints the sky; images are the static fallback */
-html[data-mode="poster"] #sky, html[data-mode="poster"] #skyFront, html[data-mode="poster"] #chars { display: none; }
+html[data-mode="poster"] #sky, html[data-mode="poster"] #skyFront, html[data-mode="poster"] #chars, html[data-mode="poster"] #ribbonBack, html[data-mode="poster"] #ribbonFront { display: none; }
 .room-layer { position: absolute; inset: 0; opacity: var(--roomO, 0); visibility: hidden; }
 .hero.room-on .room-layer { visibility: visible; }
 html[data-mode="poster"] #poster, html[data-mode="poster"] #gl { display: none; }
@@ -144,14 +145,14 @@ html.reduced .scroll-cue i { animation: none; }
 .sky-img { position: absolute; left: 0; top: 0; width: 100%; height: 100%; object-fit: cover; object-position: 50% 58%; max-width: none; pointer-events: none; user-select: none; will-change: transform; }
 #layerMid, #layerFront { opacity: 0; transition: opacity .8s ease; }
 #layerMid.on, #layerFront.on { opacity: 1; }
-.hero.sky-gone .sky-img, .hero.sky-gone #sky, .hero.sky-gone #skyFront { visibility: hidden; }
+.hero.sky-gone .sky-img, .hero.sky-gone #sky, .hero.sky-gone #skyFront, .hero.sky-gone #ribbonBack, .hero.sky-gone #ribbonFront { visibility: hidden; }
 .static-chars { z-index: auto; }
-.sc { position: absolute; height: 58vh; width: auto; top: auto; max-width: none; transform: none; filter: drop-shadow(0 16px 26px rgba(20, 10, 70, .3)); }
-.sc-boy { left: 5vw; right: auto; bottom: 8vh; }
-.sc-girl { right: 5vw; left: auto; bottom: calc(8vh - .6vh); }
+.sc { position: absolute; height: 72vh; width: auto; top: auto; max-width: none; transform: none; filter: none; }   /* half-body silhouettes */
+.sc-boy { left: 4vw; right: auto; bottom: 0; }
+.sc-girl { right: 4vw; left: auto; bottom: 0; height: 69vh; }
 @media (max-width: 600px), (orientation: portrait) {
-  .sc { height: 50vh; }
-  .sc-boy { left: -14vw; bottom: 17vh; } .sc-girl { right: -14vw; bottom: calc(17vh - .5vh); }
+  .sc { height: 46vh; }
+  .sc-boy { left: -10vw; bottom: 9vh; } .sc-girl { right: -10vw; bottom: 9vh; height: 44vh; }
 }
 
 /* ---------- pearl-light CTA ---------- */
