@@ -1,4 +1,4 @@
-import { deskPose, homography, matrix3d, paperCorners, projectAll, rectCorners } from '../scene/camera-math.js';
+import { deskPhotoPose, deskSheetHeight, homography, matrix3d, paperCorners, projectAll, rectCorners } from '../scene/camera-math.js';
 
 // The photograph and the DOM sheet share the same camera projection. Resize the
 // photograph first, then apply that exact screen-space mapping to its paper corners.
@@ -9,17 +9,16 @@ export function createDeskPaper({ hero, poster, layer, sheet, page1, page2, titl
     if (layer.hidden) return;
     const { clientWidth: width, clientHeight: height } = layer;
     if (!width || !height) return;
-    const { quad, photoW, photoH } = anchor;
+    const { quad, photoW, photoH, scene } = anchor;
     const { x: left, y: top } = quad[0];
     const { x: right, y: bottom } = quad[2];
     const widest = right - quad[3].x;
-    const narrow = width < 640;
-    // One scale for both axes: preserve the proportions of the physical paper.
-    const scale = Math.min(816 / (bottom - top), height * .94 / (bottom - top),
-      680 / widest, (width - (narrow ? 30 : 70)) / widest);
+    // The photo is taken from straight above, so the sheet is a plain rectangle. One scale for both axes,
+    // shared with the 3D desk camera (deskSheetHeight) so the live view and the photo line up exactly.
+    const scale = deskSheetHeight(scene, width, height) / (bottom - top);
     const paperH = (bottom - top) * scale;
     const paperW = widest * scale;
-    const centerX = width / 2 - (narrow ? 5 : 0);
+    const centerX = width / 2;
     const x = centerX - photoW / 2 * scale;
     const y = height / 2 - (top + bottom) / 2 * scale;
     const projected = quad.map(p => ({ x: x + p.x * scale, y: y + p.y * scale }));
@@ -48,7 +47,7 @@ export function createDeskPaper({ hero, poster, layer, sheet, page1, page2, titl
   function open(scene) {
     const photoW = poster.naturalWidth || poster.width;
     const photoH = poster.naturalHeight || poster.height;
-    anchor = { photoW, photoH, quad: projectAll(deskPose(scene, photoW, photoH), photoW, photoH, paperCorners(scene)) };
+    anchor = { scene, photoW, photoH, quad: projectAll(deskPhotoPose(scene, photoW, photoH), photoW, photoH, paperCorners(scene)) };
     hero.classList.add('paper-on-desk');
     layer.hidden = false;
     layout();

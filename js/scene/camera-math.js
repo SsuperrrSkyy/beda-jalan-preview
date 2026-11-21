@@ -66,7 +66,22 @@ export function heroPose(scene, W, H, mobilePoster) {
 export function posterPose(scene, W, H, mobilePoster) {
   return camPose(scene.cameras[mobilePoster ? 'Cam_Hero_Square' : 'Cam_Hero'], W / H);
 }
-export const deskPose = (scene, W, H) => camPose(scene.cameras.Cam_Desk, W / H);
+// ---- desk: the sheet is filled in from straight above -----------------------
+// How tall the sheet appears on screen at the desk. The page scales the desk photo by this, and the 3D camera is fitted to it.
+export function deskSheetHeight(scene, W, H) {
+  const [pw, ph] = scene.paperAnchor.size, margin = W < 640 ? 30 : 70;
+  return Math.min(816, H * 0.94, (680 * ph) / pw, ((W - margin) * ph) / pw);
+}
+// the camera the desk photo (desk-poster.webp) was rendered with
+export const deskPhotoPose = (scene, W, H) => camPose(scene.cameras.Cam_Desk, W / H);
+// the live camera at the desk: straight above the paper like the photo, field of view narrowed so the sheet is
+// deskSheetHeight tall and centred, i.e. exactly the framing the page gives the scaled photo (no jump at the swap)
+export function deskPose(scene, W, H) {
+  const def = scene.cameras.Cam_Desk, pa = scene.paperAnchor;
+  const h = def.position[1] - pa.center[1];
+  const fov = (2 * Math.atan((pa.size[1] * H) / (2 * h * deskSheetHeight(scene, W, H)))) / DEG;
+  return { pos: [pa.center[0], def.position[1], pa.center[2]], quat: def.quaternion.slice(), fov, cam: def };
+}
 
 export const boardCorners = (scene) => scene.chalkboard.corners_TL_TR_BR_BL;
 export const paperCorners = (scene) => scene.paperAnchor.corners_TL_TR_BR_BL;
