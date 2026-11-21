@@ -225,12 +225,11 @@ html.reduced .btn-cta { animation: none; } html.reduced .btn-cta::before { displ
 @keyframes fadeIn { from { opacity: 0; } }
 .thread .spark { fill: #fff; filter: drop-shadow(0 0 4px #ffd9a0); }
 .thread .st { fill: #fff3d6; }
-/* constellation ornaments around the words (built by title-ornaments.js) */
+/* constellation halo around the words (built by title-ornaments.js) */
 .w-ipa { --cl: #a8f5f8; --cl2: #46d3dc; } .w-ips { --cl: #ffd9a6; --cl2: #ffa77e; }
 .h1 { --ow: 1.9; }   /* ornament line width in CSS px */
-.orn { position: absolute; left: 50%; top: 50%; width: 3.6em; height: 2.2em; transform: translate(-50%, -50%); overflow: visible; pointer-events: none;
+.orn { position: absolute; left: 50%; top: 50%; width: 3.6em; height: 2.2em; transform: translate(-50%, -50%); overflow: visible; pointer-events: none; z-index: 2;
   filter: drop-shadow(0 1px 1.5px rgba(30, 16, 90, .55)) drop-shadow(0 0 4px var(--cl2)); }
-.orn-back { z-index: 0; } .orn-front { z-index: 2; }
 .orn .ln { fill: none; stroke: var(--cl); stroke-width: calc(var(--ow) * var(--upx, 1) / var(--sc, 1)); stroke-linecap: round; stroke-linejoin: round;
   stroke-dasharray: 1; animation: draw 2.2s cubic-bezier(.3, .6, .2, 1) both; animation-delay: calc(.25s + var(--d)); }
 .orn .arc { stroke-width: calc(var(--ow) * .8 * var(--upx, 1)); opacity: .9; }
@@ -238,10 +237,6 @@ html.reduced .btn-cta { animation: none; } html.reduced .btn-cta::before { displ
 .orn .st { fill: #fff; }
 .orn .sts { filter: drop-shadow(0 0 2.5px #fff); }
 .orn .sp { fill: #fff; transform-box: fill-box; transform-origin: center; animation: tw 2.6s ease-in-out infinite alternate; animation-delay: var(--d); filter: drop-shadow(0 0 3px var(--cl)); }
-.orn .still .ln { stroke-dasharray: none; animation: none; }
-.orn .ringb { opacity: .55; }
-.orn .ringf { stroke-width: calc(var(--ow) * 1.15 * var(--upx, 1)); }
-.orn-back .dots { opacity: .35; }
 
 .h1-l2 { margin-top: calc(var(--h1fs) * .26); }
 html.reduced .wt::before, html.reduced .wt::after, html.reduced .st, html.reduced .thread .tl, html.reduced .orn * { animation: none !important; }

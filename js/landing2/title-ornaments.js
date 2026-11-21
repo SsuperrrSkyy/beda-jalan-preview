@@ -1,7 +1,7 @@
 // Constellation ornaments around the two headline words (IPA: science, IPS: social studies).
-// Each word gets two SVG layers in em units centred on it: `.orn-back` (behind the letters) and `.orn-front` (over them).
+// Each word gets an SVG overlay in em units centred on it: a constellation halo over the word with three icons set into the arc
+// (IPA: DNA, atom, flask; IPS: compass, globe, book). Nothing crosses the letters.
 // Coordinates: 1em = 100 units, (0,0) = centre of the word; capitals span roughly y -36..36.
-// Two layouts are available while the owner compares them: ?orn=1 (halo arc) and ?orn=2 (orbit ring). Default 1.
 
 // ---- one icon set, all drawn on a 40-unit box: lines + star nodes
 const E = (rx, ry, rot = 0) => ({ d: `M${-rx} 0a${rx} ${ry} 0 1 0 ${2 * rx} 0a${rx} ${ry} 0 1 0 ${-2 * rx} 0`, t: rot ? `rotate(${rot})` : '' });
@@ -40,18 +40,18 @@ const ICONS = {
 const SETS = { ipa: ['dna', 'atom', 'flask'], ips: ['compass', 'globe', 'book'] };
 
 const f = (n) => +n.toFixed(2);
-function icon(name, x, y, s, delay, cls = '') {
+function icon(name, x, y, s, delay) {
   const ic = ICONS[name];
   const lines = ic.lines.map((l, i) => `<path class="ln" pathLength="1" d="${l.d}"${l.t ? ` transform="${l.t}"` : ''} style="--d:${(delay + i * 0.18).toFixed(2)}s"/>`).join('');
   const stars = ic.stars.map(([sx, sy, r], i) => `<circle class="st" cx="${f(sx)}" cy="${f(sy)}" r="${r}" style="--d:${(delay + 0.4 + i * 0.23).toFixed(2)}s"/>`).join('');
-  return `<g class="oi ${cls}" transform="translate(${f(x)} ${f(y)}) scale(${s})" style="--sc:${s}">${lines}<g class="sts">${stars}</g></g>`;
+  return `<g class="oi" transform="translate(${f(x)} ${f(y)}) scale(${s})" style="--sc:${s}">${lines}<g class="sts">${stars}</g></g>`;
 }
 // a four-point sparkle
 const spark = (x, y, r, d) => `<path class="sp" d="M${f(x)} ${f(y - r)}Q${f(x + r * 0.18)} ${f(y - r * 0.18)} ${f(x + r)} ${f(y)}Q${f(x + r * 0.18)} ${f(y + r * 0.18)} ${f(x)} ${f(y + r)}Q${f(x - r * 0.18)} ${f(y + r * 0.18)} ${f(x - r)} ${f(y)}Q${f(x - r * 0.18)} ${f(y - r * 0.18)} ${f(x)} ${f(y - r)}Z" style="--d:${d}s"/>`;
 const svg = (cls, body) => `<svg class="orn ${cls}" viewBox="-180 -110 360 220" aria-hidden="true" focusable="false">${body}</svg>`;
 
-// ---- Plan 1: a constellation halo over each word, icons set into the arc
-function halo(word, hw, side, compact) {
+// ---- the halo: a constellation arc over each word, icons set into it
+function halo(word, hw, compact) {
   // compact (phones): the side icons climb to the word's shoulders so nothing crowds "atau"
   const rx = hw + (compact ? 18 : 36), ry = compact ? 72 : 68, cy = 6;
   const P = (deg) => { const a = (deg * Math.PI) / 180; return [rx * Math.cos(a), cy - ry * Math.sin(a)]; };
@@ -72,59 +72,30 @@ function halo(word, hw, side, compact) {
   const icons = SETS[word].map((n, i) => { const [x, y] = P(at[i]); return icon(n, x, y, (i === 1 ? 0.95 : 0.82) * (compact ? 1.08 : 1), 0.6 + i * 0.35); }).join('');
   const sx = compact ? 4 : 22;
   const sparks = [spark(-hw - sx, 38 + (compact ? 14 : 0), 5, 1.1), spark(hw + sx + 2, 40 + (compact ? 14 : 0), 4, 2.3), spark(-hw * 0.45, -86, 3.6, 0.4), spark(hw * 0.5, -84, 4.4, 1.7)].join('');
-  return { back: '', front: `<g class="halo">${echo}${arcs}<g class="sts">${nodes}</g>${icons}${sparks}</g>` };
-}
-
-// ---- Plan 2: a tilted orbit ring through each word; the icons ride it, passing behind and in front of the letters
-function ring(word, hw, side, compact) {
-  const rx = hw + (compact ? 24 : 44), ry = compact ? 27 : 30, cy = 8, tilt = side * (compact ? 9 : 10);
-  const G = (body) => `<g transform="rotate(${tilt} 0 ${cy})">${body}</g>`;
-  const ell = (k) => `M${-rx * k} ${cy}a${rx * k} ${ry * k} 0 1 0 ${2 * rx * k} 0a${rx * k} ${ry * k} 0 1 0 ${-2 * rx * k} 0`;
-  const node = (deg, r, d) => { const a = (deg * Math.PI) / 180; return `<circle class="st" cx="${f(rx * Math.cos(a))}" cy="${f(cy - ry * Math.sin(a))}" r="${r}" style="--d:${d}s"/>`; };
-  const backNodes = [30, 70, 110, 150].map((g, i) => node(g, 1.6, 0.6 + i * 0.4)).join('');
-  const frontNodes = [200, 235, 270, 305, 340].map((g, i) => node(g, g === 270 ? 2.8 : 2, 0.9 + i * 0.3)).join('');
-  const orbit = `M${rx} ${cy}A${rx} ${ry} 0 1 0 ${-rx} ${cy}A${rx} ${ry} 0 1 0 ${rx} ${cy}`;   // starts right, goes over the top (behind) first
-  const dur = 27, keys = '0;0.47;0.53;0.97;1';
-  const rider = (n, i, front) => {
-    const begin = -(dur * i) / 3 - dur * 0.18;
-    const op = front ? '0;0;1;1;0' : '0.7;0.7;0;0;0.7';
-    return `<g class="rider"><g><animateMotion dur="${dur}s" begin="${begin}s" repeatCount="indefinite" path="${orbit}"/>`
-      + `<animate attributeName="opacity" values="${op}" keyTimes="${keys}" dur="${dur}s" begin="${begin}s" repeatCount="indefinite"/>`
-      + `<g transform="rotate(${-tilt})">${icon(n, 0, 0, (front ? 0.64 : 0.54) * (compact ? 1.25 : 1), 0, 'still')}</g></g></g>`;
-  };
-  const back = G(`<path class="ln ringb" pathLength="1" d="${ell(1)}" style="--d:.1s"/><path class="dots" d="${ell(0.86)}"/><g class="sts">${backNodes}</g>`
-    + SETS[word].map((n, i) => rider(n, i, false)).join(''));
-  const front = G(`<path class="ln ringf" pathLength="1" d="M${-rx} ${cy}A${rx} ${ry} 0 0 0 ${rx} ${cy}" style="--d:.35s"/><g class="sts">${frontNodes}</g>`
-    + SETS[word].map((n, i) => rider(n, i, true)).join(''))
-    + [spark(-hw - (compact ? 10 : 34), -44, 4.6, 0.8), spark(hw + (compact ? 8 : 30), -50, 3.8, 2), spark(0, -88, 3.4, 1.4)].join('');
-  return { back, front };
+  return `<g class="halo">${echo}${arcs}<g class="sts">${nodes}</g>${icons}${sparks}</g>`;
 }
 
 const isCompact = () => matchMedia('(max-width: 600px), (orientation: portrait)').matches;
-export function mountTitleOrnaments(plan = '1', { reduced = false } = {}) {
-  const build = plan === '2' ? ring : halo, compact = isCompact();
+export function mountTitleOrnaments({ reduced = false } = {}) {
+  const compact = isCompact();
   for (const w of document.querySelectorAll('#h1Words .w')) {
     w.querySelectorAll('.orn').forEach((n) => n.remove());
     const word = w.classList.contains('w-ipa') ? 'ipa' : 'ips';
     const t = w.querySelector('.wt'), fs = parseFloat(getComputedStyle(w).fontSize) || 100;
     w.style.setProperty('--upx', (100 / fs).toFixed(4));   // SVG units per CSS pixel, so lines keep a fixed pixel width
     const hw = (t.getBoundingClientRect().width / fs) * 50;   // half the word's width in units
-    const { back, front } = build(word, hw, word === 'ipa' ? -1 : 1, compact);
-    w.insertAdjacentHTML('afterbegin', svg('orn-back', back));
-    w.insertAdjacentHTML('beforeend', svg('orn-front', front));
+    w.insertAdjacentHTML('beforeend', svg('orn-front', halo(word, hw, compact)));
   }
-  document.getElementById('h1Words')?.setAttribute('data-orn', plan === '2' ? '2' : '1');
   if (reduced) document.querySelectorAll('#h1Words .orn').forEach((s) => s.pauseAnimations && s.pauseAnimations());
 }
 
 // self-start: wait for the headline font so the word widths are right
 const qs = new URLSearchParams(location.search);
-const plan = qs.get('orn') || '1';
 const reduced = qs.get('reduced') === '1' || matchMedia('(prefers-reduced-motion: reduce)').matches;
-(document.fonts ? document.fonts.ready : Promise.resolve()).then(() => mountTitleOrnaments(plan, { reduced }));
+(document.fonts ? document.fonts.ready : Promise.resolve()).then(() => mountTitleOrnaments({ reduced }));
 // the headline size follows the viewport, so keep the pixel line widths right on resize
 let wasCompact = isCompact();
 addEventListener('resize', () => {
-  if (isCompact() !== wasCompact) { wasCompact = isCompact(); mountTitleOrnaments(plan, { reduced }); return; }
+  if (isCompact() !== wasCompact) { wasCompact = isCompact(); mountTitleOrnaments({ reduced }); return; }
   for (const w of document.querySelectorAll('#h1Words .w')) w.style.setProperty('--upx', (100 / (parseFloat(getComputedStyle(w).fontSize) || 100)).toFixed(4));
 });
