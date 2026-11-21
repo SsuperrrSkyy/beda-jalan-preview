@@ -1,0 +1,233 @@
+<!doctype html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="robots" content="noindex, nofollow">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>IPA atau IPS? Tes Minat Gratis 3 Menit</title>
+<meta name="description" content="Jawab 10 pertanyaan santai dan dapatkan Peta Minatmu. Sains-Teknologi atau Sosial-Humaniora, dua-duanya jalan ke masa depan.">
+<meta name="theme-color" content="#0A2540">
+<link rel="preload" href="assets/fonts/caveat-latin-700-normal.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="assets/fonts/inter-latin-wght-normal.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="assets/img/sky/sky-back.webp" as="image" type="image/webp" fetchpriority="high">
+<link rel="stylesheet" href="css/tokens.css">
+<link rel="stylesheet" href="css/prototype-3d.css">
+<link rel="stylesheet" href="css/landing.css">
+<link rel="stylesheet" href="css/landing2.css">
+<script type="importmap">
+{ "imports": { "three": "./vendor/three/three.module.min.js", "three/addons/": "./vendor/three/addons/" } }
+</script>
+<style>.preview-note{margin:10px 0 0;font:400 12px/1.5 "Inter",system-ui,sans-serif;color:inherit;opacity:.72}.sheet .preview-note{color:#3d3a5c;opacity:1}</style>
+</head>
+<body>
+<a class="skip" href="#hero-cta">Langsung ke tombol tes</a>
+
+<header class="topnav" id="nav">
+  <div class="tn-left">
+    <button type="button" class="hamb" id="hamb" aria-label="Menu" aria-expanded="false" aria-controls="navMenu"><i></i><i></i><i></i></button>
+    <nav class="tn-links" aria-label="Navigasi utama"><a href="#manfaat">Manfaat</a></nav>
+  </div>
+  <a class="tn-brand" href="#top" aria-label="Ruangguru"><img src="assets/img/ruangguru-logo.svg" alt="Ruangguru" width="66" height="37"></a>
+  <div class="tn-right">
+    <nav class="tn-links" aria-label="Bantuan"><a href="#faq">FAQ</a></nav>
+  </div>
+  <nav class="tn-menu" id="navMenu" hidden aria-label="Menu"><a href="#manfaat">Manfaat</a><a href="#faq">FAQ</a></nav>
+</header>
+
+<main id="top">
+<section class="story" id="story" aria-labelledby="h1">
+<div class="story-pin">
+<div class="hero" id="hero">
+  <div class="stage" id="stage">
+    <div class="sky-css" aria-hidden="true"></div>
+    <img class="sky-img" id="layerBack" src="assets/img/sky/sky-back.webp" width="1536" height="1024" fetchpriority="high" decoding="async" alt="" aria-hidden="true">
+    <canvas id="sky" aria-hidden="true"></canvas>
+    <img class="sky-img" id="layerMid" data-src="assets/img/sky/clouds-mid.webp" width="1536" height="1024" decoding="async" alt="" aria-hidden="true">
+    <div class="static-chars" aria-hidden="true">
+      <img class="sc sc-boy" src="assets/img/characters/siswa-cowok-berdiri.webp" width="1024" height="1536" alt="" decoding="async">
+      <img class="sc sc-girl" src="assets/img/characters/siswa-cewek-berdiri.webp" width="1024" height="1536" alt="" decoding="async">
+    </div>
+    <canvas id="chars" aria-hidden="true"></canvas>
+    <img class="sky-img" id="layerFront" data-src="assets/img/sky/clouds-front.webp" width="1536" height="1024" decoding="async" alt="" aria-hidden="true">
+    <div class="room-layer" id="roomLayer">
+      <picture id="poster">
+        <source media="(orientation: portrait), (max-width: 600px)" srcset="assets/img/hero-poster-mobile.webp" width="1200" height="1200">
+        <img class="poster-img" id="posterImg" src="assets/img/hero-poster-desktop.webp" width="1600" height="1200" fetchpriority="low" decoding="async"
+             alt="Ruang kelas: sisi kiri berisi alat sains, sisi kanan berisi peta dan buku sejarah, meja siswa di tengah.">
+      </picture>
+      <img class="poster-img poster-desk" id="posterDesk" fetchpriority="low" data-src="assets/img/desk-poster.webp" width="1600" height="1200" alt="" aria-hidden="true" decoding="async">
+      <canvas id="gl" aria-hidden="true"></canvas>
+      <div class="scrim" id="scrim"></div>
+    </div>
+    <div class="flash" id="flash" aria-hidden="true"></div>
+  </div>
+
+  <p class="tag-small" id="tagSmall" aria-hidden="true">Beda Jalan, Satu <em class="acc">Tujuan</em></p>
+  <div class="hero-text" id="heroText">
+    <h1 id="h1" class="h1">
+      <span class="h1-l1"><span class="w w-ipa"><span class="wt" data-t="IPA">IPA</span><svg class="const const-ipa" viewBox="-100 -52 200 104" aria-hidden="true" focusable="false"><g class="ln" fill="none"><polygon pathLength="1" style="--d:0.00s" points="57,2.5 37.4,11.9 0,15.9 -37.7,12.3 -57.5,2.7 -50.6,-8.4 -19.9,-14.7 19.5,-15.3 50.3,-7.6"/><polygon pathLength="1" style="--d:0.59s" points="36.3,27.5 2.9,18.5 -32,0.5 -52,-17.4 -47.9,-27 -20.8,-24.3 15.6,-10.3 45,8.6 53.4,23.5"/><polygon pathLength="1" style="--d:1.18s" points="24.6,5.9 -12.2,22.2 -43,27.7 -53.1,20.4 -39.1,3.6 -6.4,-14.4 29.1,-26 50.9,-25.6 49.2,-13"/><polyline pathLength="1" style="--d:1.67s" points="-54,-48 -50.6,-43.4 -50,-38.8 -52.8,-34.2 -56.6,-29.6 -58.2,-25"/><polyline pathLength="1" style="--d:1.86s" points="-54,-48 -57.4,-43.4 -58,-38.8 -55.2,-34.2 -51.4,-29.6 -49.8,-25"/><polyline pathLength="1" style="--d:2.15s" points="-54,-48 -54,-48"/><polyline pathLength="1" style="--d:2.34s" points="-50,-38.8 -58,-38.8"/><polyline pathLength="1" style="--d:2.53s" points="-56.6,-29.6 -51.4,-29.6"/><polygon pathLength="1" style="--d:2.32s" points="34,-50 42,-50 42,-40 52,-26 50,-22 26,-22 24,-26 34,-40"/><polyline pathLength="1" style="--d:2.81s" points="29,-30 47,-30"/></g><g class="sts"><circle class="st" style="--d:0.00s" cx="57" cy="2.5" r="0.99"/><circle class="st" style="--d:0.37s" cx="37.4" cy="11.9" r="0.99"/><circle class="st" style="--d:0.74s" cx="0" cy="15.9" r="0.77"/><circle class="st" style="--d:1.11s" cx="-37.7" cy="12.3" r="0.61"/><circle class="st" style="--d:1.48s" cx="-57.5" cy="2.7" r="0.61"/><circle class="st" style="--d:1.85s" cx="-50.6" cy="-8.4" r="0.61"/><circle class="st" style="--d:2.22s" cx="-19.9" cy="-14.7" r="0.99"/><circle class="st" style="--d:2.59s" cx="19.5" cy="-15.3" r="0.61"/><circle class="st" style="--d:2.96s" cx="50.3" cy="-7.6" r="0.77"/><circle class="st" style="--d:0.23s" cx="36.3" cy="27.5" r="0.61"/><circle class="st" style="--d:0.60s" cx="2.9" cy="18.5" r="0.61"/><circle class="st" style="--d:0.97s" cx="-32" cy="0.5" r="0.99"/><circle class="st" style="--d:1.34s" cx="-52" cy="-17.4" r="0.61"/><circle class="st" style="--d:1.71s" cx="-47.9" cy="-27" r="0.61"/><circle class="st" style="--d:2.08s" cx="-20.8" cy="-24.3" r="0.99"/><circle class="st" style="--d:2.45s" cx="15.6" cy="-10.3" r="0.77"/><circle class="st" style="--d:2.82s" cx="45" cy="8.6" r="0.99"/><circle class="st" style="--d:0.09s" cx="53.4" cy="23.5" r="0.77"/><circle class="st" style="--d:0.46s" cx="24.6" cy="5.9" r="0.77"/><circle class="st" style="--d:0.83s" cx="-12.2" cy="22.2" r="0.61"/><circle class="st" style="--d:1.20s" cx="-43" cy="27.7" r="0.61"/><circle class="st" style="--d:1.57s" cx="-53.1" cy="20.4" r="0.77"/><circle class="st" style="--d:1.94s" cx="-39.1" cy="3.6" r="0.77"/><circle class="st" style="--d:2.31s" cx="-6.4" cy="-14.4" r="0.99"/><circle class="st" style="--d:2.68s" cx="29.1" cy="-26" r="0.99"/><circle class="st" style="--d:3.05s" cx="50.9" cy="-25.6" r="0.61"/><circle class="st" style="--d:0.32s" cx="49.2" cy="-13" r="0.61"/><circle class="st" style="--d:0.69s" cx="0" cy="0" r="1.32"/><circle class="st" style="--d:1.06s" cx="-54" cy="-48" r="0.5"/><circle class="st" style="--d:1.43s" cx="-50.6" cy="-43.4" r="0.5"/><circle class="st" style="--d:1.80s" cx="-50" cy="-38.8" r="0.5"/><circle class="st" style="--d:2.17s" cx="-52.8" cy="-34.2" r="0.5"/><circle class="st" style="--d:2.54s" cx="-56.6" cy="-29.6" r="0.5"/><circle class="st" style="--d:2.91s" cx="-58.2" cy="-25" r="0.5"/><circle class="st" style="--d:0.18s" cx="-54" cy="-48" r="0.5"/><circle class="st" style="--d:0.55s" cx="-57.4" cy="-43.4" r="0.5"/><circle class="st" style="--d:0.92s" cx="-58" cy="-38.8" r="0.5"/><circle class="st" style="--d:1.29s" cx="-55.2" cy="-34.2" r="0.5"/><circle class="st" style="--d:1.66s" cx="-51.4" cy="-29.6" r="0.5"/><circle class="st" style="--d:2.03s" cx="-49.8" cy="-25" r="0.5"/><circle class="st" style="--d:2.40s" cx="34" cy="-50" r="0.61"/><circle class="st" style="--d:2.77s" cx="42" cy="-50" r="0.61"/><circle class="st" style="--d:0.04s" cx="42" cy="-40" r="0.61"/><circle class="st" style="--d:0.41s" cx="52" cy="-26" r="0.61"/><circle class="st" style="--d:0.78s" cx="50" cy="-22" r="0.61"/><circle class="st" style="--d:1.15s" cx="26" cy="-22" r="0.61"/><circle class="st" style="--d:1.52s" cx="24" cy="-26" r="0.61"/><circle class="st" style="--d:1.89s" cx="34" cy="-40" r="0.61"/></g></svg></span><span class="atau-wrap"><svg class="thread" viewBox="-100 -20 200 40" aria-hidden="true" focusable="false"><path class="tl" pathLength="1" d="M-96 6Q-50 -14 0 -3T96 6"/><g class="sts"><circle class="st" style="--d:.2s" cx="-96" cy="6" r="1.8"/><circle class="st" style="--d:1.1s" cx="96" cy="6" r="1.8"/><circle class="st" style="--d:.7s" cx="0" cy="-12" r="1.3"/></g><circle class="spark" r="2.2"><animateMotion dur="5.5s" repeatCount="indefinite" path="M-96 6Q-50 -14 0 -3T96 6" keyPoints="0;1;0" keyTimes="0;.5;1" calcMode="linear"/></circle></svg><span class="atau">atau</span></span><span class="w w-ips"><span class="wt" data-t="IPS?">IPS?</span><svg class="const const-ips" viewBox="-100 -52 200 104" aria-hidden="true" focusable="false"><g class="ln" fill="none"><polygon pathLength="1" style="--d:0.00s" points="31.2,-0.1 26.9,15.6 15.5,27 0.3,30.9 -15.2,26.7 -26.8,15.5 -31.2,-0.1 -26.7,-15.6 -15.2,-26.8 -0.2,-31.1 15.3,-27.1 26.8,-15.5"/><polygon pathLength="1" style="--d:0.59s" points="11.3,-0.3 7.6,21.6 0,31.1 -7.9,21.6 -10.7,0.4 -7.6,-21.7 -0,-30.7 8.2,-21.8"/><polygon pathLength="1" style="--d:0.98s" points="23.1,-0.1 16.2,21.9 -0.1,30.7 -15.8,21.9 -23.4,0.1 -16.6,-21.9 0,-30.6 16.4,-22.3"/><polyline pathLength="1" style="--d:1.37s" points="-31,0 31,0"/><polyline pathLength="1" style="--d:1.56s" points="-26,-16 -9,-19 9,-19 26,-16"/><polyline pathLength="1" style="--d:1.75s" points="-26,16 -9,19 9,19 26,16"/><polyline pathLength="1" style="--d:1.44s" points="0,-31 0,31"/><polygon pathLength="1" style="--d:2.03s" points="-37,-38 -39.6,-31.6 -46,-29 -52.4,-31.6 -55,-38 -52.4,-44.4 -46,-47 -39.6,-44.4"/><polygon pathLength="1" style="--d:2.32s" points="-46,-51 -42.5,-38 -46,-25 -49.5,-38"/><polyline pathLength="1" style="--d:2.61s" points="-59,-38 -33,-38"/><polygon pathLength="1" style="--d:2.40s" points="26,-46 39,-42 52,-46 52,-30 39,-26 26,-30"/><polyline pathLength="1" style="--d:2.89s" points="39,-42 39,-26"/><polyline pathLength="1" style="--d:3.18s" points="30,-40 37,-37.5"/><polyline pathLength="1" style="--d:3.37s" points="41,-37.5 48,-40"/></g><g class="sts"><circle class="st" style="--d:0.00s" cx="31.2" cy="-0.1" r="0.83"/><circle class="st" style="--d:0.37s" cx="26.9" cy="15.6" r="0.83"/><circle class="st" style="--d:0.74s" cx="15.5" cy="27" r="0.83"/><circle class="st" style="--d:1.11s" cx="0.3" cy="30.9" r="0.61"/><circle class="st" style="--d:1.48s" cx="-15.2" cy="26.7" r="0.61"/><circle class="st" style="--d:1.85s" cx="-26.8" cy="15.5" r="0.61"/><circle class="st" style="--d:2.22s" cx="-31.2" cy="-0.1" r="0.61"/><circle class="st" style="--d:2.59s" cx="-26.7" cy="-15.6" r="0.61"/><circle class="st" style="--d:2.96s" cx="-15.2" cy="-26.8" r="0.61"/><circle class="st" style="--d:0.23s" cx="-0.2" cy="-31.1" r="0.61"/><circle class="st" style="--d:0.60s" cx="15.3" cy="-27.1" r="0.61"/><circle class="st" style="--d:0.97s" cx="26.8" cy="-15.5" r="0.83"/><circle class="st" style="--d:1.34s" cx="11.3" cy="-0.3" r="0.55"/><circle class="st" style="--d:1.71s" cx="0" cy="31.1" r="0.55"/><circle class="st" style="--d:2.08s" cx="-10.7" cy="0.4" r="0.55"/><circle class="st" style="--d:2.45s" cx="-0" cy="-30.7" r="0.55"/><circle class="st" style="--d:2.82s" cx="23.1" cy="-0.1" r="0.55"/><circle class="st" style="--d:0.09s" cx="-0.1" cy="30.7" r="0.55"/><circle class="st" style="--d:0.46s" cx="-23.4" cy="0.1" r="0.55"/><circle class="st" style="--d:0.83s" cx="0" cy="-30.6" r="0.55"/><circle class="st" style="--d:1.20s" cx="0" cy="0" r="1.21"/><circle class="st" style="--d:1.57s" cx="-37" cy="-38" r="0.61"/><circle class="st" style="--d:1.94s" cx="-46" cy="-29" r="0.61"/><circle class="st" style="--d:2.31s" cx="-55" cy="-38" r="0.61"/><circle class="st" style="--d:2.68s" cx="-46" cy="-47" r="0.61"/><circle class="st" style="--d:3.05s" cx="-46" cy="-51" r="0.83"/><circle class="st" style="--d:0.32s" cx="-46" cy="-25" r="0.66"/><circle class="st" style="--d:0.69s" cx="-46" cy="-38" r="0.77"/><circle class="st" style="--d:1.06s" cx="26" cy="-46" r="0.61"/><circle class="st" style="--d:1.43s" cx="39" cy="-42" r="0.61"/><circle class="st" style="--d:1.80s" cx="52" cy="-46" r="0.61"/><circle class="st" style="--d:2.17s" cx="52" cy="-30" r="0.61"/><circle class="st" style="--d:2.54s" cx="39" cy="-26" r="0.61"/><circle class="st" style="--d:2.91s" cx="26" cy="-30" r="0.61"/></g></svg></span></span>
+      <span class="h1-l2">Biar Minatmu yang Jawab.</span>
+    </h1>
+    <button type="button" class="btn btn-cta hero-btn" id="hero-cta" data-start data-cta>Ikuti Jalanku</button>
+    <p class="micro hero-micro">Tes minat gratis 3 menit untuk tahu kamu lebih condong ke IPA, IPS, atau dua-duanya.</p>
+  </div>
+  <div class="scroll-cue" id="scrollCue" aria-hidden="true"><span>Gulir</span><i></i></div>
+
+  <div class="board-tag chalk" id="boardTag" aria-hidden="true"><span class="bt1">Beda Jalan,</span> <span class="bt2">Satu <em>Tujuan</em></span></div>
+  <div class="desk-cta" id="deskCta"><button type="button" class="btn btn-cta" id="desk-btn" data-start data-cta>Ikuti Jalanku</button></div>
+
+  <div class="sheet-layer" id="sheetLayer" hidden>
+    <div class="sheet" id="sheet" role="dialog" aria-modal="true" aria-labelledby="sheetTitle">
+      <div class="sheet-body" id="sheetBody">
+        <section class="page page-2" id="page2" aria-labelledby="qTitle" inert>
+          <p class="q-count" aria-live="polite">Soal 1 dari 10</p>
+          <div class="stack" aria-hidden="true"><i></i><i></i><i></i></div>
+          <form id="qForm">
+            <fieldset class="q">
+              <legend id="qTitle">Lagi scroll video, kamu paling sering berhenti di…</legend>
+              <label class="opt"><input type="radio" name="q1" value="a" required><span class="opt-box"><span class="opt-text">Video cara sesuatu dibuat atau bekerja</span></span></label>
+              <label class="opt"><input type="radio" name="q1" value="b"><span class="opt-box"><span class="opt-text">Video cerita hidup orang atau budaya tempat lain</span></span></label>
+              <label class="opt"><input type="radio" name="q1" value="c"><span class="opt-box"><span class="opt-text">Dua-duanya seru</span></span></label>
+            </fieldset>
+            <div class="row">
+              <button type="button" class="btn btn-secondary" id="backToKop">← Kembali ke kop</button>
+              <button type="button" class="btn btn-secondary" data-close>Kembali ke kelas</button>
+            </div>
+          </form>
+          <p class="foot">Prototipe: soal 2 sampai 10 belum dibuat.</p>
+        </section>
+
+        <div class="leaf" id="leaf">
+          <section class="page page-1" id="page1">
+            <button type="button" class="back-btn" data-close>← Kembali ke kelas</button>
+            <img class="sheet-logo" src="assets/img/ruangguru-logo.svg" alt="Ruangguru" width="66" height="37">
+            <h2 id="sheetTitle" tabindex="-1">Lembar Peta Minat</h2>
+            <p class="intro">Isi kop lembar dulu, ya. Nama panggilanmu bakal muncul di Peta Minat.</p>
+            <form id="kopForm" autocomplete="off">
+              <div class="field">
+                <label for="f-nama">Nama panggilan</label>
+                <input id="f-nama" name="nama" type="text" placeholder="mis. Dinda" required autocomplete="nickname">
+              </div>
+              <div class="field">
+                <label for="f-kelas">Kelas dan asal SMP</label>
+                <input id="f-kelas" name="kelas" type="text" placeholder="mis. 9B, SMP [nama sekolah]" required>
+              </div>
+              <div class="field">
+                <label for="f-email">Email (punyamu atau orang tua)</label>
+                <input id="f-email" name="email" type="email" inputmode="email" placeholder="nama@email.com" required autocomplete="email">
+              </div>
+              <label class="check"><input type="checkbox" name="izin" required><span class="check-box" aria-hidden="true"></span><span>Orang tua/wali sudah tahu dan setuju aku mengisi data ini.</span></label>
+              <label class="check"><input type="checkbox" name="info"><span class="check-box" aria-hidden="true"></span><span>Kirimi aku info belajar dari Ruangguru.</span></label>
+              <p class="privacy">Datamu cuma dipakai untuk mencatat hasil tes dan, kalau kamu centang, mengirim info belajar. Baca <a href="#privasi">Kebijakan Privasi</a>.</p>
+              <p class="preview-note">Ini prototipe tugas: data yang kamu isi tidak disimpan atau dikirim ke mana pun.</p>
+              <button type="submit" class="btn btn-cta btn-block">Mulai Kerjakan →</button>
+            </form>
+          </section>
+          <div class="leaf-back" aria-hidden="true"></div>
+        </div>
+        <div class="flip-shade" id="flipShade" aria-hidden="true"></div>
+      </div>
+    </div>
+  </div>
+
+</div><!-- /hero -->
+</div><!-- /story-pin -->
+</section>
+
+<section class="sec sec-manfaat" id="manfaat" aria-labelledby="t-manfaat">
+  <div class="wrap">
+    <p class="kicker" data-reveal><b>I</b> Manfaat</p>
+    <h2 class="display" id="t-manfaat" data-reveal>Kenapa Kenali <em class="acc">Minat</em> Dulu?</h2>
+    <div class="split">
+      <ol class="rows">
+        <li class="row" data-reveal><span class="num" aria-hidden="true">I</span><div><h3>10 pertanyaan, 3 menit</h3><p>Santai, tanpa jawaban benar atau salah. Pilih saja yang paling kamu banget.</p></div></li>
+        <li class="row" data-reveal><span class="num" aria-hidden="true">II</span><div><h3>3 tipe, semuanya setara</h3><p>Hasilnya kecenderungan, bukan ranking. Nggak ada tipe yang lebih pintar dari yang lain.</p></div></li>
+        <li class="row" data-reveal><span class="num" aria-hidden="true">III</span><div><h3>5 mapel, 5 contoh profesi</h3><p>Peta Minatmu menunjukkan mapel SMA yang cocok dan contoh profesinya, pas buat bahan ngobrol sama orang tua.</p></div></li>
+      </ol>
+      <div class="floaty" aria-hidden="true">
+        <div class="ui-card ui-q" data-float="-14">
+          <span class="ui-count">Soal 1 dari 10</span>
+          <p>Lagi scroll video, kamu paling sering berhenti di…</p>
+          <span class="ui-opt">Video cara sesuatu dibuat atau bekerja</span>
+          <span class="ui-opt on">Video cerita hidup orang atau budaya tempat lain</span>
+          <span class="ui-opt">Dua-duanya seru</span>
+        </div>
+        <div class="ui-card ui-chip" data-float="26"><i></i>Lagi menyusun Peta Minatmu…</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="sec sec-bukti" id="bukti" aria-labelledby="t-bukti">
+  <div class="wrap">
+    <p class="kicker" data-reveal><b>II</b> Bukti</p>
+    <h2 class="display" id="t-bukti" data-reveal>Satu Masalah, Butuh <em class="acc">Dua</em> Keahlian</h2>
+    <p class="lead" data-reveal>Masalah besar di dunia nyata selalu dikerjakan bareng, oleh orang sains dan orang sosial.</p>
+    <div class="cards">
+      <article class="pcard" data-reveal style="--tilt:-1.6deg">
+        <h3>Kota bebas banjir</h3>
+        <div class="sides">
+          <p class="side st"><small>Sains-Teknologi</small>Insinyur merancang saluran dan tanggul</p>
+          <p class="side sh"><small>Sosial-Humaniora</small>Perencana kota dan sosiolog mengajak warga ikut menjaga</p>
+        </div>
+      </article>
+      <article class="pcard" data-reveal style="--tilt:1.2deg">
+        <h3>Aplikasi belajar</h3>
+        <div class="sides">
+          <p class="side sh"><small>Sosial-Humaniora</small>Ahli pendidikan dan psikologi bikin orang betah belajar</p>
+          <p class="side st"><small>Sains-Teknologi</small>Programmer membangun aplikasinya</p>
+        </div>
+      </article>
+      <article class="pcard" data-reveal style="--tilt:-0.8deg">
+        <h3>Melawan wabah</h3>
+        <div class="sides">
+          <p class="side st"><small>Sains-Teknologi</small>Dokter dan peneliti menemukan obatnya</p>
+          <p class="side sh"><small>Sosial-Humaniora</small>Ahli komunikasi membuat informasinya dipercaya masyarakat</p>
+        </div>
+      </article>
+    </div>
+    <p class="sdg" data-reveal>Pendidikan yang inklusif dan adil untuk semua adalah tujuan global SDG-4 (Quality Education).</p>
+  </div>
+</section>
+
+<section class="sec sec-tindakan" id="tindakan" aria-labelledby="t-tindakan">
+  <div class="wrap">
+    <p class="kicker" data-reveal><b>III</b> Tindakan</p>
+    <h2 class="display" id="t-tindakan" data-reveal>3 Menit Lagi, Kamu Lebih Kenal <em class="acc">Dirimu</em></h2>
+    <ol class="steps">
+      <li data-reveal><span class="num" aria-hidden="true">I</span><h3>Tulis nama panggilanmu</h3><p>di kop lembar.</p></li>
+      <li data-reveal><span class="num" aria-hidden="true">II</span><h3>Jawab 10 pertanyaan santai.</h3><p>Nggak ada jawaban benar atau salah.</p></li>
+      <li data-reveal><span class="num" aria-hidden="true">III</span><h3>Dapat Peta Minatmu</h3><p>langsung di layar: tipe minat, mapel yang cocok, dan contoh profesi.</p></li>
+    </ol>
+    <div data-reveal><button type="button" class="btn btn-cta" data-start>Mulai Tes Sekarang</button></div>
+  </div>
+</section>
+
+<section class="sec sec-faq" id="faq" aria-labelledby="t-faq">
+  <div class="wrap narrow">
+    <p class="kicker" data-reveal><b>IV</b> FAQ</p>
+    <h2 class="display" id="t-faq" data-reveal>Yang Sering <em class="acc">Ditanyain</em></h2>
+    <div class="faq" data-reveal>
+      <div class="qa"><h3><button type="button" aria-expanded="false" aria-controls="a1"><span>Tes ini nentuin jurusanku?</span><i aria-hidden="true"></i></button></h3><p id="a1" hidden>Nggak. Ini panduan awal buat kenal kecenderunganmu. Keputusan akhirnya tetap di tanganmu.</p></div>
+      <div class="qa"><h3><button type="button" aria-expanded="false" aria-controls="a2"><span>Ada hasil yang lebih bagus?</span><i aria-hidden="true"></i></button></h3><p id="a2" hidden>Nggak ada. Tiga tipe punya kekuatan dan peluang yang setara.</p></div>
+      <div class="qa"><h3><button type="button" aria-expanded="false" aria-controls="a3"><span>Dataku dipakai buat apa?</span><i aria-hidden="true"></i></button></h3><p id="a3" hidden>Cuma buat mencatat hasil tesmu dan, kalau kamu setuju, mengirim info belajar. Datamu nggak dipakai buat hal lain.</p></div>
+    </div>
+  </div>
+</section>
+</main>
+
+<footer class="foot-site">
+  <div class="wrap">
+    <img class="foot-logo" src="assets/img/ruangguru-logo.svg" alt="Ruangguru" width="66" height="37">
+    <p class="foot-line">Beda Jalan, Satu <em class="acc">Tujuan</em> · #JurusanBukanUkuran</p>
+    <nav class="foot-links" aria-label="Tautan footer"><a href="#privasi">Kebijakan Privasi</a><a href="#syarat">Syarat &amp; Ketentuan</a><a href="#kontak">Kontak</a></nav>
+    <p class="credit">Kampanye oleh <img src="assets/img/adentify-logo.svg" alt="Adentify" height="22"></p>
+    <p class="preview-note">Prototipe tugas kuliah, bukan situs resmi Ruangguru.</p>
+    <p class="ident">Adentify · [nama anggota/kelompok] · [email kontak] · [kota]</p>
+  </div>
+</footer>
+
+<div class="mbar" id="mbar"><button type="button" class="btn btn-cta" data-start data-cta>Ikuti Jalanku</button></div>
+<script type="module" src="js/landing2/main.js"></script>
+</body>
+</html>

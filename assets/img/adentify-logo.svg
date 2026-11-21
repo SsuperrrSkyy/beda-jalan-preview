@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="650 310 452 366" width="452" height="366" role="img" aria-label="Adentify">
+<title>Adentify</title>
+<path fill="#550E1C" d="M833 318H913Q918 318 920 322L973 415A106 106 0 0 0 833 497L815 533H827Q833 535 834 541Q836 556 841 568Q842 576 834 579L801 589Q786 598 778 620Q770 646 750 648H668Q659 647 662 637L828 322Q830 318 833 318Z"/>
+<circle cx="936" cy="515" r="80" fill="none" stroke="#550E1C" stroke-width="23"/>
+<rect x="0" y="-23" width="92" height="46" rx="10" fill="#550E1C" transform="translate(1014 586) rotate(45)"/>
+<path d="M943 465A50.5 50.5 0 0 1 987 514" fill="none" stroke="#DE6F3B" stroke-width="10" stroke-linecap="round"/>
+</svg>
