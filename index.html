@@ -144,57 +144,76 @@
         </header>
         <div class="paper-soal-top">
           <p class="paper-kind">Lembar soal</p>
-          <p class="q-count" aria-live="polite">Soal 1 dari 10</p>
+          <p class="q-count" id="qCount">Soal 1 dari 10</p>
         </div>
         <div class="paper-instructions paper-instructions-special" id="qInstructions">
           <p class="paper-label">Petunjuk khusus</p>
-          <p class="intro">Tekan salah satu Jawaban yang menurutmu benar</p>
+          <p class="intro" id="qIntro" role="status">Tekan salah satu Jawaban yang menurutmu benar</p>
         </div>
         <form id="qForm">
           <fieldset class="q" aria-describedby="qInstructions">
-            <legend id="qTitle" tabindex="-1"><span class="paper-number" aria-hidden="true">1.</span> Lagi scroll video, kamu paling sering berhenti di…</legend>
-            <label class="opt">
-              <input type="radio" name="q1" value="a" required>
-              <span class="opt-box">
-                <span class="opt-letter" aria-hidden="true">A.<svg class="pencil-x" viewBox="0 0 30 30" aria-hidden="true" focusable="false">
-                    <path pathLength="1" d="M5 4 Q12 11 25 25"/><path pathLength="1" d="M24 4 Q17 10 5 26"/>
-                  </svg></span>
-                <span class="opt-text">Video cara sesuatu dibuat atau bekerja</span>
-              </span>
-            </label>
-            <label class="opt">
-              <input type="radio" name="q1" value="b">
-              <span class="opt-box">
-                <span class="opt-letter" aria-hidden="true">B.<svg class="pencil-x" viewBox="0 0 30 30" aria-hidden="true" focusable="false">
-                    <path pathLength="1" d="M5 4 Q12 11 25 25"/><path pathLength="1" d="M24 4 Q17 10 5 26"/>
-                  </svg></span>
-                <span class="opt-text">Video cerita hidup orang atau budaya tempat lain</span>
-              </span>
-            </label>
-            <label class="opt">
-              <input type="radio" name="q1" value="c">
-              <span class="opt-box">
-                <span class="opt-letter" aria-hidden="true">C.<svg class="pencil-x" viewBox="0 0 30 30" aria-hidden="true" focusable="false">
-                    <path pathLength="1" d="M5 4 Q12 11 25 25"/><path pathLength="1" d="M24 4 Q17 10 5 26"/>
-                  </svg></span>
-                <span class="opt-text">Dua-duanya seru</span>
-              </span>
-            </label>
+            <legend id="qTitle" tabindex="-1"></legend>
+            <div class="q-opts" id="qOpts"></div>
           </fieldset>
         </form>
         <footer class="paper-footer">
           <div class="paper-question-nav">
-            <button type="button" class="paper-return paper-return--kop" id="backToKop">
+            <button type="button" class="paper-return paper-return--kop" id="qBack">
               <svg class="paper-return-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M13 3h4l4 4v13H9v-5m8-12v4h4M13 11h5M13 15h5M10 12H3m0 0 3-3m-3 3 3 3"/></svg>
-              <span>Kembali ke kop</span>
+              <span id="qBackLabel">Kembali ke kop</span>
             </button>
             <button type="button" class="paper-return paper-return--classroom" data-close>
               <svg class="paper-return-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M3 21h18M5 21V4h12v3M8 21V6l8 3v12m-4-8v1m6 0h4m0 0-2-2m2 2-2 2"/></svg>
               <span>Kembali ke kelas</span>
             </button>
           </div>
-          <p class="foot">Prototipe: soal 2 sampai 10 belum dibuat.</p>
         </footer>
+      </section>
+      <section class="page page-3" id="page3" aria-labelledby="rTitle" hidden inert>
+        <header class="paper-top">
+          <img class="sheet-logo" src="assets/img/adentify-logo.svg" alt="Adentify" width="452" height="366">
+          <div class="paper-masthead">
+            <p class="paper-school">SMA PLUS ADENTIFY</p>
+            <h2 id="rTitle" tabindex="-1">PETA MINAT</h2>
+          </div>
+        </header>
+        <div class="r-head">
+          <dl class="r-id">
+            <div><dt>Nama</dt><dd id="rNama"></dd></div>
+            <div><dt>Kelas/Sekolah</dt><dd id="rKelas"></dd></div>
+            <div><dt>Tanggal</dt><dd id="rTanggal"></dd></div>
+          </dl>
+          <p class="stamp" id="rStamp"><span class="stamp-k">Penjelajah</span> <span class="stamp-t" id="rType"></span></p>
+        </div>
+        <p class="r-core" id="rCore"></p>
+        <div class="r-block"><h3 class="paper-label">Kekuatanmu</h3><p id="rStrengths"></p></div>
+        <div class="r-cols">
+          <div class="r-block"><h3 class="paper-label">5 mapel yang mungkin cocok</h3><ol class="r-list" id="rSubjects"></ol></div>
+          <div class="r-block"><h3 class="paper-label">5 contoh profesi</h3><ol class="r-list" id="rJobs"></ol></div>
+        </div>
+        <div class="r-block r-next"><h3 class="paper-label">Langkah berikutnya</h3><p id="rNext"></p></div>
+        <p class="r-note" id="rNote"></p>
+        <div class="r-actions">
+          <button type="button" class="btn paper-submit r-share" id="rShare">
+            <span class="paper-submit-stub" aria-hidden="true"><svg viewBox="0 0 24 24" focusable="false"><path d="M8.6 13.5l6.8 4M15.4 6.5l-6.8 4M21 5a3 3 0 1 1-6 0 3 3 0 0 1 6 0ZM9 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Zm12 7a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z"/></svg></span>
+            <span class="paper-submit-label">Bagikan Tipeku &amp; Ajak Teman</span>
+          </button>
+          <button type="button" class="paper-return r-act" id="rPdf">
+            <svg class="paper-return-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M7 9V3h10v6M7 17H4v-7a1 1 0 0 1 1-1h14a1 1 0 0 1 1 1v7h-3M7 14h10v7H7z"/></svg>
+            <span>Simpan sebagai PDF</span>
+          </button>
+          <button type="button" class="paper-return r-act" id="rRetry">
+            <svg class="paper-return-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M4 12a8 8 0 1 0 2.4-5.7M4 4v5h5"/></svg>
+            <span>Ulangi Tes</span>
+          </button>
+          <a class="paper-return r-act r-promo" id="rPromo" href="#" target="_blank" rel="noopener" hidden></a>
+          <button type="button" class="paper-return paper-return--classroom" data-close>
+            <svg class="paper-return-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M3 21h18M5 21V4h12v3M8 21V6l8 3v12m-4-8v1m6 0h4m0 0-2-2m2 2-2 2"/></svg>
+            <span>Kembali ke kelas</span>
+          </button>
+        </div>
+        <p class="r-toast" id="rToast" role="status"></p>
+        <footer class="r-foot">Disusun oleh <img src="assets/img/adentify-logo.svg" alt="Adentify" width="20" height="16"> untuk kampanye Beda Jalan, Satu Tujuan</footer>
       </section>
     </div>
   </div>
@@ -300,6 +319,15 @@
   <button type="button" class="scroll-btn" id="scrollBtn" aria-label="Gulir untuk lanjut"><span>Gulir</span><svg viewBox="0 0 16 16" aria-hidden="true" focusable="false"><path d="M4 6l4 4 4-4"/></svg></button>
   <button type="button" class="btn btn-cta" data-start data-cta>Ikuti Jalanku</button>
 </div>
+<div class="print-root test-paper" id="printRoot" aria-hidden="true"></div>
+<svg class="defs-only" width="0" height="0" aria-hidden="true" focusable="false">
+  <filter id="inkStamp" x="-8%" y="-8%" width="116%" height="116%" color-interpolation-filters="sRGB">
+    <feTurbulence type="fractalNoise" baseFrequency=".9" numOctaves="2" seed="11" result="n"/>
+    <feDisplacementMap in="SourceGraphic" in2="n" scale="2.4" xChannelSelector="R" yChannelSelector="G" result="d"/>
+    <feColorMatrix in="n" type="matrix" values="0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  -2.4 0 0 0 1.95" result="a"/>
+    <feComposite in="d" in2="a" operator="in"/>
+  </filter>
+</svg>
 <script type="module" src="js/landing2/title-ornaments.js"></script>
 <script type="module" src="js/landing2/main.js"></script>
 </body>

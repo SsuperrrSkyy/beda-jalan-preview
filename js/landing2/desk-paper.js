@@ -2,7 +2,7 @@ import { deskPhotoPose, deskSheetHeight, homography, matrix3d, paperCorners, pro
 
 // The photograph and the DOM sheet share the same camera projection. Resize the
 // photograph first, then apply that exact screen-space mapping to its paper corners.
-export function createDeskPaper({ hero, poster, layer, sheet, page1, page2, title, qTitle }) {
+export function createDeskPaper({ hero, poster, layer, sheet }) {
   let anchor;
 
   function layout() {
@@ -35,13 +35,11 @@ export function createDeskPaper({ hero, poster, layer, sheet, page1, page2, titl
     sheet.style.transform = matrix3d(homography(rectCorners(0, 0, contentW, contentH), projected));
   }
 
-  function showQuestion(question) {
-    const activeTitle = question ? qTitle : title;
-    page1.hidden = page1.inert = question;
-    page2.hidden = page2.inert = !question;
-    (question ? page2 : page1).scrollTop = 0;
-    sheet.setAttribute('aria-labelledby', activeTitle.id);
-    activeTitle.focus({ preventScroll: true });
+  // show one page of the sheet (kop, question or Peta Minat); the others stay hidden and inert
+  function showPage(page, title) {
+    for (const p of sheet.querySelectorAll(':scope > .page:not(.ghost)')) p.hidden = p.inert = p !== page;
+    page.scrollTop = 0;
+    sheet.setAttribute('aria-labelledby', title.id);
   }
 
   function open(scene) {
@@ -51,19 +49,18 @@ export function createDeskPaper({ hero, poster, layer, sheet, page1, page2, titl
     hero.classList.add('paper-on-desk');
     layer.hidden = false;
     layout();
-    showQuestion(false);
   }
 
   function close() {
     layer.hidden = true;
     hero.classList.remove('paper-on-desk');
-    showQuestion(false);
   }
 
   function trap(event) {
     if (event.key !== 'Tab') return;
-    const page = page1.hidden ? page2 : page1;
-    const controls = [...page.querySelectorAll('a[href], button:not([disabled]), input:not([disabled]), details > summary:first-child')];
+    const page = sheet.querySelector(':scope > .page:not([hidden]):not(.ghost)');
+    if (!page) return;
+    const controls = [...page.querySelectorAll('a[href], button:not([disabled]), input:not([disabled]), details > summary:first-child')].filter(el => !el.closest('[hidden]'));
     const radios = controls.filter(el => el.type === 'radio');
     const activeRadio = radios.find(el => el.checked) || radios[0];
     const stops = controls.filter(el => el.type !== 'radio' || el === activeRadio);
@@ -76,5 +73,5 @@ export function createDeskPaper({ hero, poster, layer, sheet, page1, page2, titl
   }
 
   new ResizeObserver(layout).observe(hero);
-  return { open, close, showQuestion, trap };
+  return { open, close, showPage, trap };
 }

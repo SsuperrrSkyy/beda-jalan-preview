@@ -1,6 +1,7 @@
 // Landing v2 glue: dusk sky -> back-to-back characters -> flash -> 3D classroom -> desk paper quiz flow.
 import { MOBILE_MQ, heroPose, posterPose, deskPose, projectAll, boardCorners, paperCorners, reprojectMatrix } from '../scene/camera-math.js';
 import { createDeskPaper } from './desk-paper.js';
+import { createQuiz } from './quiz.js';
 import { createTimeline, seg, smooth, easeSine } from '../landing/timeline.js';
 import { initSections } from '../landing/sections.js';
 import { createSkySea } from './sky-sea.js';
@@ -26,7 +27,8 @@ const S = { layers: null, scene: null, c3d: null, hs: null, sky: null, state: 's
 if (reducedMotion) html.classList.add('reduced');
 if (wantedState !== 'hero') hero.classList.add('instant');
 
-const paper = createDeskPaper({ hero, poster: posterDesk, layer, sheet, page1: $('page1'), page2: $('page2'), title: $('sheetTitle'), qTitle: $('qTitle') });
+const paper = createDeskPaper({ hero, poster: posterDesk, layer, sheet });
+const quiz = createQuiz({ sheet, paper, reduced: reducedMotion });
 const tl = createTimeline(story);
 
 // ---- copy that may still change lives in config.js
@@ -207,10 +209,11 @@ async function openPaper({ instant = false } = {}) {
   hero.classList.add('desk-poster');
   document.body.classList.add('sheet-open');
   paper.open(S.scene);
+  quiz.opened();
   S.state = 'paper'; S.busy = false;
 }
 async function closePaper() {
-  if (S.busy || (S.state !== 'paper' && S.state !== 'page2')) return;
+  if (S.busy || S.state !== 'paper') return;
   S.busy = true;
   document.body.classList.remove('sheet-open');
   paper.close();
@@ -227,11 +230,8 @@ async function closePaper() {
 }
 for (const b of document.querySelectorAll('[data-start]')) b.addEventListener('click', () => openPaper());
 for (const b of document.querySelectorAll('[data-close]')) b.addEventListener('click', closePaper);
-$('kopForm').addEventListener('submit', (e) => { e.preventDefault(); if (S.state === 'paper') { paper.showQuestion(true); S.state = 'page2'; } });
-$('backToKop').addEventListener('click', () => { if (S.state === 'page2') { paper.showQuestion(false); S.state = 'paper'; } });
-$('qForm').addEventListener('submit', (e) => e.preventDefault());
 document.addEventListener('keydown', (e) => {
-  if (S.state !== 'paper' && S.state !== 'page2') return;
+  if (S.state !== 'paper') return;
   if (e.key === 'Escape') { e.preventDefault(); closePaper(); } else paper.trap(e);
 });
 document.addEventListener('click', (e) => { if (e.target.closest('a[href="#privasi"],a[href="#syarat"],a[href="#kontak"]')) e.preventDefault(); });
@@ -265,7 +265,12 @@ async function applyDebug() {
     if (S.c3d) S.c3d.jumpTo('desk');
     if (html.dataset.mode !== 'poster') { scrollTo({ top: tl.scrollYFor(1), behavior: 'instant' }); tl.snap(); S.p = 1; beats(1, 1); }
     if (wantedState === 'desk') { hero.classList.add('away'); document.body.classList.add('leaving'); S.state = 'desk'; if (html.dataset.mode === 'poster') { hero.style.setProperty('--roomO', 1); hero.classList.add('room-on'); } loadDeskPoster(); try { await posterDesk.decode(); } catch {} hero.classList.add('desk-poster'); }
-    else { await openPaper({ instant: true }); if (wantedState === 'page2') { paper.showQuestion(true); S.state = 'page2'; } }
+    else {
+      await openPaper({ instant: true });
+      const q = /^q(\d+)$/.exec(wantedState);
+      if (wantedState === 'page2' || q) quiz.debug('q', q ? +q[1] - 1 : 0);
+      else if (wantedState === 'result') quiz.debug('result', qs.get('type'));
+    }
     await wait(300); hero.classList.remove('instant');
   }
   window.__story = { jump(p) { scrollTo({ top: tl.scrollYFor(p), behavior: 'instant' }); tl.snap(); S.p = tl.value; beats(S.p, (performance.now() - S.t0) / 1000); return S.p; }, tl, S };
