@@ -143,5 +143,21 @@
   .stk-num small { font-size: 10px; }
   .stk div p { font-size: 15.5px; }
 }
+/* ---------- footer: campaign line on top; credit at bottom-left; links then the Ruangguru logo at bottom-right ---------- */
+.foot-site { padding: clamp(44px, 6vw, 72px) 0 32px; }
+.foot-line { margin: 0 0 clamp(26px, 4vw, 40px); color: var(--navy); font: 800 clamp(19px, 2.1vw, 26px)/1.2 var(--font-ui); letter-spacing: -.025em; }
+.foot-bottom { display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between; gap: 18px 32px; padding-top: 22px; border-top: 1px solid rgba(10, 37, 64, .12); }
+.foot-left { display: grid; gap: 6px; min-width: 0; }
+.foot-left .credit, .foot-left .ident { margin: 0; }
+.foot-right { display: flex; flex-wrap: wrap; align-items: center; justify-content: flex-end; gap: 8px 26px; margin-left: auto; }
+.foot-site .foot-links { margin: 0; gap: 6px 20px; }
+.foot-site .foot-links a { padding: 10px 0; font-size: 15px; }
+.foot-site .foot-logo { height: 26px; margin: 0; }
+@media (max-width: 600px), (orientation: portrait) {
+  .foot-site { padding-bottom: calc(104px + env(safe-area-inset-bottom)); }   /* clear the sticky CTA bar */
+  .foot-right { gap: 2px 18px; }
+  .foot-site .foot-links { justify-content: flex-end; gap: 4px 14px; }
+  .foot-site .foot-links a { font-size: 13.5px; }
+}
 html.reduced .case-panel, html.reduced .a-bubble, html.reduced .a-bubble p { animation: none !important; }
 html.reduced .a-bubble::after { display: none; }
