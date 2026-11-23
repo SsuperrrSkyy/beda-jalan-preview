@@ -5,12 +5,13 @@ export const smooth = (t) => t * t * (3 - 2 * t);
 export const easeSine = (t) => 0.5 - 0.5 * Math.cos(Math.PI * t);
 export const lerp = (a, b, t) => a + (b - a) * t;
 
-export function createTimeline(section) {
+// tail(): px at the end of the section that belong to the next section sliding in, not to the story itself
+export function createTimeline(section, { tail = () => 0 } = {}) {
   let cur = 0, target = 0, frozen = false;
+  const span = (r) => Math.max(1, r.height - innerHeight - tail());
   const measure = () => {
     const r = section.getBoundingClientRect();
-    const span = Math.max(1, r.height - innerHeight);
-    return clamp01(-r.top / span);
+    return clamp01(-r.top / span(r));
   };
   return {
     read() { if (!frozen) target = measure(); return target; },
@@ -20,6 +21,6 @@ export function createTimeline(section) {
     freeze(on) { frozen = on; },
     get value() { return cur; },
     // scrollY that puts the pinned story at progress p
-    scrollYFor(p) { const r = section.getBoundingClientRect(); return scrollY + r.top + p * (r.height - innerHeight); },
+    scrollYFor(p) { const r = section.getBoundingClientRect(); return scrollY + r.top + p * span(r); },
   };
 }

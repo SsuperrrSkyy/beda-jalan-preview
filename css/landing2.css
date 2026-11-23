@@ -1,9 +1,15 @@
 /* Landing v2: dusk-sky hero (back-to-back characters) -> flash -> 3D classroom. Builds on landing.css for the sections. */
 :root { --ipa: #46d0da; --ips: #4db3ee; --sun: #FFE0BC; }
-.story { height: 300vh; }
-@media (max-width: 600px), (orientation: portrait) { .story { height: 300vh; } }
+:root { --story-tail: 40vh; }
+.story { height: calc(300vh + var(--story-tail)); isolation: isolate; }
 html[data-mode="poster"] .story { height: auto; }
 html[data-mode="poster"] .story-pin { position: relative; }
+/* classroom -> Manfaat: once the story is done, the first section slides up over the classroom like a sheet of
+   paper (rounded top, soft shadow) while the classroom dims behind it. --story-tail is that extra scroll; main.js keeps it out of the story timeline */
+.story-pin::after { content: ""; position: absolute; inset: 0; z-index: 60; pointer-events: none; background: #1a1230; opacity: calc(var(--cover, 0) * .5); }
+.sec-manfaat { z-index: 1; margin-top: calc(-1 * var(--story-tail)); background: #fffdf8; border-radius: clamp(22px, 3.2vw, 40px) clamp(22px, 3.2vw, 40px) 0 0;
+  box-shadow: 0 -16px 40px rgba(26, 16, 52, .24), inset 0 1px 0 rgba(255, 255, 255, .9); }
+html[data-mode="poster"] .sec-manfaat { margin-top: -28px; }
 .hero { background: #1b1250; }
 
 /* ---------- layers ---------- */

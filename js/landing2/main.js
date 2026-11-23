@@ -14,7 +14,7 @@ const $ = (id) => document.getElementById(id);
 const html = document.documentElement;
 const hero = $('hero'), stage = $('stage'), poster = $('poster'), canvasGL = $('gl'), posterDesk = $('posterDesk');
 const story = $('story'), nav = $('nav'), heroText = $('heroText'), boardTag = $('boardTag'), deskCta = $('deskCta');
-const layer = $('sheetLayer'), sheet = $('sheet'), mbar = $('mbar');
+const layer = $('sheetLayer'), sheet = $('sheet'), mbar = $('mbar'), manfaat = $('manfaat');
 const wait = (ms) => new Promise((r) => setTimeout(r, ms));
 const raf = () => new Promise((r) => requestAnimationFrame(r));
 
@@ -29,7 +29,15 @@ if (wantedState !== 'hero') hero.classList.add('instant');
 
 const paper = createDeskPaper({ hero, poster: posterDesk, layer, sheet });
 const quiz = createQuiz({ sheet, paper, reduced: reducedMotion });
-const tl = createTimeline(story);
+// the Manfaat section slides up over the finished classroom like a sheet of paper (negative margin-top = the tail)
+let tailKey = '', tailPx = 0;
+const tail = () => {
+  const k = innerHeight + html.dataset.mode;
+  if (k !== tailKey) { tailKey = k; tailPx = html.dataset.mode === 'poster' ? 0 : Math.max(0, -parseFloat(getComputedStyle(manfaat).marginTop) || 0); }
+  return tailPx;
+};
+const sheetCovers = () => html.dataset.mode !== 'poster' && manfaat.getBoundingClientRect().top < innerHeight - 2;
+const tl = createTimeline(story, { tail });
 
 // ---- copy that may still change lives in config.js
 document.querySelectorAll('[data-start]').forEach((b) => { b.textContent = CTA_LABEL; });
@@ -106,11 +114,12 @@ function beats(p, t) {
 }
 function navTheme(p) {
   const r = story.getBoundingClientRect();
-  const past = html.dataset.mode === 'poster' ? scrollY > innerHeight * 0.7 : r.bottom < 90;
+  const past = html.dataset.mode === 'poster' ? scrollY > innerHeight * 0.7 : manfaat.getBoundingClientRect().top < 64;
   const th = past ? 'light' : (html.dataset.mode !== 'poster' && p >= 0.9 ? 'room' : 'sky');
   if (nav.dataset.theme !== th) nav.dataset.theme = th;
   // mobile bar: a small scroll hint during the sky story, the CTA once the classroom is reached
-  const cue = html.dataset.mode === 'poster' ? scrollY < innerHeight * 0.5 : p < 0.9 && !past;
+  // poster mode: the hint gives way to the CTA as soon as the paper sheet reaches the bar (white text on paper would vanish)
+  const cue = html.dataset.mode === 'poster' ? manfaat.getBoundingClientRect().top > innerHeight - 96 : p < 0.9 && !past;
   if (mbar.classList.contains('cue') !== cue) mbar.classList.toggle('cue', cue);
 }
 // each tap moves the story to its next stop: backs touching, then the classroom
@@ -133,6 +142,11 @@ function tick(now) {
     beats(S.p, t);
   }
   navTheme(S.p);
+  // the classroom dims as the paper sheet covers it
+  if (html.dataset.mode !== 'poster') {
+    const c = Math.min(1, Math.max(0, 1 - manfaat.getBoundingClientRect().top / innerHeight));
+    if (Math.abs(c - (S.cover ?? -1)) > 0.002) { S.cover = c; story.style.setProperty('--cover', c.toFixed(3)); }
+  }
   requestAnimationFrame(tick);
 }
 
@@ -185,12 +199,12 @@ async function start3D() {
 // ---- CTA -> classroom -> desk -> paper
 const loadDeskPoster = () => { if (!posterDesk.src) posterDesk.src = posterDesk.dataset.src; };
 async function toClassroom() {
-  if (html.dataset.mode === 'poster' || S.p >= 0.97) return;
+  if (html.dataset.mode === 'poster' || (S.p >= 0.97 && !sheetCovers())) return;
   tl.freeze(false);
   scrollTo({ top: tl.scrollYFor(1), behavior: reducedMotion ? 'instant' : 'smooth' });
   const t0 = performance.now();
-  while (tl.value < 0.97 && performance.now() - t0 < 5000) await wait(80);
-  if (tl.value < 0.97) { scrollTo({ top: tl.scrollYFor(1), behavior: 'instant' }); tl.snap(); await raf(); }
+  while ((tl.value < 0.97 || sheetCovers()) && performance.now() - t0 < 5000) await wait(80);
+  if (tl.value < 0.97 || sheetCovers()) { scrollTo({ top: tl.scrollYFor(1), behavior: 'instant' }); tl.snap(); await raf(); }
 }
 async function openPaper({ instant = false } = {}) {
   if (S.busy || S.state !== 'story') return;
