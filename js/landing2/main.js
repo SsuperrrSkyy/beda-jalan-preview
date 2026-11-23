@@ -115,7 +115,7 @@ function beats(p, t) {
 }
 function navTheme(p) {
   const r = story.getBoundingClientRect();
-  const past = html.dataset.mode === 'poster' ? scrollY > innerHeight * 0.7 : manfaat.getBoundingClientRect().top < 64;
+  const past = html.dataset.mode === 'poster' ? scrollY > innerHeight * 0.7 : manfaat.getBoundingClientRect().top < 72;
   const th = past ? 'light' : (html.dataset.mode !== 'poster' && p >= 0.9 ? 'room' : 'sky');
   if (nav.dataset.theme !== th) nav.dataset.theme = th;
   // mobile bar: a small scroll hint during the sky story, the CTA once the classroom is reached

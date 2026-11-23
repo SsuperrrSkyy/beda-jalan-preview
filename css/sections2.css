@@ -160,6 +160,11 @@
 .foot-site .foot-links { margin: 0; gap: 6px 20px; }
 .foot-site .foot-links a { padding: 10px 0; font-size: 15px; }
 .foot-site .foot-logo { height: 26px; margin: 0; }
+.foot-brand, .credit-link { display: block; border-radius: 6px; }
+.foot-brand img { transition: opacity .2s; } .foot-brand:hover img { opacity: .75; }
+.credit-link img { transition: filter .25s, opacity .25s; }
+.credit-link:hover img, .credit-link:focus-visible img { filter: none; opacity: 1; }   /* grey credit logo turns to full colour on hover */
+.foot-brand:focus-visible, .credit-link:focus-visible { outline: 2px solid var(--navy); outline-offset: 4px; }
 @media (max-width: 600px), (orientation: portrait) {
   .foot-site { padding-bottom: calc(104px + env(safe-area-inset-bottom)); }   /* clear the sticky CTA bar */
   .foot-right { gap: 2px 18px; }
