@@ -4,6 +4,7 @@ import { createDeskPaper } from './desk-paper.js';
 import { createQuiz } from './quiz.js';
 import { createTimeline, seg, smooth, easeSine } from '../landing/timeline.js';
 import { initSections } from '../landing/sections.js';
+import { initBukti } from './bukti.js';
 import { createSkySea } from './sky-sea.js';
 import { createRibbons } from './ribbons.js';
 import { createSkyLayers } from './sky-layers.js';
@@ -259,6 +260,7 @@ addEventListener('keydown', (e) => { if (e.key === 'Escape' && !menu.hidden) { h
 // ---- boot
 async function boot() {
   initSections({ reduced: reducedMotion });
+  initBukti({ reduced: reducedMotion });
   S.scene = await (await fetch('assets/3d/scene.json')).json();
   const reason = skipReason();
   html.dataset.mode = reason ? 'poster' : 'pending';

@@ -6,7 +6,7 @@ export function initSections({ reduced }) {
     const io = new IntersectionObserver((es) => es.forEach((e) => { if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); } }), { rootMargin: '0px 0px -4% 0px', threshold: 0 });
     els.forEach((e, i) => { e.style.setProperty('--d', (i % 3) * 50 + 'ms'); io.observe(e); });
   }
-  for (const b of document.querySelectorAll('.faq button')) {
+  for (const b of document.querySelectorAll('.faq button, .chat .q-bubble button')) {
     b.addEventListener('click', () => {
       const open = b.getAttribute('aria-expanded') === 'true';
       b.setAttribute('aria-expanded', String(!open));

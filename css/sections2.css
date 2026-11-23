@@ -1,0 +1,142 @@
+/* Blocks 2-5 (Manfaat, Bukti, Tindakan, FAQ), copy from docs/CONTENT.md §14. No Roman numerals: each block opens with a
+   small tag whose two dots are the two paths (teal = Sains-Teknologi, gold = Sosial-Humaniora). */
+:root {
+  --st: #2FB8C0; --st-ink: #0E6E75; --st-tint: #E3F6F7;
+  --sh: #F5B14A; --sh-ink: #8A5A12; --sh-tint: #FFF3DD;
+  --lav: #8B7CF0; --lav-tint: #EFEBFF;
+}
+
+.tag { margin: 0 0 18px; display: inline-flex; align-items: center; gap: 10px; padding: 8px 15px 8px 11px; border-radius: 999px;
+  background: rgba(10, 37, 64, .06); color: var(--navy); font: 650 13px/1 var(--font-ui); letter-spacing: .04em; }
+.tag i { position: relative; flex: none; width: 22px; height: 10px; }
+.tag i::before, .tag i::after { content: ""; position: absolute; top: 0; width: 10px; height: 10px; border-radius: 50%; }
+.tag i::before { left: 0; background: var(--st); }
+.tag i::after { left: 12px; background: var(--sh); }
+.tag-dark { background: rgba(255, 255, 255, .1); color: #E8F1F8; }
+
+/* ---------- Manfaat: three numbers as stickers ---------- */
+.sec-manfaat .lead { margin-top: 22px; }
+.stickers { list-style: none; margin: 0; padding: 0; display: grid; gap: clamp(16px, 2.4vw, 26px); }
+.stk { display: grid; grid-template-columns: auto minmax(0, 1fr); align-items: center; gap: clamp(16px, 2.4vw, 28px); padding: clamp(18px, 2.4vw, 28px);
+  border-radius: 22px; background: #fff; box-shadow: 0 14px 34px rgba(10, 37, 64, .08), 0 1px 2px rgba(10, 37, 64, .06); rotate: var(--r, 0deg); }
+.stk-a { --r: -1.2deg; --c: var(--st); --t: var(--st-tint); }
+.stk-b { --r: .8deg; --c: var(--lav); --t: var(--lav-tint); }
+.stk-c { --r: -.5deg; --c: var(--sh); --t: var(--sh-tint); }
+.stk-num { margin: 0; display: grid; place-content: center; width: clamp(92px, 11vw, 118px); aspect-ratio: 1; border-radius: 50%; background: var(--t);
+  box-shadow: inset 0 0 0 2px color-mix(in srgb, var(--c) 55%, transparent); color: var(--navy); text-align: center;
+  font: 800 clamp(34px, 4.4vw, 46px)/.9 var(--font-ui); letter-spacing: -.04em; rotate: calc(var(--r) * -3); }
+.stk-num small { display: block; max-width: 9ch; margin: 5px auto 0; color: var(--ink-500); font: 700 11px/1.1 var(--font-ui); letter-spacing: .01em; }
+.stk h3 { margin: 0 0 6px; color: var(--navy); font: 800 clamp(20px, 2.1vw, 26px)/1.1 var(--font-ui); letter-spacing: -.03em; text-wrap: balance; }
+.stk div p { margin: 0; color: var(--gray-dark); font-size: 16.5px; line-height: 1.5; }
+
+/* ---------- Bukti: one diorama stage, three cases, two paths ---------- */
+.sec-bukti { background: linear-gradient(180deg, var(--bg), #EDF6F5); }
+.cases { margin-top: clamp(32px, 5vw, 64px); }
+.case-tabs { display: flex; gap: 8px; margin: 0 -4px 18px; padding: 4px; overflow-x: auto; scrollbar-width: none; }
+.case-tabs::-webkit-scrollbar { display: none; }
+.case-tab { flex: none; min-height: 44px; padding: 0 18px; border: 1.5px solid rgba(10, 37, 64, .16); border-radius: 999px; background: #fff; color: var(--navy);
+  font: 700 15px/1 var(--font-ui); cursor: pointer; transition: background .2s, color .2s, border-color .2s; }
+.case-tab:hover { border-color: rgba(10, 37, 64, .4); }
+.case-tab[aria-selected="true"] { border-color: var(--navy); background: var(--navy); color: #fff; }
+.case-tab:focus-visible, .role:focus-visible, .q-bubble button:focus-visible { outline: 3px solid var(--st); outline-offset: 2px; }
+.case-body { display: grid; grid-template-columns: minmax(0, 1.25fr) minmax(0, 1fr); align-items: center; gap: clamp(20px, 4vw, 56px); }
+.dio-stage { position: relative; margin: 0; aspect-ratio: 4 / 3; max-width: 100%; }
+.dio-stage img, .dio-stage canvas { position: absolute; inset: 0; width: 100%; height: 100%; display: block; }
+.dio-stage img { object-fit: contain; transition: opacity .3s ease; }
+.dio-stage canvas { opacity: 0; transition: opacity .5s ease; touch-action: pan-y; }
+.dio-stage.live canvas { opacity: 1; }
+.dio-stage.live img, .dio-stage.swap img { opacity: 0; }
+.dio-hint { position: absolute; left: 50%; bottom: 1%; transform: translateX(-50%); padding: 6px 11px; border-radius: 999px; background: rgba(255, 255, 255, .78);
+  color: var(--ink-500); font: 600 12.5px/1 var(--font-ui); white-space: nowrap; pointer-events: none; }
+.case-panel { min-width: 0; }
+.case-panel:not([hidden]) { animation: panel-in .35s var(--ease-out) both; }
+@keyframes panel-in { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
+.case-scene { margin: 0 0 16px; color: var(--navy); font: 700 clamp(27px, 3vw, 38px)/1.08 var(--font-hand); text-wrap: balance; }
+.roles { display: grid; gap: 12px; }
+.role { position: relative; display: grid; gap: 4px; width: 100%; padding: 15px 18px 16px 22px; border: 1.5px solid transparent; border-radius: 18px; background: #fff;
+  box-shadow: 0 8px 22px rgba(10, 37, 64, .07); color: var(--gray-dark); font: inherit; text-align: left; cursor: pointer;
+  transition: border-color .2s, background .2s, transform .2s; }
+.role::before { content: ""; position: absolute; left: 0; top: 14px; bottom: 14px; width: 4px; border-radius: 0 4px 4px 0; background: var(--c); }
+.role-st { --c: var(--st); --t: var(--st-tint); --ink: var(--st-ink); }
+.role-sh { --c: var(--sh); --t: var(--sh-tint); --ink: var(--sh-ink); }
+.role:hover { transform: translateY(-2px); }
+.role[aria-pressed="true"] { border-color: var(--c); background: var(--t); }
+.role-path { color: var(--ink); font: 700 12px/1.2 var(--font-ui); letter-spacing: .06em; text-transform: uppercase; }
+.role strong { color: var(--navy); font: 800 19px/1.2 var(--font-ui); letter-spacing: -.02em; }
+.role-text { font-size: 16px; line-height: 1.45; }
+.case-thread { display: flex; align-items: center; gap: 12px; margin: 18px 0 0; color: var(--navy); font: 800 clamp(18px, 1.8vw, 22px)/1.2 var(--font-ui); letter-spacing: -.02em; }
+.braid { flex: none; width: 72px; height: 16px; overflow: visible; }
+.braid path { fill: none; stroke-width: 3; stroke-linecap: round; }
+.braid .b-st { stroke: var(--st); } .braid .b-sh { stroke: var(--sh); }
+
+/* ---------- Tindakan: the three steps are the sheet's own journey ---------- */
+.journey { position: relative; list-style: none; margin: clamp(40px, 6vw, 76px) 0 clamp(36px, 5vw, 60px); padding: 0;
+  display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: clamp(24px, 4vw, 56px); }
+.journey::before { content: ""; position: absolute; left: 56px; right: 12%; top: 72px; border-top: 2px dashed rgba(255, 224, 188, .45); }
+.jstep { min-width: 0; }
+.jstep h3 { margin: 24px 0 8px; color: #fff; font: 800 clamp(22px, 2.4vw, 30px)/1.1 var(--font-ui); letter-spacing: -.03em; text-wrap: balance; }
+.jstep p { margin: 0; max-width: 30ch; color: #dbe7f0; font-size: 17px; line-height: 1.5; }
+.mini { position: relative; z-index: 1; display: flex; flex-direction: column; gap: 8px; width: 112px; height: 144px; padding: 12px 11px;
+  border-radius: 4px; background: #FAF8F0; box-shadow: 0 14px 30px rgba(0, 0, 0, .35); rotate: var(--r, -3deg); }
+.jstep:nth-child(2) .mini { --r: 2deg; }
+.jstep:nth-child(3) .mini { --r: -1.5deg; }
+.mini-head { display: block; height: 12px; margin-bottom: 2px; border-bottom: 2px solid #23221f; }
+.mini-line { display: block; height: 15px; border-bottom: 1px dotted #8f887a; color: #2f3d8c; font: 700 14px/1 var(--font-hand); }
+.mini-line em { font-style: normal; }
+.mini-q { display: block; width: 82%; height: 7px; margin-bottom: 2px; border-radius: 2px; background: #3e3b37; opacity: .8; }
+.mini-opt { position: relative; display: block; height: 15px; border-bottom: 1px solid #ddd6c7; }
+.mini-opt::before { content: ""; position: absolute; left: 0; top: 2px; width: 10px; height: 10px; border: 1.5px solid #6b655a; border-radius: 2px; }
+.mini-opt::after { content: ""; position: absolute; left: 17px; right: 8px; top: 5px; height: 4px; border-radius: 2px; background: #cfc8b8; }
+.mini-x { position: absolute; z-index: 1; left: -3px; top: -3px; width: 17px; height: 17px; overflow: visible; }
+.mini-x path { fill: none; stroke: #4d4a45; stroke-width: 2.6; stroke-linecap: round; }
+.mini-stamp { display: grid; place-content: center; align-self: flex-end; width: 78px; height: 50px; margin-top: auto; border: 2px solid #2a3d94; border-radius: 50%;
+  color: #2a3d94; font: 800 7px/1 var(--font-ui); letter-spacing: .14em; text-align: center; text-transform: uppercase; rotate: -10deg; opacity: .9; }
+.mini-stamp em { display: block; margin-top: 2px; font: 700 14px/1 var(--font-hand); font-style: normal; letter-spacing: 0; text-transform: none; }
+.cta-row { display: flex; flex-wrap: wrap; align-items: center; gap: 14px 22px; }
+.cta-micro { margin: 0; color: #cfe3ee; font-size: 15px; }
+
+/* ---------- FAQ: a chat ---------- */
+.chat { display: grid; gap: 18px; margin-top: clamp(32px, 5vw, 56px); }
+.msg { display: grid; gap: 10px; }
+.q-bubble { justify-self: end; width: min(560px, 92%); margin: 0; }
+.q-bubble button { display: grid; grid-template-columns: minmax(0, 1fr) auto; align-items: center; gap: 5px 14px; width: 100%; padding: 14px 14px 15px 20px;
+  border: 0; border-radius: 22px 22px 6px 22px; background: var(--navy); color: #fff; font: inherit; text-align: left; cursor: pointer;
+  box-shadow: 0 10px 24px rgba(10, 37, 64, .16); }
+.q-bubble .who { grid-column: 1; color: #9FD8DD; font: 700 11.5px/1 var(--font-ui); letter-spacing: .06em; text-transform: uppercase; }
+.q-bubble .txt { grid-column: 1; font: 700 clamp(17px, 1.8vw, 20px)/1.35 var(--font-ui); }
+.q-bubble i { position: relative; grid-column: 2; grid-row: 1 / span 2; width: 32px; height: 32px; border-radius: 50%; background: rgba(255, 255, 255, .14); }
+.q-bubble i::before, .q-bubble i::after { content: ""; position: absolute; left: 50%; top: 50%; width: 12px; height: 2px; border-radius: 1px; background: #fff; translate: -50% -50%; }
+.q-bubble i::after { rotate: 90deg; transition: opacity .2s; }
+.q-bubble button[aria-expanded="true"] i::after { opacity: 0; }
+.a-bubble { position: relative; justify-self: start; width: min(600px, 94%); padding: 14px 20px 16px; border: 1.5px solid rgba(245, 177, 74, .45);
+  border-radius: 22px 22px 22px 6px; background: #FFF6E6; box-shadow: 0 10px 24px rgba(10, 37, 64, .06); transform-origin: 0 100%; }
+.a-bubble .who { display: block; margin-bottom: 6px; color: var(--sh-ink); font: 700 11.5px/1 var(--font-ui); letter-spacing: .06em; text-transform: uppercase; }
+.a-bubble p { margin: 0; color: var(--gray-dark); font-size: 17.5px; line-height: 1.55; }
+/* opening an answer: the bubble pops in, "typing" dots, then the text */
+.a-bubble:not([hidden]) { animation: bubble-in .28s var(--ease-out) both; }
+.a-bubble:not([hidden]) p { animation: text-in .25s ease .42s both; }
+.a-bubble:not([hidden])::after { content: ""; position: absolute; left: 20px; top: 36px; width: 33px; height: 9px;
+  background: radial-gradient(circle, #C69A4E 46%, transparent 52%) 0 50% / 11px 9px repeat-x; animation: typing .42s steps(1, end) both; }
+@keyframes bubble-in { from { opacity: 0; transform: scale(.92) translateY(6px); } to { opacity: 1; transform: none; } }
+@keyframes text-in { from { opacity: 0; } to { opacity: 1; } }
+@keyframes typing { 0% { opacity: 1; } 100% { opacity: 0; } }
+
+@media (max-width: 860px) {
+  .case-body { grid-template-columns: 1fr; }
+  .journey { grid-template-columns: 1fr; gap: 26px; }
+  .journey::before { left: 46px; right: auto; top: 50px; bottom: 50px; border-top: 0; border-left: 2px dashed rgba(255, 224, 188, .45); }
+  .jstep { display: grid; grid-template-columns: 92px minmax(0, 1fr); grid-template-rows: auto auto; column-gap: 18px; align-items: center; }
+  .jstep .mini { grid-row: 1 / span 2; width: 92px; height: 118px; padding: 10px 9px; gap: 6px; }
+  .jstep h3 { align-self: end; margin: 0 0 6px; }
+  .jstep p { align-self: start; font-size: 16px; }
+  .mini-stamp { width: 66px; height: 42px; }
+  .q-bubble, .a-bubble { width: 100%; }
+}
+@media (max-width: 600px) {
+  .stk { gap: 14px; padding: 16px 16px 16px 14px; }
+  .stk-num { width: 80px; font-size: 30px; }
+  .stk-num small { font-size: 10px; }
+  .stk div p { font-size: 15.5px; }
+}
+html.reduced .case-panel, html.reduced .a-bubble, html.reduced .a-bubble p { animation: none !important; }
+html.reduced .a-bubble::after { display: none; }

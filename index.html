@@ -15,6 +15,7 @@
 <link rel="stylesheet" href="css/landing.css">
 <link rel="stylesheet" href="css/landing2.css">
 <link rel="stylesheet" href="css/test-paper.css">
+<link rel="stylesheet" href="css/sections2.css">
 <script type="importmap">
 { "imports": { "three": "./vendor/three/three.module.min.js", "three/addons/": "./vendor/three/addons/" } }
 </script>
@@ -224,14 +225,15 @@
 
 <section class="sec sec-manfaat" id="manfaat" aria-labelledby="t-manfaat">
   <div class="wrap">
-    <p class="kicker" data-reveal><b>I</b> Manfaat</p>
-    <h2 class="display" id="t-manfaat" data-reveal>Kenapa Kenali <em class="acc">Minat</em> Dulu?</h2>
+    <p class="tag" data-reveal><i aria-hidden="true"></i>Sebelum milih jurusan</p>
+    <h2 class="display" id="t-manfaat" data-reveal>Kenali <em class="acc">Minat</em> Dulu, Baru Pilih Jalan</h2>
+    <p class="lead" data-reveal>Bukan ujian dan nggak ada nilai. Cuma kamu, 10 pertanyaan, dan sedikit rasa penasaran.</p>
     <div class="split">
-      <ol class="rows">
-        <li class="row" data-reveal><span class="num" aria-hidden="true">I</span><div><h3>10 pertanyaan, 3 menit</h3><p>Santai, tanpa jawaban benar atau salah. Pilih saja yang paling kamu banget.</p></div></li>
-        <li class="row" data-reveal><span class="num" aria-hidden="true">II</span><div><h3>3 tipe, semuanya setara</h3><p>Hasilnya kecenderungan, bukan ranking. Nggak ada tipe yang lebih pintar dari yang lain.</p></div></li>
-        <li class="row" data-reveal><span class="num" aria-hidden="true">III</span><div><h3>5 mapel, 5 contoh profesi</h3><p>Peta Minatmu menunjukkan mapel SMA yang cocok dan contoh profesinya, pas buat bahan ngobrol sama orang tua.</p></div></li>
-      </ol>
+      <ul class="stickers">
+        <li class="stk stk-a" data-reveal><p class="stk-num" aria-hidden="true">3<small>menit</small></p><div><h3><span class="sr">3 menit: </span>Sebentar banget</h3><p>Kira-kira selama nunggu mi instan matang.</p></div></li>
+        <li class="stk stk-b" data-reveal><p class="stk-num" aria-hidden="true">0<small>jawaban salah</small></p><div><h3><span class="sr">0 jawaban salah: </span>Pilih yang paling kamu banget</h3><p>10 pertanyaan santai, nggak ada yang dinilai. Salah pencet? Tinggal balik ke soal sebelumnya.</p></div></li>
+        <li class="stk stk-c" data-reveal><p class="stk-num" aria-hidden="true">5+5<small>mapel &amp; profesi</small></p><div><h3><span class="sr">5 mapel dan 5 profesi: </span>Mapel dan profesi yang nyambung</h3><p>Peta Minatmu memuat 5 mapel SMA dan 5 contoh profesi. Pas buat bahan ngobrol sama orang tua.</p></div></li>
+      </ul>
       <div class="floaty" aria-hidden="true">
         <div class="ui-card ui-q" data-float="-14">
           <span class="ui-count">Soal 1 dari 10</span>
@@ -248,57 +250,88 @@
 
 <section class="sec sec-bukti" id="bukti" aria-labelledby="t-bukti">
   <div class="wrap">
-    <p class="kicker" data-reveal><b>II</b> Bukti</p>
-    <h2 class="display" id="t-bukti" data-reveal>Satu Masalah, Butuh <em class="acc">Dua</em> Keahlian</h2>
-    <p class="lead" data-reveal>Masalah besar di dunia nyata selalu dikerjakan bareng, oleh orang sains dan orang sosial.</p>
-    <div class="cards">
-      <article class="pcard" data-reveal style="--tilt:-1.6deg">
-        <h3>Kota bebas banjir</h3>
-        <div class="sides">
-          <p class="side st"><small>Sains-Teknologi</small>Insinyur merancang saluran dan tanggul</p>
-          <p class="side sh"><small>Sosial-Humaniora</small>Perencana kota dan sosiolog mengajak warga ikut menjaga</p>
+    <p class="tag" data-reveal><i aria-hidden="true"></i>Di kota mini ini</p>
+    <h2 class="display" id="t-bukti" data-reveal>Satu Masalah, <em class="acc">Dua Jalan</em> Menuju Solusi</h2>
+    <p class="lead" data-reveal>Masalah besar di kota ini beres karena orang Sains-Teknologi dan orang Sosial-Humaniora kerja bareng.</p>
+    <div class="cases" id="cases" data-reveal>
+      <div class="case-tabs" role="tablist" aria-label="Contoh kasus"><button type="button" role="tab" class="case-tab" id="tab-banjir" data-case="banjir" aria-controls="panel-banjir" aria-selected="true">Kota bebas banjir</button><button type="button" role="tab" class="case-tab" id="tab-aplikasi" data-case="aplikasi" aria-controls="panel-aplikasi" aria-selected="false" tabindex="-1">Aplikasi belajar</button><button type="button" role="tab" class="case-tab" id="tab-wabah" data-case="wabah" aria-controls="panel-wabah" aria-selected="false" tabindex="-1">Melawan wabah</button></div>
+      <div class="case-body">
+        <figure class="dio-stage" id="dioStage">
+          <img id="dioPoster" src="assets/img/diorama/banjir.webp" alt="Kota mini dengan sungai dan tanggul yang sedang dibangun. Insinyur berhelm kuning berdiri di dekat crane, sementara perencana kota berbincang dengan warga di tepi sungai." width="1600" height="1200" loading="lazy" decoding="async">
+          <canvas id="dioCanvas" aria-hidden="true"></canvas>
+          <figcaption class="dio-hint">Ketuk salah satu jalan untuk menyorot orangnya</figcaption>
+        </figure>
+        <div class="case-panels">
+          <div class="case-panel" id="panel-banjir" role="tabpanel" aria-labelledby="tab-banjir" data-alt="Kota mini dengan sungai dan tanggul yang sedang dibangun. Insinyur berhelm kuning berdiri di dekat crane, sementara perencana kota berbincang dengan warga di tepi sungai.">
+            <p class="case-scene">Hujan deras semalam, tapi jalanan tetap kering.</p>
+            <div class="roles">
+              <button type="button" class="role role-st" data-role="st" aria-pressed="false"><span class="role-path">Jalan Sains-Teknologi</span><strong>Insinyur sipil</strong><span class="role-text">Menghitung debit air, lalu merancang tanggul dan saluran yang kuat.</span></button>
+              <button type="button" class="role role-sh" data-role="sh" aria-pressed="false"><span class="role-path">Jalan Sosial-Humaniora</span><strong>Perencana kota dan sosiolog</strong><span class="role-text">Mengajak warga berhenti buang sampah ke sungai, karena tanggul sekuat apa pun bisa mampet.</span></button>
+            </div>
+            <p class="case-thread"><svg class="braid" viewBox="0 0 120 24" aria-hidden="true" focusable="false"><path class="b-st" d="M2 18 C 22 18, 30 6, 50 6 S 78 18, 98 18 S 112 10, 118 6"/><path class="b-sh" d="M2 6 C 22 6, 30 18, 50 18 S 78 6, 98 6 S 112 14, 118 18"/></svg><span>Tanggulnya kuat, warganya peduli.</span></p>
+          </div>
+          <div class="case-panel" id="panel-aplikasi" role="tabpanel" aria-labelledby="tab-aplikasi" data-alt="Kota mini dengan ruang kerja programmer di satu sisi dan taman baca berisi anak-anak serta psikolog pendidikan di sisi lain." hidden>
+            <p class="case-scene">Aplikasinya lancar, dan kamu betah belajar di sana.</p>
+            <div class="roles">
+              <button type="button" class="role role-st" data-role="st" aria-pressed="false"><span class="role-path">Jalan Sains-Teknologi</span><strong>Programmer</strong><span class="role-text">Menulis kode supaya aplikasinya cepat dan nggak gampang error.</span></button>
+              <button type="button" class="role role-sh" data-role="sh" aria-pressed="false"><span class="role-path">Jalan Sosial-Humaniora</span><strong>Psikolog pendidikan</strong><span class="role-text">Mencari tahu cara orang belajar, biar materinya nempel dan nggak bikin bosan.</span></button>
+            </div>
+            <p class="case-thread"><svg class="braid" viewBox="0 0 120 24" aria-hidden="true" focusable="false"><path class="b-st" d="M2 18 C 22 18, 30 6, 50 6 S 78 18, 98 18 S 112 10, 118 6"/><path class="b-sh" d="M2 6 C 22 6, 30 18, 50 18 S 78 6, 98 6 S 112 14, 118 18"/></svg><span>Kodenya rapi, materinya nempel.</span></p>
+          </div>
+          <div class="case-panel" id="panel-wabah" role="tabpanel" aria-labelledby="tab-wabah" data-alt="Kota mini dengan klinik tempat peneliti berjas lab memakai mikroskop, dan alun-alun tempat ahli komunikasi memasang poster kesehatan." hidden>
+            <p class="case-scene">Obatnya ada, dan orang-orang mau memakainya.</p>
+            <div class="roles">
+              <button type="button" class="role role-st" data-role="st" aria-pressed="false"><span class="role-path">Jalan Sains-Teknologi</span><strong>Peneliti dan dokter</strong><span class="role-text">Meneliti virusnya di lab sampai ketemu obat dan vaksinnya.</span></button>
+              <button type="button" class="role role-sh" data-role="sh" aria-pressed="false"><span class="role-path">Jalan Sosial-Humaniora</span><strong>Ahli komunikasi</strong><span class="role-text">Menjelaskan faktanya dengan bahasa yang gampang, supaya warga percaya dan nggak termakan hoaks.</span></button>
+            </div>
+            <p class="case-thread"><svg class="braid" viewBox="0 0 120 24" aria-hidden="true" focusable="false"><path class="b-st" d="M2 18 C 22 18, 30 6, 50 6 S 78 18, 98 18 S 112 10, 118 6"/><path class="b-sh" d="M2 6 C 22 6, 30 18, 50 18 S 78 6, 98 6 S 112 14, 118 18"/></svg><span>Vaksinnya ada, warganya percaya.</span></p>
+          </div>
         </div>
-      </article>
-      <article class="pcard" data-reveal style="--tilt:1.2deg">
-        <h3>Aplikasi belajar</h3>
-        <div class="sides">
-          <p class="side sh"><small>Sosial-Humaniora</small>Ahli pendidikan dan psikologi bikin orang betah belajar</p>
-          <p class="side st"><small>Sains-Teknologi</small>Programmer membangun aplikasinya</p>
-        </div>
-      </article>
-      <article class="pcard" data-reveal style="--tilt:-0.8deg">
-        <h3>Melawan wabah</h3>
-        <div class="sides">
-          <p class="side st"><small>Sains-Teknologi</small>Dokter dan peneliti menemukan obatnya</p>
-          <p class="side sh"><small>Sosial-Humaniora</small>Ahli komunikasi membuat informasinya dipercaya masyarakat</p>
-        </div>
-      </article>
+      </div>
     </div>
-    <p class="sdg" data-reveal>Pendidikan yang inklusif dan adil untuk semua adalah tujuan global SDG-4 (Quality Education).</p>
+    <p class="sdg" data-reveal>Pendidikan yang adil untuk semua juga jadi tujuan dunia: SDG-4, Quality Education.</p>
   </div>
 </section>
 
 <section class="sec sec-tindakan" id="tindakan" aria-labelledby="t-tindakan">
   <div class="wrap">
-    <p class="kicker" data-reveal><b>III</b> Tindakan</p>
-    <h2 class="display" id="t-tindakan" data-reveal>3 Menit Lagi, Kamu Lebih Kenal <em class="acc">Dirimu</em></h2>
-    <ol class="steps">
-      <li data-reveal><span class="num" aria-hidden="true">I</span><h3>Tulis nama panggilanmu</h3><p>di kop lembar.</p></li>
-      <li data-reveal><span class="num" aria-hidden="true">II</span><h3>Jawab 10 pertanyaan santai.</h3><p>Nggak ada jawaban benar atau salah.</p></li>
-      <li data-reveal><span class="num" aria-hidden="true">III</span><h3>Dapat Peta Minatmu</h3><p>langsung di layar: tipe minat, mapel yang cocok, dan contoh profesi.</p></li>
+    <p class="tag tag-dark" data-reveal><i aria-hidden="true"></i>Tinggal selangkah</p>
+    <h2 class="display" id="t-tindakan" data-reveal>Pensilmu Siap? Lembarnya Sudah di <em class="acc">Meja</em>.</h2>
+    <ol class="journey">
+      <li class="jstep" data-reveal>
+        <div class="mini mini-kop" aria-hidden="true"><b class="mini-head"></b><span class="mini-line"><em>Dinda</em></span><span class="mini-line"><em>9B, SMP 1</em></span><span class="mini-line"></span></div>
+        <h3>Isi kop lembar</h3><p>Nama panggilan, kelas, dan email. Setengah menit juga beres.</p>
+      </li>
+      <li class="jstep" data-reveal>
+        <div class="mini mini-soal" aria-hidden="true"><b class="mini-head"></b><span class="mini-q"></span><span class="mini-opt"><svg class="mini-x" viewBox="0 0 30 30" aria-hidden="true" focusable="false"><path d="M6 5 Q13 12 24 24"/><path d="M23 5 Q16 11 6 25"/></svg></span><span class="mini-opt"></span><span class="mini-opt"></span></div>
+        <h3>Coret 10 jawaban</h3><p>Pilih yang paling kamu banget. Mau ganti? Tinggal balik ke soal sebelumnya.</p>
+      </li>
+      <li class="jstep" data-reveal>
+        <div class="mini mini-hasil" aria-hidden="true"><b class="mini-head"></b><span class="mini-line"></span><span class="mini-line"></span><span class="mini-stamp">Penjelajah<em>Dua Dunia</em></span></div>
+        <h3>Terima Peta Minat berstempel</h3><p>Tipe minatmu, 5 mapel, dan 5 contoh profesi. Bisa disimpan jadi PDF atau dibagikan ke teman.</p>
+      </li>
     </ol>
-    <div data-reveal><button type="button" class="btn btn-cta" data-start>Mulai Tes Sekarang</button></div>
+    <div class="cta-row" data-reveal><button type="button" class="btn btn-cta" data-start>Ikuti Jalanku</button><p class="cta-micro">Gratis dan tanpa bikin akun.</p></div>
   </div>
 </section>
 
 <section class="sec sec-faq" id="faq" aria-labelledby="t-faq">
   <div class="wrap narrow">
-    <p class="kicker" data-reveal><b>IV</b> FAQ</p>
-    <h2 class="display" id="t-faq" data-reveal>Yang Sering <em class="acc">Ditanyain</em></h2>
-    <div class="faq" data-reveal>
-      <div class="qa"><h3><button type="button" aria-expanded="false" aria-controls="a1"><span>Tes ini nentuin jurusanku?</span><i aria-hidden="true"></i></button></h3><p id="a1" hidden>Nggak. Ini panduan awal buat kenal kecenderunganmu. Keputusan akhirnya tetap di tanganmu.</p></div>
-      <div class="qa"><h3><button type="button" aria-expanded="false" aria-controls="a2"><span>Ada hasil yang lebih bagus?</span><i aria-hidden="true"></i></button></h3><p id="a2" hidden>Nggak ada. Tiga tipe punya kekuatan dan peluang yang setara.</p></div>
-      <div class="qa"><h3><button type="button" aria-expanded="false" aria-controls="a3"><span>Dataku dipakai buat apa?</span><i aria-hidden="true"></i></button></h3><p id="a3" hidden>Cuma buat mencatat hasil tesmu dan, kalau kamu setuju, mengirim info belajar. Datamu nggak dipakai buat hal lain.</p></div>
+    <p class="tag" data-reveal><i aria-hidden="true"></i>Ngobrol dulu</p>
+    <h2 class="display" id="t-faq" data-reveal>Pertanyaan yang Mungkin Lagi Kamu <em class="acc">Pikirin</em></h2>
+    <div class="chat" data-reveal>
+      <div class="msg">
+        <h3 class="q-bubble"><button type="button" aria-expanded="false" aria-controls="a1"><span class="who">Kamu</span><span class="txt">Kalau hasilnya Penjelajah Manusia, berarti aku wajib masuk IPS?</span><i aria-hidden="true"></i></button></h3>
+        <div class="a-bubble" id="a1" hidden><span class="who">Tim Peta Minat</span><p>Nggak wajib. Hasilnya cuma panduan awal buat kenal kecenderunganmu. Keputusan akhirnya tetap di tanganmu, enaknya diobrolin bareng orang tua dan guru BK.</p></div>
+      </div>
+      <div class="msg">
+        <h3 class="q-bubble"><button type="button" aria-expanded="false" aria-controls="a2"><span class="who">Kamu</span><span class="txt">Ada tipe yang lebih bagus nggak, sih?</span><i aria-hidden="true"></i></button></h3>
+        <div class="a-bubble" id="a2" hidden><span class="who">Tim Peta Minat</span><p>Nggak ada. Ketiga tipe punya kekuatan dan peluang yang setara. Kota mini tadi juga butuh semuanya, kan?</p></div>
+      </div>
+      <div class="msg">
+        <h3 class="q-bubble"><button type="button" aria-expanded="false" aria-controls="a3"><span class="who">Kamu</span><span class="txt">Dataku dipakai buat apa?</span><i aria-hidden="true"></i></button></h3>
+        <div class="a-bubble" id="a3" hidden><span class="who">Tim Peta Minat</span><p>Buat mencatat hasil tesmu dan, kalau kamu setuju, mengirim info belajar. Nggak dipakai buat hal lain.</p></div>
+      </div>
     </div>
   </div>
 </section>
