@@ -131,13 +131,16 @@ html.reduced .scroll-cue i { animation: none; }
   .mbar.cue { background: none; padding-bottom: calc(18px + env(safe-area-inset-bottom)); }
   .mbar.cue .btn-cta { display: none; }
   .mbar.cue .scroll-btn { display: inline-flex; }
-  .scroll-btn { pointer-events: auto; flex-direction: column; align-items: center; gap: 2px; min-width: 44px; min-height: 44px; padding: 6px 12px 4px; border: 0; border-radius: 999px;
-    background: rgba(20, 16, 64, .22); -webkit-backdrop-filter: blur(6px); backdrop-filter: blur(6px); color: rgba(255, 255, 255, .88); cursor: pointer;
-    font: 600 10px/1 var(--font-ui); letter-spacing: .22em; text-transform: uppercase; text-indent: .22em; text-shadow: 0 1px 8px rgba(25, 12, 80, .6); -webkit-tap-highlight-color: transparent; }
-  .scroll-btn svg { width: 16px; height: 16px; fill: none; stroke: currentColor; stroke-width: 1.6; stroke-linecap: round; stroke-linejoin: round; animation: nudge 1.8s ease-in-out infinite; }
-  .scroll-btn:focus-visible { outline: 2px solid #fff; outline-offset: 2px; }
-  .scroll-btn:active { background: rgba(20, 16, 64, .36); }
+  /* "Scroll" + an arrow that keeps bobbing down; no chip behind it, the hit area stays 44px+ */
+  .scroll-btn { pointer-events: auto; flex-direction: column; align-items: center; gap: 3px; min-width: 64px; min-height: 52px; padding: 4px 10px; border: 0; background: none;
+    color: #fff; cursor: pointer; font: 600 12px/1 var(--font-ui); letter-spacing: .06em; text-shadow: 0 1px 2px rgba(25, 12, 80, .75), 0 0 10px rgba(25, 12, 80, .6), 0 0 22px rgba(25, 12, 80, .4);
+    -webkit-tap-highlight-color: transparent; transition: opacity .2s; }
+  .scroll-btn svg { width: 14px; height: 22px; overflow: visible; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round;
+    filter: drop-shadow(0 1px 2px rgba(25, 12, 80, .8)) drop-shadow(0 0 6px rgba(25, 12, 80, .55)); animation: arrow-bob 1.5s ease-in-out infinite; }
+  .scroll-btn:focus-visible { outline: 2px solid #fff; outline-offset: 2px; border-radius: 8px; }
+  .scroll-btn:active { opacity: .6; }
   html.reduced .scroll-btn svg { animation: none; }
+  @keyframes arrow-bob { 0%, 100% { transform: translateY(-2px); } 50% { transform: translateY(6px); } }
   .h1 { font-size: clamp(46px, 15.2vw, 80px); }
   .h1-l2 { font-size: 18px; }
   .tag-small { top: 96px; }

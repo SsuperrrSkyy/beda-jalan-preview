@@ -6,7 +6,7 @@ export const easeSine = (t) => 0.5 - 0.5 * Math.cos(Math.PI * t);
 export const lerp = (a, b, t) => a + (b - a) * t;
 
 export function createTimeline(section) {
-  let cur = 0, target = 0, frozen = false;
+  let cur = 0, target = 0, frozen = false, rate = 9;
   const measure = () => {
     const r = section.getBoundingClientRect();
     const span = Math.max(1, r.height - innerHeight);
@@ -14,7 +14,10 @@ export function createTimeline(section) {
   };
   return {
     read() { if (!frozen) target = measure(); return target; },
-    step(dt) { this.read(); cur += (target - cur) * (1 - Math.exp(-dt * 9)); if (Math.abs(target - cur) < 0.0004) cur = target; return cur; },
+    step(dt) { this.read(); cur += (target - cur) * (1 - Math.exp(-dt * rate)); if (Math.abs(target - cur) < 0.0004) cur = target; return cur; },
+    // how fast the story catches up with the scroll position (per second); higher = closer to the finger
+    get rate() { return rate; },
+    set rate(v) { rate = v; },
     snap() { target = cur = measure(); return cur; },
     set(p) { target = cur = p; },
     freeze(on) { frozen = on; },
