@@ -73,6 +73,7 @@
       <span class="h1-l2">Biar Minatmu yang Jawab.</span>
     </h1>
     <button type="button" class="btn btn-cta hero-btn" id="hero-cta" data-start data-cta>Ikuti Jalanku</button>
+    <p class="hero-offer">Tes minat gratis · 3 menit</p>
     <p class="micro hero-micro">Tes minat gratis 3 menit untuk tahu kamu lebih condong ke IPA, IPS, atau dua-duanya.</p>
   </div>
   <div class="scroll-cue" id="scrollCue" aria-hidden="true"><span>Gulir</span><i></i></div>
@@ -149,7 +150,7 @@
         </div>
         <div class="paper-instructions paper-instructions-special" id="qInstructions">
           <p class="paper-label">Petunjuk khusus</p>
-          <p class="intro" id="qIntro" role="status">Tekan salah satu Jawaban yang menurutmu benar</p>
+          <p class="intro" id="qIntro" role="status">Pilih jawaban yang paling cocok denganmu</p>
         </div>
         <form id="qForm">
           <fieldset class="q" aria-describedby="qInstructions">
@@ -161,7 +162,7 @@
           <div class="paper-question-nav">
             <button type="button" class="paper-return paper-return--kop" id="qBack">
               <svg class="paper-return-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M13 3h4l4 4v13H9v-5m8-12v4h4M13 11h5M13 15h5M10 12H3m0 0 3-3m-3 3 3 3"/></svg>
-              <span id="qBackLabel">Kembali ke kop</span>
+              <span id="qBackLabel">Kembali ke biodata</span>
             </button>
             <button type="button" class="paper-return paper-return--classroom" data-close>
               <svg class="paper-return-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M3 21h18M5 21V4h12v3M8 21V6l8 3v12m-4-8v1m6 0h4m0 0-2-2m2 2-2 2"/></svg>
@@ -232,7 +233,7 @@
       <ul class="stickers">
         <li class="stk stk-a" data-reveal><p class="stk-num" aria-hidden="true">3<small>menit</small></p><div><h3><span class="sr">3 menit: </span>Sebentar banget</h3><p>Kira-kira selama nunggu mi instan matang.</p></div></li>
         <li class="stk stk-b" data-reveal><p class="stk-num" aria-hidden="true">0<small>jawaban salah</small></p><div><h3><span class="sr">0 jawaban salah: </span>Pilih yang paling kamu banget</h3><p>10 pertanyaan santai, nggak ada yang dinilai. Salah pencet? Tinggal balik ke soal sebelumnya.</p></div></li>
-        <li class="stk stk-c" data-reveal><p class="stk-num" aria-hidden="true">5+5<small>mapel &amp; profesi</small></p><div><h3><span class="sr">5 mapel dan 5 profesi: </span>Mapel dan profesi yang nyambung</h3><p>Peta Minatmu memuat 5 mapel SMA dan 5 contoh profesi. Pas buat bahan ngobrol sama orang tua.</p></div></li>
+        <li class="stk stk-c" data-reveal><p class="stk-num" aria-hidden="true">5+5<small>mapel &amp; profesi</small></p><div><h3><span class="sr">5 mapel dan 5 profesi: </span>Mapel dan profesi yang nyambung</h3><p>Hasil tesmu, namanya Peta Minat, memuat 5 mapel SMA dan 5 contoh profesi. Pas buat bahan ngobrol sama orang tua.</p></div></li>
       </ul>
       <div class="floaty" aria-hidden="true">
         <div class="ui-card ui-q" data-float="-14">
@@ -252,37 +253,37 @@
   <div class="wrap">
     <p class="tag" data-reveal><i aria-hidden="true"></i>Di kota mini ini</p>
     <h2 class="display" id="t-bukti" data-reveal>Satu Masalah, <em class="acc">Dua Jalan</em> Menuju Solusi</h2>
-    <p class="lead" data-reveal>Masalah besar di kota ini beres karena orang Sains-Teknologi dan orang Sosial-Humaniora kerja bareng.</p>
+    <p class="lead" data-reveal>Masalah besar di kota ini beres karena orang Sains-Teknologi (IPA) dan orang Sosial-Humaniora (IPS) kerja bareng.</p>
     <div class="cases" id="cases" data-reveal>
       <div class="case-tabs" role="tablist" aria-label="Contoh kasus"><button type="button" role="tab" class="case-tab" id="tab-banjir" data-case="banjir" aria-controls="panel-banjir" aria-selected="true">Kota bebas banjir</button><button type="button" role="tab" class="case-tab" id="tab-aplikasi" data-case="aplikasi" aria-controls="panel-aplikasi" aria-selected="false" tabindex="-1">Aplikasi belajar</button><button type="button" role="tab" class="case-tab" id="tab-wabah" data-case="wabah" aria-controls="panel-wabah" aria-selected="false" tabindex="-1">Melawan wabah</button></div>
       <div class="case-body">
         <figure class="dio-stage" id="dioStage">
           <img id="dioPoster" src="assets/img/diorama/banjir.webp" alt="Kota mini dengan sungai dan tanggul yang sedang dibangun. Insinyur berhelm kuning berdiri di dekat crane, sementara perencana kota berbincang dengan warga di tepi sungai." width="1600" height="1200" loading="lazy" decoding="async">
           <canvas id="dioCanvas" aria-hidden="true"></canvas>
-          <figcaption class="dio-hint">Ketuk salah satu jalan untuk menyorot orangnya</figcaption>
+          <figcaption class="dio-hint">Ketuk kartu untuk melihat siapa yang bekerja</figcaption>
         </figure>
         <div class="case-panels">
           <div class="case-panel" id="panel-banjir" role="tabpanel" aria-labelledby="tab-banjir" data-alt="Kota mini dengan sungai dan tanggul yang sedang dibangun. Insinyur berhelm kuning berdiri di dekat crane, sementara perencana kota berbincang dengan warga di tepi sungai.">
             <p class="case-scene">Hujan deras semalam, tapi jalanan tetap kering.</p>
             <div class="roles">
-              <button type="button" class="role role-st" data-role="st" aria-pressed="false"><span class="role-path">Jalan Sains-Teknologi</span><strong>Insinyur sipil</strong><span class="role-text">Menghitung debit air, lalu merancang tanggul dan saluran yang kuat.</span></button>
-              <button type="button" class="role role-sh" data-role="sh" aria-pressed="false"><span class="role-path">Jalan Sosial-Humaniora</span><strong>Perencana kota dan sosiolog</strong><span class="role-text">Mengajak warga berhenti buang sampah ke sungai, karena tanggul sekuat apa pun bisa mampet.</span></button>
+              <button type="button" class="role role-st" data-role="st" aria-pressed="false"><span class="role-path">Bagian Sains-Teknologi (IPA)</span><strong>Insinyur sipil</strong><span class="role-text">Menghitung seberapa deras air sungai mengalir, lalu merancang tanggul dan saluran yang kuat.</span></button>
+              <button type="button" class="role role-sh" data-role="sh" aria-pressed="false"><span class="role-path">Bagian Sosial-Humaniora (IPS)</span><strong>Perencana kota dan sosiolog</strong><span class="role-text">Mengajak warga berhenti buang sampah ke sungai, karena tanggul sekuat apa pun bisa mampet.</span></button>
             </div>
             <p class="case-thread"><svg class="braid" viewBox="0 0 120 24" aria-hidden="true" focusable="false"><path class="b-st" d="M2 18 C 22 18, 30 6, 50 6 S 78 18, 98 18 S 112 10, 118 6"/><path class="b-sh" d="M2 6 C 22 6, 30 18, 50 18 S 78 6, 98 6 S 112 14, 118 18"/></svg><span>Tanggulnya kuat, warganya peduli.</span></p>
           </div>
           <div class="case-panel" id="panel-aplikasi" role="tabpanel" aria-labelledby="tab-aplikasi" data-alt="Kota mini dengan ruang kerja programmer di satu sisi dan taman baca berisi anak-anak serta psikolog pendidikan di sisi lain." hidden>
             <p class="case-scene">Aplikasinya lancar, dan kamu betah belajar di sana.</p>
             <div class="roles">
-              <button type="button" class="role role-st" data-role="st" aria-pressed="false"><span class="role-path">Jalan Sains-Teknologi</span><strong>Programmer</strong><span class="role-text">Menulis kode supaya aplikasinya cepat dan nggak gampang error.</span></button>
-              <button type="button" class="role role-sh" data-role="sh" aria-pressed="false"><span class="role-path">Jalan Sosial-Humaniora</span><strong>Psikolog pendidikan</strong><span class="role-text">Mencari tahu cara orang belajar, biar materinya nempel dan nggak bikin bosan.</span></button>
+              <button type="button" class="role role-st" data-role="st" aria-pressed="false"><span class="role-path">Bagian Sains-Teknologi (IPA)</span><strong>Programmer</strong><span class="role-text">Menulis kode supaya aplikasinya cepat dan nggak gampang error.</span></button>
+              <button type="button" class="role role-sh" data-role="sh" aria-pressed="false"><span class="role-path">Bagian Sosial-Humaniora (IPS)</span><strong>Psikolog pendidikan</strong><span class="role-text">Mencari tahu cara orang belajar, biar materinya nempel dan nggak bikin bosan.</span></button>
             </div>
             <p class="case-thread"><svg class="braid" viewBox="0 0 120 24" aria-hidden="true" focusable="false"><path class="b-st" d="M2 18 C 22 18, 30 6, 50 6 S 78 18, 98 18 S 112 10, 118 6"/><path class="b-sh" d="M2 6 C 22 6, 30 18, 50 18 S 78 6, 98 6 S 112 14, 118 18"/></svg><span>Kodenya rapi, materinya nempel.</span></p>
           </div>
           <div class="case-panel" id="panel-wabah" role="tabpanel" aria-labelledby="tab-wabah" data-alt="Kota mini dengan klinik tempat peneliti berjas lab memakai mikroskop, dan alun-alun tempat ahli komunikasi memasang poster kesehatan." hidden>
             <p class="case-scene">Obatnya ada, dan orang-orang mau memakainya.</p>
             <div class="roles">
-              <button type="button" class="role role-st" data-role="st" aria-pressed="false"><span class="role-path">Jalan Sains-Teknologi</span><strong>Peneliti dan dokter</strong><span class="role-text">Meneliti virusnya di lab sampai ketemu obat dan vaksinnya.</span></button>
-              <button type="button" class="role role-sh" data-role="sh" aria-pressed="false"><span class="role-path">Jalan Sosial-Humaniora</span><strong>Ahli komunikasi</strong><span class="role-text">Menjelaskan faktanya dengan bahasa yang gampang, supaya warga percaya dan nggak termakan hoaks.</span></button>
+              <button type="button" class="role role-st" data-role="st" aria-pressed="false"><span class="role-path">Bagian Sains-Teknologi (IPA)</span><strong>Peneliti dan dokter</strong><span class="role-text">Meneliti virusnya di lab sampai ketemu obat dan vaksinnya.</span></button>
+              <button type="button" class="role role-sh" data-role="sh" aria-pressed="false"><span class="role-path">Bagian Sosial-Humaniora (IPS)</span><strong>Ahli komunikasi</strong><span class="role-text">Menjelaskan faktanya dengan bahasa yang gampang, supaya warga percaya dan nggak termakan hoaks.</span></button>
             </div>
             <p class="case-thread"><svg class="braid" viewBox="0 0 120 24" aria-hidden="true" focusable="false"><path class="b-st" d="M2 18 C 22 18, 30 6, 50 6 S 78 18, 98 18 S 112 10, 118 6"/><path class="b-sh" d="M2 6 C 22 6, 30 18, 50 18 S 78 6, 98 6 S 112 14, 118 18"/></svg><span>Vaksinnya ada, warganya percaya.</span></p>
           </div>
@@ -297,10 +298,11 @@
   <div class="wrap">
     <p class="tag tag-dark" data-reveal><i aria-hidden="true"></i>Tinggal selangkah</p>
     <h2 class="display" id="t-tindakan" data-reveal>Pensilmu Siap? Lembarnya Sudah di <em class="acc">Meja</em>.</h2>
+    <p class="lead" data-reveal>Tes minatnya tinggal dikerjakan, cuma 3 menit.</p>
     <ol class="journey">
       <li class="jstep" data-reveal>
         <div class="mini mini-kop" aria-hidden="true"><b class="mini-head"></b><span class="mini-line"><em>Dinda</em></span><span class="mini-line"><em>9B, SMP 1</em></span><span class="mini-line"></span></div>
-        <h3>Isi kop lembar</h3><p>Nama panggilan, kelas, dan email. Setengah menit juga beres.</p>
+        <h3>Isi nama dan kelasmu</h3><p>Nama panggilan, kelas, dan email. Setengah menit juga beres.</p>
       </li>
       <li class="jstep" data-reveal>
         <div class="mini mini-soal" aria-hidden="true"><b class="mini-head"></b><span class="mini-q"></span><span class="mini-opt"><svg class="mini-x" viewBox="0 0 30 30" aria-hidden="true" focusable="false"><path d="M6 5 Q13 12 24 24"/><path d="M23 5 Q16 11 6 25"/></svg></span><span class="mini-opt"></span><span class="mini-opt"></span></div>

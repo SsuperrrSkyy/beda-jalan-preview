@@ -58,7 +58,7 @@ export function createQuiz({ sheet, paper, reduced = false }) {
         </span>
       </label>`).join('');
     qIntro.textContent = ans ? 'Ketuk jawabanmu lagi untuk lanjut, atau pilih yang lain.' : INTRO;
-    $('qBackLabel').textContent = i === 0 ? 'Kembali ke kop' : 'Soal sebelumnya';
+    $('qBackLabel').textContent = i === 0 ? 'Kembali ke biodata' : 'Soal sebelumnya';
     $('qBack').querySelector('svg').innerHTML = i === 0 ? ICON_KOP : ICON_PREV;
     page2.classList.toggle('answered', !!ans);
   }
