@@ -121,30 +121,6 @@ $('scrollBtn').addEventListener('click', () => {
   const next = STOPS.find((s) => s > S.p + 0.02) ?? 1;
   scrollTo({ top: tl.scrollYFor(next), behavior });
 });
-
-// ---- soft stops: when scrolling comes to rest inside the story, glide on to the next stop in the direction of travel
-// (0 = sky, 0.46 = backs touching, 1 = classroom), so nobody is left halfway through the white flash.
-// A nudge shorter than NUDGE goes back to where it started. Off with ?snap=0 and while ?p= is used for review.
-const REST = [0, 0.46, 1], NUDGE = 0.035;
-const softStops = debugP == null && qs.get('snap') !== '0';
-let lastY = scrollY, goingDown = true, touching = false, settleT = 0;
-function settle() {
-  if (!softStops || touching || S.busy || S.state !== 'story' || html.dataset.mode === 'poster' || html.classList.contains('lock')) return;
-  const p = tl.read();
-  if (p <= 0.002 || p >= 0.998 || REST.some((s) => Math.abs(s - p) < 0.012)) return;
-  const i = REST.findIndex((s) => s > p), a = REST[i - 1], b = REST[i];
-  const to = goingDown ? (p - a < NUDGE ? a : b) : (b - p < NUDGE ? b : a);
-  scrollTo({ top: tl.scrollYFor(to), behavior: reducedMotion ? 'instant' : 'smooth' });
-}
-const queueSettle = (ms = 200) => { clearTimeout(settleT); settleT = setTimeout(settle, ms); };
-// a quiet spell after the last scroll event always counts as "at rest"; scrollend, where it fires, just settles sooner
-addEventListener('scroll', () => { const y = scrollY; if (y !== lastY) goingDown = y > lastY; lastY = y; queueSettle(); }, { passive: true });
-addEventListener('scrollend', () => queueSettle(40));
-// touch: the story follows the finger more closely (less lag); mouse wheels keep the softer follow
-addEventListener('touchstart', () => { touching = true; clearTimeout(settleT); tl.rate = 16; }, { passive: true });
-for (const ev of ['touchend', 'touchcancel']) addEventListener(ev, () => { touching = false; queueSettle(); }, { passive: true });
-addEventListener('wheel', () => { tl.rate = 9; }, { passive: true });
-if (matchMedia('(pointer: coarse)').matches) tl.rate = 16;
 function tick(now) {
   const dt = Math.min(0.1, (now - S.last) / 1000); S.last = now;
   const t = (now - S.t0) / 1000;
