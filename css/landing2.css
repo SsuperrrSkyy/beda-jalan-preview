@@ -2,6 +2,9 @@
 :root { --ipa: #46d0da; --ips: #4db3ee; --sun: #FFE0BC; }
 :root { --story-tail: 40vh; }
 .story { height: calc(300vh + var(--story-tail)); isolation: isolate; }
+/* Android Chrome: the URL bar collapses while scrolling and the visible viewport grows past 100svh, which left a white strip under the pinned hero.
+   Pin to the large viewport (lvh) instead so it always fills; the sky colour behind it covers any rounding gap */
+.story-pin { height: 100vh; height: 100lvh; background: #50429c; }
 html[data-mode="poster"] .story { height: auto; }
 html[data-mode="poster"] .story-pin { position: relative; }
 /* classroom -> Manfaat: once the story is done, the first section slides up over the classroom like a sheet of
