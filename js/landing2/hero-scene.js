@@ -4,7 +4,7 @@
 import * as THREE from 'three';
 import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
 import { DRACOLoader } from 'three/addons/loaders/DRACOLoader.js';
-import { FIGURES, LAYOUT, TOUCH_M } from './characters-config.js';
+import { FIGURES, LAYOUT, TOUCH_M } from './characters-config.js?v=55928db09c';
 
 const FOV = 30, CAMZ = 8, HD = CAMZ * Math.tan(FOV * Math.PI / 360);
 

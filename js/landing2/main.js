@@ -1,14 +1,14 @@
 // Landing v2 glue: dusk sky -> back-to-back characters -> flash -> 3D classroom -> desk paper quiz flow.
-import { MOBILE_MQ, heroPose, posterPose, deskPose, projectAll, boardCorners, paperCorners, reprojectMatrix } from '../scene/camera-math.js';
-import { createDeskPaper } from './desk-paper.js';
-import { createQuiz } from './quiz.js';
-import { createTimeline, seg, smooth, easeSine } from '../landing/timeline.js';
-import { initSections } from '../landing/sections.js';
-import { initBukti } from './bukti.js';
-import { createSkySea } from './sky-sea.js';
-import { createRibbons } from './ribbons.js';
-import { createSkyLayers } from './sky-layers.js';
-import { CTA_LABEL, CTA_MICRO } from './config.js';
+import { MOBILE_MQ, heroPose, posterPose, deskPose, projectAll, boardCorners, paperCorners, reprojectMatrix } from '../scene/camera-math.js?v=55928db09c';
+import { createDeskPaper } from './desk-paper.js?v=55928db09c';
+import { createQuiz } from './quiz.js?v=55928db09c';
+import { createTimeline, seg, smooth, easeSine } from '../landing/timeline.js?v=55928db09c';
+import { initSections } from '../landing/sections.js?v=55928db09c';
+import { initBukti } from './bukti.js?v=55928db09c';
+import { createSkySea } from './sky-sea.js?v=55928db09c';
+import { createRibbons } from './ribbons.js?v=55928db09c';
+import { createSkyLayers } from './sky-layers.js?v=55928db09c';
+import { CTA_LABEL, CTA_MICRO } from './config.js?v=55928db09c';
 
 const qs = new URLSearchParams(location.search);
 const $ = (id) => document.getElementById(id);
@@ -173,7 +173,7 @@ function startSky() {
   } catch (e) { console.warn('sky unavailable', e); S.sky = null; }
 }
 async function startCharacters() {
-  const m = await import('./hero-scene.js');
+  const m = await import('./hero-scene.js?v=55928db09c');
   S.hs = await m.createHeroScene({ canvas: $('chars'), container: stage, isMobile: isMob(), rigDebug, sunHex: S.scene.sun.colorHex });
   S.hs.update(0, { close: 0, light: 0 }); S.hs.render();
   S.rb = createRibbons({ back: $('ribbonBack'), front: $('ribbonFront') });
@@ -181,7 +181,7 @@ async function startCharacters() {
   hero.classList.add('chars-on');
 }
 async function startClassroom() {
-  const mod = await import('../scene/classroom3d.js');
+  const mod = await import('../scene/classroom3d.js?v=55928db09c');
   S.c3d = await mod.init({ container: stage, canvas: canvasGL, sceneData: S.scene, startAt: wantedState === 'hero' ? 'hero' : 'desk',
     glbUrl: 'assets/3d/classroom.glb', dracoPath: 'vendor/three/addons/libs/draco/gltf/', onFrame: () => {} });
   S.c3d.setPaused('story', S.state === 'story' && S.p < 0.78);

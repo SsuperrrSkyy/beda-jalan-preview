@@ -1,7 +1,7 @@
 // Page glue: poster stage (no three.js), lazy 3D, copy layout, CTA -> desk -> paper flow, debug params.
-import { MOBILE_MQ, heroPose, posterPose, deskPose, projectAll, boardCorners, paperCorners, reprojectMatrix } from '../scene/camera-math.js';
-import { createHeroLayout, invalidateMetrics } from './hero-layout.js';
-import { createPaper } from './paper.js';
+import { MOBILE_MQ, heroPose, posterPose, deskPose, projectAll, boardCorners, paperCorners, reprojectMatrix } from '../scene/camera-math.js?v=55928db09c';
+import { createHeroLayout, invalidateMetrics } from './hero-layout.js?v=55928db09c';
+import { createPaper } from './paper.js?v=55928db09c';
 
 const qs = new URLSearchParams(location.search);
 const $ = (id) => document.getElementById(id);
@@ -66,7 +66,7 @@ function afterLoadIdle(cb) {
 
 async function start3D() {
   try {
-    const mod = await import('../scene/classroom3d.js');   // pulls three via the import map
+    const mod = await import('../scene/classroom3d.js?v=55928db09c');   // pulls three via the import map
     const startAt = wantedState === 'hero' ? 'hero' : 'desk';
     S.c3d = await mod.init({
       container: stage, canvas, sceneData: S.scene, startAt,

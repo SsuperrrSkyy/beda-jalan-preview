@@ -1,7 +1,7 @@
 // A painted cut-out character as ONE textured plane (64x72 grid) with 2D bone skinning + flutter in the vertex shader.
 // Unlit, alpha-eroded edge, depth-tested; one draw call. `?rig=1` shows bone weight regions and pivots.
 import * as THREE from 'three';
-import { deg } from './rigs.js';
+import { deg } from './rigs.js?v=55928db09c';
 
 const NB = 10, NF = 6;
 const VERT = /* glsl */`

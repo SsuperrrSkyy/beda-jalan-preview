@@ -1,6 +1,6 @@
 // The HTML paper sheet: lifts off the desk (matrix3d homography from the projected paper corners to a centred sheet),
 // page flip to question 1, and the reverse. Needs no three.js.
-import { homography, matrix3d, rectCorners, lerpQuad, easeOut, easeInOut } from '../scene/camera-math.js';
+import { homography, matrix3d, rectCorners, lerpQuad, easeOut, easeInOut } from '../scene/camera-math.js?v=55928db09c';
 
 const wait = (ms) => new Promise((r) => setTimeout(r, ms));
 const FOCUSABLE = 'a[href],button:not([disabled]),input:not([disabled]),[tabindex]:not([tabindex="-1"])';

@@ -1,10 +1,10 @@
 // The 3D side of the pinned story: two skinned characters, a spark, and the scroll-driven camera dolly.
 // Everything is a pure function of progress p (0..1) so scrubbing backwards just works.
-import { GIRL, BOY } from '../scene/rigs.js';
-import { createCharacter } from '../scene/characters.js';
-import { createSpark } from '../scene/spark.js';
-import { heroPose, MOBILE_MQ, PORTRAIT_ASPECT } from '../scene/camera-math.js';
-import { seg, easeSine, smooth, lerp } from './timeline.js';
+import { GIRL, BOY } from '../scene/rigs.js?v=55928db09c';
+import { createCharacter } from '../scene/characters.js?v=55928db09c';
+import { createSpark } from '../scene/spark.js?v=55928db09c';
+import { heroPose, MOBILE_MQ, PORTRAIT_ASPECT } from '../scene/camera-math.js?v=55928db09c';
+import { seg, easeSine, smooth, lerp } from './timeline.js?v=55928db09c';
 
 const DEG = Math.PI / 180;
 

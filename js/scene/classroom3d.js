@@ -3,9 +3,9 @@
 import * as THREE from 'three';
 import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
 import { DRACOLoader } from 'three/addons/loaders/DRACOLoader.js';
-import { createShafts } from './shafts.js';
-import { createDust } from './dust.js';
-import { heroPose, deskPose, project, easeInOut, MOBILE_MQ } from './camera-math.js';
+import { createShafts } from './shafts.js?v=55928db09c';
+import { createDust } from './dust.js?v=55928db09c';
+import { heroPose, deskPose, project, easeInOut, MOBILE_MQ } from './camera-math.js?v=55928db09c';
 
 const DEG = Math.PI / 180;
 let S = null; // singleton state

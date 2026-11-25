@@ -1,7 +1,7 @@
 // Dust motes: a few hundred soft additive points. In the vertex shader each point is projected back along the sun
 // direction onto each sunlit window plane and tested against that window's rect; it is only bright inside a shaft.
 import * as THREE from 'three';
-import { sunWindows } from './windows.js';
+import { sunWindows } from './windows.js?v=55928db09c';
 
 const MAXW = 6;
 const VERT = /* glsl */`
