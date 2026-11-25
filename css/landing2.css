@@ -279,3 +279,48 @@ html.reduced .wt::before, html.reduced .wt::after, html.reduced .st, html.reduce
   .h1-l2 { margin-top: calc(var(--h1fs) * .3); }
   .atau-wrap { padding: 0 .38em; }
 }
+
+/* ---------- classroom end state: chalk poster, hotspots, blue CTA ---------- */
+.board-tag { --tw: 2; }
+.board-tag .bt3 { display: block; margin-top: .22em; font-size: .4em; line-height: 1; letter-spacing: .04em; color: rgba(255, 252, 240, .78); }
+.board-tag .bt3 i { font-style: normal; opacity: .6; margin: 0 .25em; }
+.bt-doodle { position: absolute; top: 46%; width: 1.5em; height: 1.5em; fill: none; stroke: rgba(255, 252, 240, .82); stroke-width: 2.4; stroke-linecap: round; stroke-linejoin: round; opacity: .85; }
+.bt-doodle .fl { fill: rgba(255, 252, 240, .82); stroke: none; }
+.bt-ipa { left: calc(50% - (var(--tw) + 1.9) * 1em); transform: translateY(-50%) rotate(-8deg); }
+.bt-ips { left: calc(50% + (var(--tw) + .8) * 1em); transform: translateY(-50%) rotate(7deg); }
+.bt-ipa, .bt-ips { margin-left: 0; }
+.room-vig { position: absolute; inset: 0; z-index: 4; pointer-events: none; opacity: var(--btO, 0);
+  background: radial-gradient(120% 90% at 50% 46%, transparent 55%, rgba(20, 12, 36, .38) 100%), linear-gradient(0deg, rgba(20, 12, 36, .35), transparent 26%); }
+.hero.away .room-vig, .hero.away .hotspots { opacity: 0 !important; pointer-events: none; transition: opacity .2s; }
+
+.hotspots { position: absolute; inset: 0; z-index: 6; pointer-events: none; opacity: var(--dcO, 0); visibility: hidden; }
+.hero.room-on .hotspots { visibility: visible; }
+.hot { position: absolute; left: 0; top: 0; width: 44px; height: 44px; padding: 0; border: 0; background: none; cursor: pointer; pointer-events: auto; color: #fff; -webkit-tap-highlight-color: transparent; }
+.hot-dot { position: absolute; left: 50%; top: 50%; width: 16px; height: 16px; margin: -8px; border-radius: 50%; background: var(--hc); border: 2px solid #fff; box-shadow: 0 2px 10px rgba(20, 12, 40, .55); }
+.hot-dot::after { content: ""; position: absolute; inset: -9px; border-radius: 50%; border: 2px solid var(--hc); opacity: 0; animation: hotPulse 2.4s ease-out infinite; }
+@keyframes hotPulse { 0% { transform: scale(.5); opacity: .9; } 100% { transform: scale(1.35); opacity: 0; } }
+.hot-ipa { --hc: #2EB5C0; } .hot-ips { --hc: #FFB347; }
+.hot-card { position: absolute; left: 50%; bottom: calc(100% - 4px); width: 210px; padding: 10px 13px 11px; border-radius: 14px; background: var(--pearl); color: var(--indigo); text-align: left;
+  font: 500 13.5px/1.35 var(--font-ui); box-shadow: 0 12px 30px rgba(20, 12, 40, .4); opacity: 0; transform: translate(-50%, 6px); pointer-events: none; transition: opacity .18s, transform .18s; }
+.hot-card b { display: block; margin-bottom: 2px; font-weight: 800; font-size: 12.5px; letter-spacing: .02em; color: var(--hc); filter: brightness(.7); }
+.hot:hover .hot-card, .hot:focus-visible .hot-card, .hot[aria-expanded="true"] .hot-card { opacity: 1; transform: translate(-50%, 0); }
+.hot:focus-visible { outline: 2px solid #fff; outline-offset: 2px; border-radius: 50%; }
+html.reduced .hot-dot::after { animation: none; }
+@media (max-width: 600px), (orientation: portrait) { .hotspots { display: none; } }
+
+/* blue CTA in the classroom (desk button + mobile bar); the hero button keeps the pearl look */
+.desk-cta .btn-cta, .mbar .btn-cta { background: linear-gradient(180deg, #4F8EF7, #2563EB); border: 2px solid rgba(255, 255, 255, .85); color: #fff; padding: 0 28px 0 30px;
+  box-shadow: 0 10px 28px rgba(37, 99, 235, .55), 0 0 0 0 rgba(96, 165, 250, .55); animation: ctaRing 2.6s ease-out infinite; text-shadow: 0 1px 2px rgba(10, 30, 110, .35); }
+@keyframes ctaRing { 0% { box-shadow: 0 10px 28px rgba(37, 99, 235, .55), 0 0 0 0 rgba(96, 165, 250, .55); } 70%, 100% { box-shadow: 0 10px 28px rgba(37, 99, 235, .55), 0 0 0 16px rgba(96, 165, 250, 0); } }
+.desk-cta .btn-cta:hover, .desk-cta .btn-cta:focus-visible, .mbar .btn-cta:hover { background: linear-gradient(180deg, #6BA0FA, #2F6FF0); transform: translateY(-1px); animation: none;
+  box-shadow: 0 14px 34px rgba(37, 99, 235, .7), 0 0 0 4px rgba(147, 197, 253, .45); }
+.desk-cta .btn-cta:active, .mbar .btn-cta:active { background: linear-gradient(180deg, #3B7AF0, #1D4ED8); transform: none; }
+.desk-cta .btn-cta:focus-visible, .mbar .btn-cta:focus-visible { outline: 3px solid #fff; outline-offset: 3px; }
+.desk-cta .btn-cta::before, .mbar .btn-cta::before { background: linear-gradient(105deg, transparent 38%, rgba(255, 255, 255, .5) 50%, transparent 62%); }
+.desk-cta .btn-cta::after, .mbar .btn-cta::after { content: ""; width: 22px; height: 22px; flex: none; background: center / contain no-repeat url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23fff' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M4 20l1-4L16.5 4.5a2 2 0 0 1 3 3L8 19l-4 1z'/%3E%3Cpath d='M14 7l3 3'/%3E%3C/svg%3E");
+  transform-origin: 20% 90%; animation: pencilWrite 1.6s ease-in-out infinite; }
+@keyframes pencilWrite { 0%, 100% { transform: rotate(0); } 30% { transform: rotate(-12deg) translateX(-1px); } 60% { transform: rotate(6deg) translateX(1px); } }
+.desk-cta .btn-cta:hover::after, .mbar .btn-cta:hover::after { transform: none; }
+.desk-cta::after { display: none; }
+.desk-micro { margin: 8px 0 0; text-align: center; font: 600 13px/1 var(--font-ui); letter-spacing: .02em; color: #fff; text-shadow: 0 1px 3px rgba(20, 12, 40, .8), 0 0 12px rgba(20, 12, 40, .6); }
+html.reduced .desk-cta .btn-cta, html.reduced .mbar .btn-cta, html.reduced .desk-cta .btn-cta::after, html.reduced .mbar .btn-cta::after { animation: none; }

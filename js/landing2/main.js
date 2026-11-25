@@ -70,13 +70,20 @@ const boardPx = () => (S.c3d && S.canvasOn ? S.c3d.projectBoard() : projectAll(h
 const paperPx = () => (S.c3d && S.canvasOn ? S.c3d.projectPaperCorners() : projectAll(deskPose(S.scene, S.W, S.H), S.W, S.H, paperCorners(S.scene)));
 
 let tagMetrics = null, lastTagFont = 0;
+const hotBox = $('hotspots'), hots = [...hotBox.children];
+hots.forEach((h) => h.addEventListener('click', (e) => { e.stopPropagation(); const on = h.getAttribute('aria-expanded') !== 'true'; hots.forEach((o) => o.setAttribute('aria-expanded', 'false')); h.setAttribute('aria-expanded', String(on)); }));
+addEventListener('click', () => hots.forEach((o) => o.setAttribute('aria-expanded', 'false')));
 function placeBoardTag() {
   if (!tagMetrics) { const ctx = document.createElement('canvas').getContext('2d'); ctx.font = '700 100px Caveat, cursive'; tagMetrics = [ctx.measureText('Beda Jalan,').width / 100, ctx.measureText('Satu').width / 100 + 0.2 + ctx.measureText('Tujuan').width / 100 * 1.12]; }
   const c = boardPx(), xs = c.map((q) => q.x), ys = c.map((q) => q.y);
   const x0 = Math.min(...xs), x1 = Math.max(...xs), y0 = Math.min(...ys), y1 = Math.max(...ys), bw = x1 - x0, bh = y1 - y0;
-  const font = Math.min(0.9 * bw / Math.max(...tagMetrics), 0.74 * bh / (2 * 0.95 * 1.1), 84);
+  const font = Math.min(0.9 * bw / Math.max(...tagMetrics), 0.78 * bh / 2.7, 84);
   if (Math.abs(font - lastTagFont) > 0.25) { boardTag.style.fontSize = font.toFixed(2) + 'px'; lastTagFont = font; }
   boardTag.style.transform = `translate(${((x0 + x1) / 2).toFixed(1)}px,${((y0 + y1) / 2 + bh * 0.02).toFixed(1)}px) translate(-50%,-50%)`;
+  boardTag.style.setProperty('--tw', (Math.max(...tagMetrics) / 2).toFixed(2));
+  // hotspots sit on classroom objects; offsets are in board widths from the board centre (hero camera framing)
+  const bx = (x0 + x1) / 2, by = (y0 + y1) / 2;
+  hots.forEach((h) => { h.style.transform = `translate(${(bx + +h.dataset.dx * bw).toFixed(1)}px,${(by + +h.dataset.dy * bw).toFixed(1)}px) translate(-50%,-50%)`; });
 }
 function placeDeskCta() {
   const c = paperPx(), cx = c.reduce((a, q) => a + q.x, 0) / 4, top = Math.min(...c.map((q) => q.y));
@@ -99,7 +106,7 @@ function beats(p, t) {
   const roomO = smooth(seg(p, 0.79, 0.82));
   v('--roomO', roomO); hero.classList.toggle('room-on', roomO > 0.001);
   v('--btO', smooth(seg(p, 0.88, 1))); v('--dcO', smooth(seg(p, 0.93, 1)));
-  deskCta.inert = p < 0.95; heroText.inert = p > 0.2;
+  deskCta.inert = p < 0.95; hotBox.inert = p < 0.95; heroText.inert = p > 0.2;
   const gone = p > 0.83;
   hero.classList.toggle('sky-gone', gone);
   document.body.classList.toggle('flashing', p > 0.52 && p < 0.88);
