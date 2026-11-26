@@ -52,7 +52,7 @@
   press('[data-scene]', (b) => b.dataset.scene === first);
   let d = null;
   try {
-    const { createDiorama } = await import('./js/landing2/diorama.js?v=55928db09c');
+    const { createDiorama } = await import('./js/landing2/diorama.js?v=bcf57cddb0');
     d = await createDiorama({ canvas: document.getElementById('c'), reduced, url: urlOf(first) });
     box.classList.add('live');
     root.dataset.mode = 'live';

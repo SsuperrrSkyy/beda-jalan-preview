@@ -26,6 +26,7 @@ export function createSkyLayers(container, { animate = true } = {}) {
     for (const l of layers) {
       const s = l.node.style;
       s.width = st.width + 'px'; s.height = st.height + 'px'; s.left = st.left0 + 'px'; s.top = st.top + 'px'; s.objectFit = 'fill';
+      l.node.classList.add('placed');
       l.slack = Math.max(0, st.width - W);
     }
   }

@@ -1,14 +1,14 @@
 // Landing v2 glue: dusk sky -> back-to-back characters -> flash -> 3D classroom -> desk paper quiz flow.
-import { MOBILE_MQ, heroPose, posterPose, deskPose, projectAll, boardCorners, paperCorners, reprojectMatrix } from '../scene/camera-math.js?v=55928db09c';
-import { createDeskPaper } from './desk-paper.js?v=55928db09c';
-import { createQuiz } from './quiz.js?v=55928db09c';
-import { createTimeline, seg, smooth, easeSine } from '../landing/timeline.js?v=55928db09c';
-import { initSections } from '../landing/sections.js?v=55928db09c';
-import { initBukti } from './bukti.js?v=55928db09c';
-import { createSkySea } from './sky-sea.js?v=55928db09c';
-import { createRibbons } from './ribbons.js?v=55928db09c';
-import { createSkyLayers } from './sky-layers.js?v=55928db09c';
-import { CTA_LABEL, CTA_MICRO } from './config.js?v=55928db09c';
+import { MOBILE_MQ, heroPose, posterPose, deskPose, projectAll, boardCorners, paperCorners, reprojectMatrix } from '../scene/camera-math.js?v=bcf57cddb0';
+import { createDeskPaper } from './desk-paper.js?v=bcf57cddb0';
+import { createQuiz } from './quiz.js?v=bcf57cddb0';
+import { createTimeline, seg, smooth, easeSine } from '../landing/timeline.js?v=bcf57cddb0';
+import { initSections } from '../landing/sections.js?v=bcf57cddb0';
+import { initBukti } from './bukti.js?v=bcf57cddb0';
+import { createSkySea } from './sky-sea.js?v=bcf57cddb0';
+import { createRibbons } from './ribbons.js?v=bcf57cddb0';
+import { createSkyLayers } from './sky-layers.js?v=bcf57cddb0';
+import { CTA_LABEL, CTA_MICRO } from './config.js?v=bcf57cddb0';
 
 const qs = new URLSearchParams(location.search);
 const $ = (id) => document.getElementById(id);
@@ -45,17 +45,46 @@ document.querySelectorAll('[data-start]').forEach((b) => { b.textContent = CTA_L
 document.querySelectorAll('.hero-micro').forEach((m) => { m.textContent = CTA_MICRO; });
 if (reducedMotion) document.querySelectorAll('.thread').forEach((s) => s.pauseAnimations && s.pauseAnimations());
 
-// ---- 3D gating (same rules as before)
-function skipReason() {
-  if (qs.get('nowebgl') === '1') return 'nowebgl (param)';
-  if (reducedMotion) return 'prefers-reduced-motion';
-  const c = navigator.connection;
-  if (c && c.saveData) return 'saveData';
-  if (c && /^(slow-)?2g$/.test(c.effectiveType || '')) return '2g';
-  if (navigator.deviceMemory && navigator.deviceMemory < 2) return 'deviceMemory<2';
-  try { const cv = document.createElement('canvas'); const gl = cv.getContext('webgl2') || cv.getContext('webgl'); if (!gl) return 'no webgl'; gl.getExtension('WEBGL_lose_context')?.loseContext(); } catch { return 'no webgl'; }
-  return '';
+// ---- 3D gating: the cheap checks ran in the inline <head> script of landing.html; the GPU probe runs here, after first paint.
+// No real GPU (SwiftShader / llvmpipe / blocklisted driver): the shaders would run on the CPU at a few fps and freeze the
+// page, so those devices get the still poster story. Creating that first GL context can block for over a second on such
+// machines, so it is done in a worker (OffscreenCanvas) and the main thread only waits for the answer.
+const SOFT_GL = /swiftshader|llvmpipe|softpipe|software|basic render/i;
+function probeMain() {
+  try {
+    const cv = document.createElement('canvas'); const gl = cv.getContext('webgl2') || cv.getContext('webgl'); if (!gl) return null;
+    const dbg = gl.getExtension('WEBGL_debug_renderer_info');
+    const gpu = String(gl.getParameter(dbg ? dbg.UNMASKED_RENDERER_WEBGL : gl.RENDERER) || '');
+    gl.getExtension('WEBGL_lose_context')?.loseContext();
+    return gpu;
+  } catch { return null; }
 }
+const PROBE_SRC = `onmessage = () => { let r = '';
+  try { const gl = new OffscreenCanvas(1, 1).getContext('webgl2') || new OffscreenCanvas(1, 1).getContext('webgl');
+    if (gl) { const d = gl.getExtension('WEBGL_debug_renderer_info'); r = String(gl.getParameter(d ? d.UNMASKED_RENDERER_WEBGL : gl.RENDERER) || '');
+      const l = gl.getExtension('WEBGL_lose_context'); if (l) l.loseContext(); } } catch (e) { r = ''; }
+  postMessage(r); };`;
+const probeWorker = () => new Promise((res) => {
+  if (typeof OffscreenCanvas === 'undefined' || typeof Worker === 'undefined') return res('');
+  let w, timer;
+  const done = (v) => { clearTimeout(timer); try { w.terminate(); } catch { /* gone */ } res(v || ''); };
+  try {
+    w = new Worker(URL.createObjectURL(new Blob([PROBE_SRC], { type: 'text/javascript' })));
+    w.onmessage = (e) => done(e.data); w.onerror = () => done('');
+    timer = setTimeout(() => done('timeout'), 4000);   // a real GPU answers well within a second
+    w.postMessage(0);
+  } catch { res(''); }
+});
+async function skipReason() {
+  if (window.__skip3d) return window.__skip3d;
+  const w = await probeWorker();
+  if (w === 'timeout') return 'webgl too slow to start';  // e.g. software GL: probing again here would freeze the page
+  const gpu = w || probeMain();                           // '' = no WebGL in OffscreenCanvas (older Safari): ask here
+  if (gpu === null) return 'no webgl';
+  return SOFT_GL.test(gpu) ? 'software webgl (' + gpu + ')' : '';
+}
+// switching to the poster story after first paint shortens the page; without the sheet overlap Manfaat stays below the fold (no layout shift)
+const toPosterLate = () => { if (html.dataset.mode !== 'poster') html.classList.add('poster-late'); html.dataset.mode = 'poster'; };
 const isMobileView = () => matchMedia(MOBILE_MQ).matches;
 function size() { const r = stage.getBoundingClientRect(); S.W = Math.round(r.width); S.H = Math.round(r.height); }
 
@@ -93,8 +122,10 @@ function placeDeskCta() {
 
 // ---- scroll story
 const ease = (t) => (t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2);
+// beats() runs every frame; only touch the style when a value really changes, so an idle page does no style recalc
+const beatVals = new Map();
 function beats(p, t) {
-  const st = hero.style, v = (k, x) => st.setProperty(k, typeof x === 'number' ? x.toFixed(3) : x);
+  const st = hero.style, v = (k, x) => { const s = typeof x === 'number' ? x.toFixed(3) : x; if (beatVals.get(k) !== s) { beatVals.set(k, s); st.setProperty(k, s); } };
   const close = ease(seg(p, 0.02, 0.5)), light = smooth(seg(p, 0.46, 0.74));
   v('--txtO', 1 - smooth(seg(p, 0.06, 0.3))); v('--txtY', (-seg(p, 0.05, 0.3) * 70).toFixed(1) + 'px');
   v('--tagO', smooth(seg(p, 0.16, 0.28)) * (1 - smooth(seg(p, 0.4, 0.48))));
@@ -173,7 +204,7 @@ function startSky() {
   } catch (e) { console.warn('sky unavailable', e); S.sky = null; }
 }
 async function startCharacters() {
-  const m = await import('./hero-scene.js?v=55928db09c');
+  const m = await import('./hero-scene.js?v=bcf57cddb0');
   S.hs = await m.createHeroScene({ canvas: $('chars'), container: stage, isMobile: isMob(), rigDebug, sunHex: S.scene.sun.colorHex });
   S.hs.update(0, { close: 0, light: 0 }); S.hs.render();
   S.rb = createRibbons({ back: $('ribbonBack'), front: $('ribbonFront') });
@@ -181,7 +212,7 @@ async function startCharacters() {
   hero.classList.add('chars-on');
 }
 async function startClassroom() {
-  const mod = await import('../scene/classroom3d.js?v=55928db09c');
+  const mod = await import('../scene/classroom3d.js?v=bcf57cddb0');
   S.c3d = await mod.init({ container: stage, canvas: canvasGL, sceneData: S.scene, startAt: wantedState === 'hero' ? 'hero' : 'desk',
     glbUrl: 'assets/3d/classroom.glb', dracoPath: 'vendor/three/addons/libs/draco/gltf/', onFrame: () => {} });
   S.c3d.setPaused('story', S.state === 'story' && S.p < 0.78);
@@ -189,17 +220,25 @@ async function startClassroom() {
   S.canvasOn = true; hero.classList.add('canvas-on');
   if (!reducedMotion) setTimeout(() => S.c3d && S.c3d.setBreath(S.state === 'story' ? 1 : 0), 900);
 }
+const firstScrollOr = (ms) => new Promise((res) => {
+  if (scrollY > 40) return res();
+  const done = () => { removeEventListener('scroll', done); clearTimeout(t); res(); };
+  const t = setTimeout(done, ms);
+  addEventListener('scroll', done, { passive: true });
+});
 async function start3D() {
   try {
     startSky();
     if (!S.sky) throw new Error('sky');
     await startCharacters();
     html.dataset.mode = '3d';
-    await wait(200);
+    // the classroom (1.6 MB GLB + Draco decode) is only seen at the end of the story: fetch it once the visitor starts
+    // scrolling, or after a quiet spell on the hero, instead of competing with the first screen
+    if (debugP == null && wantedState === 'hero') await firstScrollOr(6000); else await wait(200);
     await startClassroom();
   } catch (err) {
     console.warn('3D unavailable, static hero:', err);
-    S.hs?.dispose(); S.hs = null; S.c3d = null; S.canvasOn = false; html.dataset.mode = 'poster'; hero.classList.remove('sky-on', 'chars-on');
+    S.hs?.dispose(); S.hs = null; S.c3d = null; S.canvasOn = false; toPosterLate(); hero.classList.remove('sky-on', 'chars-on');
     S.layers?.load(['front']);
   }
 }
@@ -268,11 +307,12 @@ addEventListener('keydown', (e) => { if (e.key === 'Escape' && !menu.hidden) { h
 async function boot() {
   initSections({ reduced: reducedMotion });
   initBukti({ reduced: reducedMotion });
-  S.scene = await (await fetch('assets/3d/scene.json')).json();
-  const reason = skipReason();
-  html.dataset.mode = reason ? 'poster' : 'pending';
+  S.layers = createSkyLayers(stage, { animate: !window.__skip3d });  // place the sky stills before any waiting
+  S.layers.layout(); S.layers.update(0, 0);
+  const [reason, scene] = await Promise.all([skipReason(), fetch('assets/3d/scene.json').then((r) => r.json())]);
+  S.scene = scene;
+  if (reason) { toPosterLate(); S.layers.setAnimate(false); } else html.dataset.mode = 'pending';
   layoutPoster(); size();
-  S.layers = createSkyLayers(stage, { animate: !reason });
   S.layers.layout(); S.layers.update(0, 0);
   if (reason) setTimeout(() => S.layers.load(['front']), 0);   // the still front clouds are only needed without the shader
   hero.classList.add('ready');

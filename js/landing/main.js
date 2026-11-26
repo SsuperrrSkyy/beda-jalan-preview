@@ -1,9 +1,9 @@
 // Landing page glue: poster stage, lazy 3D + characters, scroll story, CTA -> desk -> paper flow.
-import { MOBILE_MQ, heroPose, posterPose, deskPose, projectAll, boardCorners, paperCorners, reprojectMatrix } from '../scene/camera-math.js?v=55928db09c';
-import { createHeroLayout, invalidateMetrics } from '../proto/hero-layout.js?v=55928db09c';
-import { createPaper } from '../proto/paper.js?v=55928db09c';
-import { createTimeline, seg, smooth } from './timeline.js?v=55928db09c';
-import { initSections } from './sections.js?v=55928db09c';
+import { MOBILE_MQ, heroPose, posterPose, deskPose, projectAll, boardCorners, paperCorners, reprojectMatrix } from '../scene/camera-math.js?v=bcf57cddb0';
+import { createHeroLayout, invalidateMetrics } from '../proto/hero-layout.js?v=bcf57cddb0';
+import { createPaper } from '../proto/paper.js?v=bcf57cddb0';
+import { createTimeline, seg, smooth } from './timeline.js?v=bcf57cddb0';
+import { initSections } from './sections.js?v=bcf57cddb0';
 
 const qs = new URLSearchParams(location.search);
 const $ = (id) => document.getElementById(id);
@@ -107,7 +107,7 @@ function afterLoadIdle(cb) {
 }
 async function start3D() {
   try {
-    const mod = await import('../scene/classroom3d.js?v=55928db09c');
+    const mod = await import('../scene/classroom3d.js?v=bcf57cddb0');
     S.c3d = await mod.init({
       container: stage, canvas, sceneData: S.scene, startAt: wantedState === 'hero' ? 'hero' : 'desk',
       glbUrl: 'assets/3d/classroom.glb', dracoPath: 'vendor/three/addons/libs/draco/gltf/', onFrame,
@@ -116,7 +116,7 @@ async function start3D() {
     S.canvasOn = true; hero.classList.add('canvas-on'); html.dataset.mode = '3d';
     if (!reducedMotion) setTimeout(() => S.c3d && S.c3d.setBreath(S.state === 'story' ? 1 : 0), 900);
     // characters lazy-load with the 3D, off the critical path
-    const sm = await import('./story.js?v=55928db09c');
+    const sm = await import('./story.js?v=bcf57cddb0');
     S.story = await sm.createStory({ c3d: S.c3d, sceneData: S.scene, rigDebug });
     S.story.setProgress(tl.value);
   } catch (err) {

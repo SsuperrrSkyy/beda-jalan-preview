@@ -66,7 +66,7 @@ export function initBukti({ reduced = false } = {}) {
     started = true;
     if (await finalMode() !== '3d') return;
     try {
-      const m = await import('./diorama.js?v=55928db09c');
+      const m = await import('./diorama.js?v=bcf57cddb0');
       dio = await m.createDiorama({ canvas, reduced });
       await dio.show(url(cur));
       dio.highlight(role);

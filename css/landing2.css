@@ -13,6 +13,7 @@ html[data-mode="poster"] .story-pin { position: relative; }
 .sec-manfaat { z-index: 1; margin-top: calc(-1 * var(--story-tail)); background: #fffdf8; border-radius: clamp(22px, 3.2vw, 40px) clamp(22px, 3.2vw, 40px) 0 0;
   box-shadow: 0 -16px 40px rgba(26, 16, 52, .24), inset 0 1px 0 rgba(255, 255, 255, .9); }
 html[data-mode="poster"] .sec-manfaat { margin-top: -28px; }
+html.poster-late .sec-manfaat { margin-top: 0; }   /* main.js: poster chosen after first paint */
 .hero { background: #1b1250; }
 
 /* ---------- layers ---------- */
@@ -20,7 +21,8 @@ html[data-mode="poster"] .sec-manfaat { margin-top: -28px; }
 #sky, #chars, #skyFront, #ribbonBack, #ribbonFront { position: absolute; inset: 0; width: 100%; height: 100%; display: block; opacity: 0; transition: opacity .9s ease; }
 .hero.sky-on #sky, .hero.sky-on #skyFront, .hero.chars-on #chars, .hero.chars-on #ribbonBack, .hero.chars-on #ribbonFront { opacity: 1; }
 #ribbonBack, #ribbonFront { pointer-events: none; }
-.hero.sky-on .sky-img { visibility: hidden; }   /* the shader paints the sky; images are the static fallback */
+.hero.sky-on .sky-img { visibility: hidden; }
+.sky-img:not(.placed) { visibility: hidden; }   /* sky-layers.js sizes the box once; until then the CSS gradient shows (no layout shift) */   /* the shader paints the sky; images are the static fallback */
 html[data-mode="poster"] #sky, html[data-mode="poster"] #skyFront, html[data-mode="poster"] #chars, html[data-mode="poster"] #ribbonBack, html[data-mode="poster"] #ribbonFront { display: none; }
 .room-layer { position: absolute; inset: 0; opacity: var(--roomO, 0); visibility: hidden; }
 .hero.room-on .room-layer { visibility: visible; }

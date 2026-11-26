@@ -1,4 +1,4 @@
-import { deskPhotoPose, deskSheetHeight, homography, matrix3d, paperCorners, projectAll, rectCorners } from '../scene/camera-math.js?v=55928db09c';
+import { deskPhotoPose, deskSheetHeight, homography, matrix3d, paperCorners, projectAll, rectCorners } from '../scene/camera-math.js?v=bcf57cddb0';
 
 // The photograph and the DOM sheet share the same camera projection. Resize the
 // photograph first, then apply that exact screen-space mapping to its paper corners.

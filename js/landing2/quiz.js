@@ -1,9 +1,9 @@
 // The quiz on the desk sheet: kop (biodata) -> 10 questions -> Peta Minat. Pages change with a page turn.
 // Answers live in memory and in sessionStorage for this tab (FR-08..FR-11, FR-13, FR-16). Biodata is never stored.
 // No backend yet (T-10/T-24): the prototype does not send anything.
-import { QUESTIONS, TYPES, BOTH, REMINDER, scoreType } from './quiz-data.js?v=55928db09c';
-import { createPageTurn } from './page-turn.js?v=55928db09c';
-import { SHARE_UTM, PROMO } from './config.js?v=55928db09c';
+import { QUESTIONS, TYPES, BOTH, REMINDER, scoreType } from './quiz-data.js?v=bcf57cddb0';
+import { createPageTurn } from './page-turn.js?v=bcf57cddb0';
+import { SHARE_UTM, PROMO } from './config.js?v=bcf57cddb0';
 
 const N = QUESTIONS.length;
 const KEY = 'bjst.quiz.v1';

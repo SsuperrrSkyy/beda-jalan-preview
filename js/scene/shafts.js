@@ -2,7 +2,7 @@
 // Each pixel analytically finds the ray's entry into the (convex) volume, then integrates a few samples of a
 // density made of crisp window-plane edges, louvre/mullion stripes and a slow shimmer. Additive, depthTest on, depthWrite off.
 import * as THREE from 'three';
-import { sunWindows } from './windows.js?v=55928db09c';
+import { sunWindows } from './windows.js?v=bcf57cddb0';
 
 const VERT = /* glsl */`
 varying vec3 vWorld;

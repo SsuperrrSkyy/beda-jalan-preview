@@ -7,18 +7,46 @@
 <title>IPA atau IPS? Tes Minat Gratis 3 Menit</title>
 <meta name="description" content="Jawab 10 pertanyaan santai dan dapatkan Peta Minatmu. Sains-Teknologi atau Sosial-Humaniora, dua-duanya jalan ke masa depan.">
 <meta name="theme-color" content="#0A2540">
+<script>
+/* Cheap 3D-or-poster checks, decided before first paint so the page height never jumps (a late switch was a layout
+   shift). The WebGL probe stays in js/landing2/main.js: the first GL context costs ~0.3 s and must not block the parser. */
+(function () {
+  var q = new URLSearchParams(location.search), c = navigator.connection, r = '';
+  try {
+    if (q.get('nowebgl') === '1') r = 'nowebgl (param)';
+    else if (q.get('reduced') === '1' || matchMedia('(prefers-reduced-motion: reduce)').matches) r = 'prefers-reduced-motion';
+    else if (c && c.saveData) r = 'saveData';
+    else if (c && /^(slow-)?2g$/.test(c.effectiveType || '')) r = '2g';
+    else if (navigator.deviceMemory && navigator.deviceMemory < 2) r = 'deviceMemory<2';
+  } catch (e) { /* keep the 3D default */ }
+  window.__skip3d = r;
+  if (r) document.documentElement.dataset.mode = 'poster';
+})();
+</script>
 <link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml">
 <link rel="icon" href="assets/img/favicon-32.png" type="image/png" sizes="32x32">
 <link rel="apple-touch-icon" href="assets/img/apple-touch-icon.png">
 <link rel="preload" href="assets/fonts/caveat-latin-700-normal.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="assets/fonts/inter-latin-wght-normal.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="assets/img/sky/sky-back.webp" as="image" type="image/webp" fetchpriority="high">
-<link rel="stylesheet" href="css/tokens.css?v=55928db09c">
-<link rel="stylesheet" href="css/prototype-3d.css?v=55928db09c">
-<link rel="stylesheet" href="css/landing.css?v=55928db09c">
-<link rel="stylesheet" href="css/landing2.css?v=55928db09c">
-<link rel="stylesheet" href="css/test-paper.css?v=55928db09c">
-<link rel="stylesheet" href="css/sections2.css?v=55928db09c">
+<link rel="modulepreload" href="js/scene/camera-math.js?v=bcf57cddb0">
+<link rel="modulepreload" href="js/landing2/desk-paper.js?v=bcf57cddb0">
+<link rel="modulepreload" href="js/landing2/quiz.js?v=bcf57cddb0">
+<link rel="modulepreload" href="js/landing/timeline.js?v=bcf57cddb0">
+<link rel="modulepreload" href="js/landing/sections.js?v=bcf57cddb0">
+<link rel="modulepreload" href="js/landing2/bukti.js?v=bcf57cddb0">
+<link rel="modulepreload" href="js/landing2/sky-sea.js?v=bcf57cddb0">
+<link rel="modulepreload" href="js/landing2/ribbons.js?v=bcf57cddb0">
+<link rel="modulepreload" href="js/landing2/sky-layers.js?v=bcf57cddb0">
+<link rel="modulepreload" href="js/landing2/config.js?v=bcf57cddb0">
+<link rel="modulepreload" href="js/landing2/quiz-data.js?v=bcf57cddb0">
+<link rel="modulepreload" href="js/landing2/page-turn.js?v=bcf57cddb0">
+<link rel="stylesheet" href="css/tokens.css?v=bcf57cddb0">
+<link rel="stylesheet" href="css/prototype-3d.css?v=bcf57cddb0">
+<link rel="stylesheet" href="css/landing.css?v=bcf57cddb0">
+<link rel="stylesheet" href="css/landing2.css?v=bcf57cddb0">
+<link rel="stylesheet" href="css/test-paper.css?v=bcf57cddb0">
+<link rel="stylesheet" href="css/sections2.css?v=bcf57cddb0">
 <script type="importmap">
 { "imports": { "three": "./vendor/three/three.module.min.js", "three/addons/": "./vendor/three/addons/" } }
 </script>
@@ -354,7 +382,7 @@
     <p class="foot-line">Beda Jalan, Satu <em class="acc">Tujuan</em> · #JurusanBukanUkuran</p>
     <div class="foot-bottom">
       <div class="foot-left">
-        <p class="credit">Campaign by <a class="credit-link" href="https://www.instagram.com/adentifyagency/" target="_blank" rel="noopener noreferrer" aria-label="Adentify di Instagram (buka di tab baru)"><img src="assets/img/adentify-logo.svg" alt="Adentify" height="22"></a></p>
+        <p class="credit">Campaign by <a class="credit-link" href="https://www.instagram.com/adentifyagency/" target="_blank" rel="noopener noreferrer" aria-label="Adentify di Instagram (buka di tab baru)"><img src="assets/img/adentify-logo.svg" alt="Adentify" width="27" height="22"></a></p>
     <p class="preview-note">Prototipe tugas kuliah, bukan situs resmi Ruangguru.</p>
         <p class="ident">Adentify · [nama anggota/kelompok] · [email kontak] · [kota]</p>
       </div>
@@ -379,6 +407,6 @@
     <feComposite in="d" in2="a" operator="in"/>
   </filter>
 </svg>
-<script type="module" src="js/landing2/main.js?v=55928db09c"></script>
+<script type="module" src="js/landing2/main.js?v=bcf57cddb0"></script>
 </body>
 </html>
